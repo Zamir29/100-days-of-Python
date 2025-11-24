@@ -8,38 +8,26 @@ This repository tracks my full journey through [**Angela Yu’s 100 Days of Pyth
 * Notes, improvements, and refactoring as I progress from beginner → advanced
 
 The stack I am using is:  
-![Python](https://img.shields.io/badge/Python-3.11-blue) ![Claude](https://img.shields.io/badge/Claude-D97757?&logo=claude&logoColor=white) ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?&logo=openai&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11-blue) ![PyCharm](https://img.shields.io/badge/pycharm-143?&logo=pycharm&logoColor=black&color=black&labelColor=green) ![Claude](https://img.shields.io/badge/Claude-D97757?&logo=claude&logoColor=white) ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?&logo=openai&logoColor=white)
 
 
 I’m building this as both a **learning archive** and a **public portfolio**.
 
 ---
 ## 📘 Table of Contents
-* [🔹 Daily Logs](#-daily-logs)
-* [🔹 Projects](#-projects)
+* [📚 Daily Progress](#-daily-progress)
 * [🏆 Current Progress](#-current-progress)
 * [🧩 Highlights So Far](#-highlights-so-far)
 * [🚀 Why This Repo Exists](#-why-this-repo-exists)
 * [📌 Next Steps](#-next-steps)
 
-### 🔹 Daily Logs
-
-All logs are stored in `/logs/`. A clickable index will appear here once logs are added.
-
-*(Coming soon – will be auto filled as logs are imported here.)*
-
-### 🔹 Projects
-![Day](https://img.shields.io/badge/Day-35%2F100-blue)  
-
-Each day’s code lives in its own folder:
-
-* `day_01/`
-* `day_02/`
-* `day_03/`
-* ...
-* `day_35/`
-
-(Full TOC will be auto-generated once folders are added.)
+## 📚 Daily Progress
+- **Day 35 - Keys, Auth & Environment Variables**  
+[![Open Project Folder](https://img.shields.io/badge/📁%20Day%2035-Open%20Folder-blue)](/day-35/main.py) 
+[![Open Log File](https://img.shields.io/badge/📝%20Day%2034-Open%20Log-orange)](/logs/day-35.md) 
+- **Day 34 - GUI Quiz App with API**  
+[![Open Project Folder](https://img.shields.io/badge/📁%20Day%2034-Open%20Folder-blue)](/day-34/main.py) 
+[![Open Log File](https://img.shields.io/badge/📝%20Day%2034-Open%20Log-orange)](/logs/day-34.md) 
 
 ---
 
@@ -87,3 +75,11 @@ I’m using GitHub to:
 ---
 
 If you're attending the course too, feel free to explore the code and logs! 💡
+---
+---
+
+> **NOTES:**  
+> The main badges come from [Shieds.io](https://shields.io/badges).
+> The progress bar comes from [Guibranco](https://github.com/guibranco/progressbar) repo.  
+> The brand badges come from [Ileriayo](https://github.com/Ileriayo/markdown-badges) repo.  
+> The other badges come from [henriquesebastiao](https://github.com/henriquesebastiao/badges) repo.
