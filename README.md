@@ -79,7 +79,7 @@ If you're attending the course too, feel free to explore the code and logs! 💡
 ---
 
 > **NOTES:**  
-> The main badges come from [Shields.io](https://shields.io/badges).
+> The main badges come from [Shields.io](https://shields.io/badges) website.
 > The progress bar comes from [Guibranco](https://github.com/guibranco/progressbar) repo.  
 > The brand badges come from [Ileriayo](https://github.com/Ileriayo/markdown-badges) repo.  
 > The other badges come from [henriquesebastiao](https://github.com/henriquesebastiao/badges) repo.
