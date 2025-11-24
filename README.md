@@ -15,12 +15,12 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 
 ---
 ## 📘 Table of Contents
-* [🔹 Daily Logs](#daily-logs)
-* [🔹 Projects](#projects)
-* [🏆 Current Progress](#current-progress)
-* [🧩 Highlights So Far](#highlights-so-far)
-* [🚀 Why This Repo Exists](#why-this-repo-exists)
-* [📌 Next Steps](#next-steps)
+* [🔹 Daily Logs](#-daily-logs)
+* [🔹 Projects](#-projects)
+* [🏆 Current Progress](#-current-progress)
+* [🧩 Highlights So Far](#-highlights-so-far)
+* [🚀 Why This Repo Exists](#-why-this-repo-exists)
+* [📌 Next Steps](#-next-steps)
 
 ### 🔹 Daily Logs
 
