@@ -2,7 +2,7 @@
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
 ![](https://progress-bar.xyz/35/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)
 
-This repository tracks my full journey through Angela's course on Python  , including:
+This repository tracks my full journey through Angela's course on Python, including:
 
 * Daily project folders (one per day)
 * Personal Daily Logs documenting what I learned, stored in `/logs/`
@@ -104,8 +104,8 @@ If you're attending the course too, feel free to explore the code and logs! 💡
 ---
 ---
 
-> [!NOTE] 
-> The main badges come from [Shields.io](https://shields.io/badges) website.
+> [!NOTES]  
+> The main badges come from [Shields.io](https://shields.io/badges) website.  
 > The progress bar comes from [Guibranco](https://github.com/guibranco/progressbar) repo.  
 > The brand badges come from [Ileriayo](https://github.com/Ileriayo/markdown-badges) repo.  
 > The other badges come from [henriquesebastiao](https://github.com/henriquesebastiao/badges) repo.
