@@ -101,7 +101,7 @@ I’m using GitHub to:
 ---
 
 If you're attending the course too, feel free to explore the code and logs! 💡
----
+
 ---
 
 > [!NOTES]  
