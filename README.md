@@ -32,13 +32,21 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ---
 
 ## 🏆 Current Progress
+### Current day  
+![Completed](https://img.shields.io/badge/Completed-34/100-orange)  
+**Day 35** – Keys, Authentication & Environment Variables
 
-* **Days completed:** 34
-* **Current day:** 35 – Keys, Authentication & Environment Variables
-* **Upcoming goal:** Build a professional portfolio project by Day 82
+### Upcoming goal
+**NEXT MILESTONE**  
+**Day 45** — Working on Intermediate Python Projects  
+
+**BIG MILESTONE**  
+**Day 82** — Portfolio-ready Project
+
+**FINAL GOAL**  
+Complete all 100 days with full logs and code history.
 
 ---
-
 ## 🧩 Highlights So Far
 
 * Python fundamentals
@@ -78,7 +86,7 @@ If you're attending the course too, feel free to explore the code and logs! 💡
 ---
 ---
 
-> **NOTES:**  
+> [!NOTE] 
 > The main badges come from [Shields.io](https://shields.io/badges) website.
 > The progress bar comes from [Guibranco](https://github.com/guibranco/progressbar) repo.  
 > The brand badges come from [Ileriayo](https://github.com/Ileriayo/markdown-badges) repo.  
