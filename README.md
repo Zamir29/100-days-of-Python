@@ -1,6 +1,9 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/35/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)
+![](https://progress-bar.xyz/35/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+
+![Repo Size](https://img.shields.io/github/repo-size/Zamir29/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/Zamir29/100-days-of-Python)
+
 
 This repository tracks my full journey through Angela's course on Python, including:
 
