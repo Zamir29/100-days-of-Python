@@ -26,7 +26,7 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 
 All logs are stored in `/logs/`. A clickable index will appear here once logs are added.
 
-*(Coming soon – will be auto-filled as logs are imported here.)*
+*(Coming soon – will be auto filled as logs are imported here.)*
 
 ### 🔹 Projects
 ![Day](https://img.shields.io/badge/Day-35%2F100-blue)  
@@ -86,4 +86,4 @@ I’m using GitHub to:
 
 ---
 
-If you're following the course too, feel free to explore the code and logs! 💡
+If you're attending the course too, feel free to explore the code and logs! 💡
