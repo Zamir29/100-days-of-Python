@@ -1,14 +1,15 @@
 # Day 34 — GUI Quiz App with API
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%2034-Open%20Folder-blue)](../day-34/main.py)
+
 ## 📘 Table of contents
+* [🧠 Concepts Learned](#-concepts-learned)
+* [⚠️ Challenges](#-challenges)
+* [✅ Solutions / Insights](#-solutions--insights)
+* [🎯 Next steps](#-next-steps)
 
-* [Concepts Learned](#concepts-learned)
-* [Challenges](#challenges)
-* [Solutions / Insights](#solutions--insights)
-* [Next steps](#next-steps)
 ---
-## Concepts Learned
 
+## 🧠 Concepts Learned
 * **Separation of concerns (OOP)**:  
 `Question (data) → QuizBrain (logic/state) → QuizInterface (presentation)`
 
@@ -33,7 +34,7 @@ Use NORMAL, DISABLED (not string typos like "normale").
 * **Type hints & signatures**:
 `get_next_question(self, *_)` plays nice with after; understood PyCharm’s optional *args quirk.
 
-## Challenges
+## ⚠️ Challenges
 
 * **PyCharm warning on after’s `*args`**:  
 Annoying inspector message despite correct code.
@@ -44,7 +45,7 @@ Potential for rapid second click before disable.
 * **End-of-quiz score mismatch**:  
 Label lagging one step behind on the very last question.
 
-## Solutions / Insights
+## ✅ Solutions / Insights
 
 * **Silenced after warnings**:
 Use `*()` or `lambda: self.get_next_question()` or accept `*_` in the handler.
@@ -58,7 +59,7 @@ Update score label inside give_feedback (and show final summary on the canvas).
 * **Cleaner, scalable UI control**:  
 Kept answer_buttons list and looped to apply state changes—easy to extend later.
 
-## Next Steps
+## 🎯 Next Steps
 
 * Shuffle & Reset
 

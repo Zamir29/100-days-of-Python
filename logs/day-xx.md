@@ -2,25 +2,25 @@
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%20XX-Open%20Folder-blue)](../day-XX/main.py)
 
 ## 📘 Table of contents
-* [Concepts Learned](#concepts-learned)
-* [Challenges](#challenges)
-* [Solutions / Insights](#solutions--insights)
-* [Next steps](#next-steps)
+* [🧠 Concepts Learned](#-concepts-learned)
+* [⚠️ Challenges](#-challenges)
+* [✅ Solutions / Insights](#-solutions--insights)
+* [🎯 Next steps](#-next-steps)
 
 ---
 
-## Concepts Learned
+## 🧠 Concepts Learned
 
 (Write bullet points here)
 
-## Challenges
+## ⚠️ Challenges
 
 (What was confusing / hard)
 
-## Solutions / Insights
+## ✅ Solutions / Insights
 
 (How you solved it / what finally clicked)
 
-## Next Steps
+## 🎯 Next Steps
 
 (Refactors, extra features, things to revisit)
