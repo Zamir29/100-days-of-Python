@@ -9,9 +9,7 @@ long= 9.189249
 
 # OpenWeatherMap
 # link to the plans https://openweathermap.org/full-price#current
-# http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=0e95f9ea273537ce9083bf92a887e162
 # api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-# api.openweathermap.org/data/2.5/forecast?lat=45.464139&lon=9.189249&appid=0e95f9ea273537ce9083bf92a887e162
 
 api_key = os.getenv("OWM_API_KEY")
 OWM_Endpoint = "http://api.openweathermap.org/data/2.5/forecast"
