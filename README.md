@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/35/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/36/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/Zamir29/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/Zamir29/100-days-of-Python)
 
@@ -62,12 +62,10 @@ I learned how to structure a project with clear separation of concerns (data →
 
 ## 🏆 Current Progress
 ### Current day  
-![Completed](https://img.shields.io/badge/Completed-34/100-green) [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](logs/) 
-#### 🗓️ Day 35 – Keys, Authentication & Environment Variables
-Today’s goal is to learn how to access protected APIs using authentication keys  
-and how to keep credentials safe by loading them from environment variables instead of hard-coding them.
-
-**Stack used:** Python · APIs · `python-dotenv` · Environment Variables  
+![Completed](https://img.shields.io/badge/Completed-35/100-green) [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](logs/) 
+#### 🗓️ **Day 36 - Trading News Alert Project**
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day-36/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/logs/day-36.md)  
 
 ### Upcoming goal
 🔸 **Next Milestone**  
