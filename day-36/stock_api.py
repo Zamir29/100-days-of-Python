@@ -8,13 +8,25 @@ import requests
 
 class StockAPI:
 
-    def __init__(self, api_key, ticker):
+    def __init__(self, api_key, ticker, function):
         self.api_key = api_key
         self.ticker = ticker
+        self.function = function
         self.endpoint_url = "https://www.alphavantage.co/query"
 
     def get_closing_prices(self):
         """Fetch last 2 closing prices from API"""
+
+        parameters = {
+            "function": self.function,
+            "symbol": self.ticker,
+            "apikey": self.api_key,
+            "outputsize": "compact",
+            "datatype": "json",
+        }
+
+        response = requests.get(url=self.endpoint_url, params=parameters)
+
         pass
 
     def get_diff(self, price1, price2):
