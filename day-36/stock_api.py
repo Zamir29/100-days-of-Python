@@ -21,13 +21,14 @@ class StockAPI:
             "function": self.function,
             "symbol": self.ticker,
             "apikey": self.api_key,
-            "outputsize": "compact",
-            "datatype": "json",
+            "outputsize": "compact", # this is the default for Free Members
+            "datatype": "json", # json is the default, alternative csv
         }
 
         response = requests.get(url=self.endpoint_url, params=parameters)
+        response.raise_for_status() # error handling, in case it won't work
 
-        pass
+        return response.json()
 
     def get_diff(self, price1, price2):
         """Compute percentage difference"""
