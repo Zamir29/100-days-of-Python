@@ -7,11 +7,12 @@ import requests
 # TODO: tests
 
 class StockAPI:
+    DEFAULT_FUNCTION = "TIME_SERIES_DAILY"
 
-    def __init__(self, api_key, ticker, function):
+    def __init__(self, api_key, ticker, function=None):
         self.api_key = api_key
         self.ticker = ticker
-        self.function = function
+        self.function = function or self.DEFAULT_FUNCTION
         self.endpoint_url = "https://www.alphavantage.co/query"
 
     def get_closing_prices(self):
