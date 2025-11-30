@@ -33,11 +33,12 @@ class SendNotifications:
 
         for item in self.message_container:
             body = self.build_body(article=item)
+            media = item.get("media")
             message = client.messages.create(
                 from_=self.from_number,
                 to=self.to_number,
-                media_url=item["media"],
-                body=body
+                media_url=media if media else None,
+                body=body,
             )
 
     def build_body(self, article):
