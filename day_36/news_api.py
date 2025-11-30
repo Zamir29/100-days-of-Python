@@ -24,8 +24,11 @@ class NewsAPI:
 
         response = requests.get(url=self.endpoint_url, params=parameter)
         response.raise_for_status()
+        get_url = response.url
 
         # Get news data with the last three articles
         news_data = response.json()
 
-        print(news_data)
+        get_articles = news_data["articles"]
+
+        return get_articles, get_url
