@@ -13,7 +13,7 @@ class NewsAPI:
         Starting from a query returns three last news from a date.
         The news are structured with a title(Headline),a brief description, date published and url
         """
-        parameter = {
+        params = {
             "apiKey": self.api_key,
             "q": self.query,
             "from": self.from_date,
@@ -22,4 +22,25 @@ class NewsAPI:
             "page": 1,
         }
 
-        pass
+        response = requests.get(url=self.endpoint_url, params=params)
+        response.raise_for_status()
+        # get_url = response.url
+
+        # Get news data with the last three articles
+        news_data = response.json()
+
+        get_articles = news_data["articles"]
+
+        three_articles = [
+            {
+                "headline": news["title"],
+                "brief": news["description"],
+                "url": news["url"],
+                "date": news["publishedAt"],
+
+            }
+            for news in get_articles[:3]
+
+        ]
+
+        return three_articles
