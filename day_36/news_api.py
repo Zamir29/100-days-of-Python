@@ -36,6 +36,7 @@ class NewsAPI:
                 "headline": news["title"],
                 "brief": news["description"],
                 "url": news["url"],
+                "media": news["urlToImage"],
                 "date": news["publishedAt"],
 
             }
