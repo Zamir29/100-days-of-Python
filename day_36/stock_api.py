@@ -48,7 +48,7 @@ class StockAPI:
         last_close = float(last_closing_str)
         prev_close = float(prev_closing_str)
 
-        return last_close, prev_close
+        return last_close, prev_close, prev_date
 
     def get_diff(self, price_now, price_prev):
         """
