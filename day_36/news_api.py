@@ -31,4 +31,15 @@ class NewsAPI:
 
         get_articles = news_data["articles"]
 
-        return get_articles, get_url
+        three_articles = []
+        for news in get_articles:
+            article = {
+                "headline": news["title"],
+                "brief": news["description"],
+                "url": news["url"],
+                "date": news["publishedAt"],
+            }
+
+            three_articles.append(article)
+
+        return three_articles, get_url

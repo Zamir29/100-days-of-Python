@@ -14,9 +14,9 @@ def main():
         from_date=from_date
     )
 
-    get_articles, get_url = last_news.get_news()
+    three_articles, get_url = last_news.get_news()
 
-    print(get_articles)
+    print(three_articles)
     print(get_url)
 
 if __name__ == "__main__":
