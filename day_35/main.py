@@ -69,8 +69,7 @@ for hour_data in weather_data["list"]:
         will_rain = True
 if will_rain:
     client = Client(account_sid, auth_token)
-    message = client.messages \
-        .create(
+    message = client.messages.create(
         body="It's going to rain today. Remember to bring an ☔️",
         from_="+393211234567",
         to="+393211234567"

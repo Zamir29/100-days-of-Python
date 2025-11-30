@@ -33,10 +33,11 @@ class NewsAPI:
 
         three_articles = [
             {
-                "headline": news["title"],
-                "brief": news["description"],
-                "url": news["url"],
-                "date": news["publishedAt"],
+                "headline": news.get("title", ""),
+                "brief": news.get("description", ""),
+                "url": news.get("url", ""),
+                "media": news.get("urlToImage", ""),
+                "date": news.get("publishedAt", ""),
 
             }
             for news in get_articles[:3]
