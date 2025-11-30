@@ -44,10 +44,11 @@ class SendNotifications:
         """
         Takes the article and returns a body formatted with all the data
         """
-        body = (f"{self.ticker}: {self.sign}{self.percentage_value}%\n"
-                f"Headline: {article['headline']}\n"
-                f"Brief: {article['brief']}\n"
-                f"Date: {article['date']}\n"
-                f"Link: {article['url']}")
+        body = (f"*{self.ticker}*: {self.sign}{self.percentage_value}%\n\n"
+                f"*Headline*: {article['headline']}\n"
+                f"*Brief*: {article['brief']}\n"
+                f"____\n"
+                f"*Link*: {article['url']}\n"
+                f"*Date*: ```{article['date']}```")
 
         return body
