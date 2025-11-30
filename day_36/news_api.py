@@ -22,4 +22,10 @@ class NewsAPI:
             "page": 1,
         }
 
-        pass
+        response = requests.get(url=self.endpoint_url, params=parameter)
+        response.raise_for_status()
+
+        # Get news data with the last three articles
+        news_data = response.json()
+
+        print(news_data)
