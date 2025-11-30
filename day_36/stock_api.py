@@ -50,6 +50,35 @@ class StockAPI:
 
         return last_close, prev_close
 
-    def get_diff(self, price1, price2):
-        """Compute percentage difference"""
+    def get_diff(self, price_now, price_prev):
+        """
+        Compute percentage difference between current and previous price.
+
+        Args:
+            price_now: latest closing price.
+            price_prev: previous closing price.
+
+        Returns:
+            (sign, abs_percentage_diff)
+            sign = "🔺" if price went up, "🔻" if it went down.
+        """
+
+        # Get the price difference
+        p_now = float(price_now)
+        p_prev = float(price_prev)
+
+        if p_prev == 0:
+            raise ValueError("price_prev must not be zero")
+
+        diff = p_now - p_prev
+
+        # Get the percentage and sign
+        percentage = (diff/p_prev) * 100 # can be negative
+
+        sign = "🔺" if percentage >= 0 else "🔻"
+
+        return sign, abs(percentage)
+
+
+
         pass
