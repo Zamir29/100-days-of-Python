@@ -61,3 +61,24 @@ class SendNotifications:
                 f"*Date*: ```{article['date']}```")
 
         return body
+
+    # Alternative to make the images always work:
+    import requests
+
+    # def is_supported_image(url: str) -> bool:
+    #     try:
+    #         resp = requests.head(url, timeout=5)
+    #         content_type = resp.headers.get("Content-Type", "").lower()
+    #         # Allow jpeg / png / gif, block webp
+    #         return (
+    #                 content_type.startswith("image/")
+    #                 and "webp" not in content_type
+    #         )
+    #     except Exception:
+    #         # If we can't tell, be conservative and skip
+    #         return False
+
+    # media = item.get("media")
+    # media_url = None
+    # if media and is_supported_image(media):
+    #     media_url = media
