@@ -42,4 +42,4 @@ graph TD;
 
 (Refactors, extra features, things to revisit)
 
-![prev_day](https://img.shields.io/badge/⬅_Day_{prev_day-darkgrey})
+[![prev_day](https://img.shields.io/badge/⬅️_Day_{prev_day}-grey?style=for-the-badge)](day_{prev_day}.md) [![prev_day](https://img.shields.io/badge/Day_{next_day}_➡️-grey?style=for-the-badge)](day_{next_day}.md)
