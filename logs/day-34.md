@@ -1,5 +1,5 @@
 # Day 34 — GUI Quiz App with API
-[![Open Project Folder](https://img.shields.io/badge/📁%20Day%2034-Open%20Folder-blue)](../day-34/main.py)
+[![Open Project Folder](https://img.shields.io/badge/📁%20Day%2034-Open%20Folder-blue)](../day_34/main.py)
 
 ## 📘 Table of contents
 * [🧠 Concepts Learned](#-concepts-learned)

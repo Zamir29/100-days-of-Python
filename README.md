@@ -33,7 +33,7 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 ![Last Updated](https://img.shields.io/github/last-commit/Zamir29/100-days-of-Python)
 - **Day 36 - Trading News Alert Project**  
-  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day-36/main.py)
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_36/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/logs/day-36.md)  
 Today’s goal is to recreate the core features of a Bloomberg-style stock alert system.
 The program fetches stock price movements, calculates percentage change, and—if the fluctuation is significant—pulls relevant news via a News API and sends an SMS alert through Twilio.  
@@ -43,14 +43,14 @@ The program fetches stock price movements, calculates percentage change, and—i
   <summary>Show all logs</summary>
 
 - **Day 35 - Keys, Auth & Environment Variables**  
-  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day-35/main.py)
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_35/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/logs/day-35.md)  
 Today’s goal is to learn how to access protected APIs using authentication keys and how to keep credentials safe by loading them from environment variables instead of hard-coding them.  
 **Stack used:** Python · APIs · `python-dotenv` · Environment Variables  
 
 
 - **Day 34 - GUI Quiz App with API**  
-[![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day-34/main.py) 
+[![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_34/main.py) 
 [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/logs/day-34.md) 
 Today’s goal was to build a fully working GUI Quiz App using Tkinter, connected to a live trivia API.  
 I learned how to structure a project with clear separation of concerns (data → logic → UI) and how to handle state changes, callbacks, and user feedback inside a GUI workflow.  
@@ -64,7 +64,7 @@ I learned how to structure a project with clear separation of concerns (data →
 ### Current day  
 ![Completed](https://img.shields.io/badge/Completed-35/100-green) [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](logs/) 
 #### 🗓️ **Day 36 - Trading News Alert Project**
-  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day-36/main.py)
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_36/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/logs/day-36.md)  
 
 ### Upcoming goal
