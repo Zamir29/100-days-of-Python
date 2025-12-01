@@ -1,4 +1,5 @@
 from twilio.rest import Client
+import time
 
 class SendNotifications:
 
@@ -33,13 +34,20 @@ class SendNotifications:
 
         for item in self.message_container:
             body = self.build_body(article=item)
+
             media = item.get("media")
+            media_url = None
+            if media and not media.lower().endswith(".webp"):
+                media_url = media
+
             message = client.messages.create(
                 from_=self.from_number,
                 to=self.to_number,
-                media_url=media if media else None,
+                media_url=media_url,
                 body=body,
             )
+            print("Sent message SID:", message.sid)
+            time.sleep(2)
 
     def build_body(self, article):
         """

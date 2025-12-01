@@ -5,7 +5,7 @@ from notifications_api import SendNotifications
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
-THRESHOLD=1 # insert the integer, e.g. 5% -> 5
+THRESHOLD=0 # insert the integer, e.g. 5% -> 5
 
 ## STEP 1: Use https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -28,8 +28,8 @@ news = NewsAPI(
     from_date=prev_date
 )
 
-if percentage >= THRESHOLD:
-    show_articles = news.get_news()
+if percentage >= float(THRESHOLD):
+    get_articles = news.get_news()
 
 ## STEP 3: Use https://www.twilio.com
 # Send a seperate message with the percentage change and each article's title and description to your phone number.
@@ -39,7 +39,7 @@ if percentage >= THRESHOLD:
         tw_token=os.getenv("TWILIO_TOKEN"),
         from_n=os.getenv("TWILIO_WHATSAPP_FROM"),
         to_n=os.getenv("TWILIO_WHATSAPP_TO"),
-        messages_container=show_articles,
+        messages_container=get_articles,
         ticker=STOCK,
         sign=sign,
         percentage=percentage,
