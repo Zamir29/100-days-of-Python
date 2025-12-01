@@ -93,11 +93,12 @@ def update_readme(day_num, title, goal, stack):
 
     # The entry to insert
     new_entry = [
-        f"- **Day {day_num} - {title}** \n",
+        f"- **Day {day_num} - {title}**   \n",
         f"  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_{day_num}/main.py)\n",
         f"  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_{day_num}.md)  \n",
-        f"{goal}\n",
-        f"**Stack used:** {stack}\n\n"
+        f"{goal}  \n",
+        f"**Stack used:** {stack}\n\n",
+        "<details><summary>Show all logs</summary>  \n\n"
     ]
 
     for line in lines:
@@ -110,6 +111,13 @@ def update_readme(day_num, title, goal, stack):
                 line = line.replace(f"/{prev_day_int}/", f"/{day_num}/")
                 print(f"✅ Updated Progress Bar to {day_num}%")
                 updated_bar = True
+
+        # 2. Remove the OLD opening tag
+        # Since we added a new one in 'new_entry', we must delete the old one
+        # to avoid nesting <details> inside <details>
+        if "<details>" in line or "<summary>Show all logs</summary>" in line:
+            # We skip appending this line to new_lines
+            continue
 
         new_lines.append(line)
 

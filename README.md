@@ -31,12 +31,15 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 * [📌 Next Steps](#-next-steps)
 
 ## 📚 Daily Progress
+[![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/Zamir29/100-days-of-Python)
-- **Day 37 - Habit Tracking App** 
+- **Day 37 - Habit Tracking App**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_37/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_37.md)  
-Build a small habit tracking tool that talks to an external API to log my daily habits (e.g. coding time) and visualize progress on a graph.
+Build a small habit tracking tool that talks to an external API to log my daily habits (e.g. coding time) and visualize progress on a graph.  
 **Stack used:** Python, requests, HTTP APIs (Pixela), environment variables (.env / python-dotenv), JSON
+
+<details><summary>Show all logs</summary>
 
 - **Day 36 - Trading News Alert Project**  
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_36/main.py)
@@ -44,9 +47,6 @@ Build a small habit tracking tool that talks to an external API to log my daily 
 Today’s goal is to recreate the core features of a Bloomberg-style stock alert system.
 The program fetches stock price movements, calculates percentage change, and—if the fluctuation is significant—pulls relevant news via a News API and sends an SMS alert through Twilio.  
 **Stack used:** Python · APIs · HTTP Requests · JSON Parsing · News API · Twilio Messaging
-
-<details>
-  <summary>Show all logs</summary>
 
 - **Day 35 - Keys, Auth & Environment Variables**  
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_35/main.py)
@@ -66,21 +66,14 @@ I learned how to structure a project with clear separation of concerns (data →
 
 ---
 
-## 🏆 Current Progress
-### Current day  
-![Completed](https://img.shields.io/badge/Completed-35/100-green) [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
-#### 🗓️ **Day 36 - Trading News Alert Project**
-  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_36/main.py)
-  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_36.md)  
-
-### Upcoming goal
-🔸 **Next Milestone**  
+## 🏆 Upcoming goal
+### 🔸 **Next Milestone**  
 **Day 45** — Working on Intermediate Python Projects  
 
-🔸 **Big Milestone**  
+### 🔸 **Big Milestone**  
 **Day 82** — Portfolio-ready Project
 
-🔹 **FINAL GOAL**  
+### 🔹 **FINAL GOAL**  
 Complete all 100 days with full logs and code history.
 
 ---
