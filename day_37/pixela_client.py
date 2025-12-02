@@ -8,9 +8,9 @@ from config import (
     HABIT_UNIT,
     HABIT_TYPE,
     HABIT_COLOR,
+    PIXELA_GRAPH_URL,
+    PIXELA_GRAPH_ID_URL
 )
-from day_37.config import PIXELA_GRAPH_URL
-
 
 def create_user():
     """Run this once at the beginning"""
@@ -44,13 +44,14 @@ def create_graph():
     return response
 
 def add_pixel():
-    pixela_graph_id = f"{PIXELA_GRAPH_URL}/{PIXELA_GRAPH_ID}"
     pixel_params = {
-        "date": 20251202, # yyyyMMdd format
-        "quantity": 84,
+        "date": "20251202", # yyyyMMdd format
+        "quantity": '84',
     }
 
     headers = {
         "X-USER-TOKEN": PIXELA_TOKEN,
     }
-    response = requests.post(url=pixela_graph_id, json=pixel_params, headers=headers)
+    response = requests.post(url=PIXELA_GRAPH_ID_URL, json=pixel_params, headers=headers)
+
+    return response
