@@ -4,7 +4,9 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 PIXELA_BASE_URL = "https://pixe.la/v1/users"
+VISIT_PAGE = "https://pixe.la/@zamirhashorva"
 
+# Retrieve fron .env
 PIXELA_TOKEN = os.getenv("PIXELA_TOKEN")
 PIXELA_USERNAME = os.getenv("PIXELA_USERNAME")
 PIXELA_GRAPH_ID = os.getenv("PIXELA_GRAPH_ID")
