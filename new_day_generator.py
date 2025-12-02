@@ -1,16 +1,15 @@
 import os
-import datetime
 # ---------------------------------------------------------
 # CONFIGURATION - Update these once per day
 # ---------------------------------------------------------
 
 # --- CONFIGURATION ---
-REPO_ROOT = os.getcwd()  # Assumes script is run from root
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__)) # Root is going to be the file's folder, no matter the folder
 LOGS_DIR = os.path.join(REPO_ROOT, "daily_logs")
 TEMPLATE_PATH = os.path.join(LOGS_DIR, "template.md")
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 
-# Create the folder, main.py, .env
+# Create the folder, main.py, config.py
 def create_folder_structure(day_num):
     folder_name = f"day_{day_num}"
     folder_path = os.path.join(REPO_ROOT, folder_name)
@@ -30,11 +29,13 @@ def create_folder_structure(day_num):
             f"# Day {day_num} - Created automatically\n\ndef main():\n    print('Hello Day {day_num}')\n\nif __name__ == '__main__':\n    main()\n")
     print(f"   └── Created main.py")
 
-    # Create .env
-    env_path = os.path.join(folder_path, ".env")
-    with open(env_path, "w") as f:
-        f.write(f"# Environment variables for Day {day_num}\nAPI_KEY=your_key_here")
-    print(f"   └── Created .env")
+    # Create config.py
+    config_path = os.path.join(folder_path, "config.py")
+    with open(config_path, "w") as f:
+        f.write(
+            f"import os\nfrom dotenv import load_dotenv, find_dotenv\n\nload_dotenv(find_dotenv())\n"
+        )
+    print(f"   └── Created config.py")
 
     return folder_path
 
