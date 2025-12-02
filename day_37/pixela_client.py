@@ -4,7 +4,12 @@ from config import (
     PIXELA_USERNAME,
     PIXELA_TOKEN,
     PIXELA_GRAPH_ID,
+    HABIT_NAME,
+    HABIT_UNIT,
+    HABIT_TYPE,
+    HABIT_COLOR,
 )
+from day_37.config import PIXELA_GRAPH_URL
 
 
 def create_user():
@@ -20,3 +25,32 @@ def create_user():
     response = requests.post(url=PIXELA_BASE_URL, json=user_params)
 
     return response
+
+def create_graph():
+    graph_params = {
+        "id": PIXELA_GRAPH_ID,
+        "name": HABIT_NAME,
+        "unit": HABIT_UNIT,
+        "type": HABIT_TYPE,
+        "color": HABIT_COLOR,
+    }
+
+    headers = {
+        "X-USER-TOKEN": PIXELA_TOKEN,
+    }
+
+    response = requests.post(url=PIXELA_GRAPH_URL, json=graph_params, headers=headers)
+
+    return response
+
+def add_pixel():
+    pixela_graph_id = f"{PIXELA_GRAPH_URL}/{PIXELA_GRAPH_ID}"
+    pixel_params = {
+        "date": 20251202, # yyyyMMdd format
+        "quantity": 84,
+    }
+
+    headers = {
+        "X-USER-TOKEN": PIXELA_TOKEN,
+    }
+    response = requests.post(url=pixela_graph_id, json=pixel_params, headers=headers)

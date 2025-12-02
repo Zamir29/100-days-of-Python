@@ -1,8 +1,9 @@
-from pixela_client import create_user
-
+from pixela_client import create_user, create_graph
 
 def main():
-    response = create_user()
+    # response = create_user() | already created https://pixe.la/@zamirhashorva
+
+    # response = create_graph() | already created https://pixe.la/v1/users/zamirhashorva/graphs/graph001
 
     print(f"Status: {response.status_code}")
     print(f"Body: {response.text}")
