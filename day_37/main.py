@@ -22,8 +22,10 @@ def main():
         if pick_action in ("exit", "quit"):
             print("\nOK, then, see you next time 👋")
             break
+
         if pick_action not in ACTIONS:
             print("😐 Dude, please spell one of the available words and don't include the brackets.\n")
+            continue
 
         action_func = ACTIONS[pick_action]
 
@@ -41,14 +43,14 @@ def main():
                     # break out of inner loop, go back to main menu
                     break
 
-            if response.status_code == 200:
+            if response.status_code in (200, 201):
                 print(f"\n\n{response.json()['message']} We did it 🥳")
             else:
-                print(f"\n\n Shoot! 🤔 The error {response.status_code} message says {response.json()['message']}\n")
+                print(f"\n\nShoot! 🤔 The error {response.status_code} message says {response.json()['message']}\n")
 
             break # done with this action, exit inner loop
 
-        # --------- RETRY LOOP FOR THIS ACTION ---------
+        # --------- ASK IF WE WANT ANOTHER ACTION ---------
         do_again = input("Do you want to do some more actions?\n[Y][N]: ").lower().strip()
         if do_again not in ("y", "yes"):
             print("\nOK, then, see you next time 👋")
