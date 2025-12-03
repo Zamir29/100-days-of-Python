@@ -1,4 +1,5 @@
 import requests
+import datetime
 from config import (
     PIXELA_BASE_URL,
     PIXELA_USERNAME,
@@ -44,9 +45,19 @@ def create_graph():
     return response
 
 def add_pixel():
+    date = datetime.datetime.now().strftime("%Y%m%d")
+
+    pick_date = input("What is the date of the pixel?\n"
+                      "[Today] [Another]: ")
+    if pick_date.lower() != "today":
+        date = input("Give a date with the format yyyyMMdd: ")
+
+    quantity = input(f"What is the quantity in {HABIT_UNIT}?\n"
+                          f"Input {HABIT_TYPE}: ")
+
     pixel_params = {
-        "date": "20251202", # yyyyMMdd format
-        "quantity": '84',
+        "date": date, # yyyyMMdd format
+        "quantity": quantity,
     }
 
     headers = {

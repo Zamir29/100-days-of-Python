@@ -8,12 +8,12 @@ PIXELA_BASE_URL = "https://pixe.la/v1/users"
 # Retrieve fron .env
 PIXELA_TOKEN = os.getenv("PIXELA_TOKEN")
 PIXELA_USERNAME = os.getenv("PIXELA_USERNAME")
-PIXELA_GRAPH_ID = os.getenv("PIXELA_GRAPH_ID")
 
 # Graph builder
 VISIT_PAGE = "https://pixe.la/@zamirhashorva"
 PIXELA_GRAPH_URL = f"{PIXELA_BASE_URL}/{PIXELA_USERNAME}/graphs"
 
+# Graph with id: graph001
 PIXELA_GRAPH_ID= "graph001"
 PIXELA_GRAPH_ID_URL = f"{PIXELA_GRAPH_URL}/{PIXELA_GRAPH_ID}"
 HABIT_NAME = "Coding"
