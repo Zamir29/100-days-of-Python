@@ -11,11 +11,10 @@ PIXELA_USERNAME = os.getenv("PIXELA_USERNAME")
 
 # Graph builder
 VISIT_PAGE = "https://pixe.la/@zamirhashorva"
-PIXELA_GRAPH_URL = f"{PIXELA_BASE_URL}/{PIXELA_USERNAME}/graphs"
+PIXELA_GRAPHS_URL = f"{PIXELA_BASE_URL}/{PIXELA_USERNAME}/graphs"
 
 # Graph with id: graph001
 PIXELA_GRAPH_ID= "graph001"
-PIXELA_GRAPH_ID_URL = f"{PIXELA_GRAPH_URL}/{PIXELA_GRAPH_ID}"
 HABIT_NAME = "Coding"
 HABIT_UNIT = "min"
 HABIT_TYPE = "int"

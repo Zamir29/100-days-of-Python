@@ -9,8 +9,7 @@ from config import (
     HABIT_UNIT,
     HABIT_TYPE,
     HABIT_COLOR,
-    PIXELA_GRAPH_URL,
-    PIXELA_GRAPH_ID_URL
+    PIXELA_GRAPHS_URL,
 )
 
 def create_user():
@@ -40,7 +39,7 @@ def create_graph():
         "X-USER-TOKEN": PIXELA_TOKEN,
     }
 
-    response = requests.post(url=PIXELA_GRAPH_URL, json=graph_params, headers=headers)
+    response = requests.post(url=PIXELA_GRAPHS_URL, json=graph_params, headers=headers)
 
     return response
 
@@ -55,6 +54,8 @@ def add_pixel():
     quantity = input(f"What is the quantity in {HABIT_UNIT}?\n"
                           f"Input {HABIT_TYPE}: ")
 
+    add_url = f"{PIXELA_GRAPHS_URL}/{PIXELA_GRAPH_ID}"
+
     pixel_params = {
         "date": date, # yyyyMMdd format
         "quantity": quantity,
@@ -63,6 +64,41 @@ def add_pixel():
     headers = {
         "X-USER-TOKEN": PIXELA_TOKEN,
     }
-    response = requests.post(url=PIXELA_GRAPH_ID_URL, json=pixel_params, headers=headers)
+    response = requests.post(url=add_url, json=pixel_params, headers=headers)
+
+    return response
+
+def update_pixel():
+    date = input("What is the pixel's date you want to update?\n"
+                 "Please use the format yyyyMMdd: ")
+    quantity = input("What is the new quantity?\n"
+                     f"Please input {HABIT_TYPE} number: ")
+
+    update_url = f"{PIXELA_GRAPHS_URL}/{PIXELA_GRAPH_ID}/{date}"
+
+    update_params = {
+        "quantity": quantity,
+    }
+
+    headers = {
+        "X-USER-TOKEN": PIXELA_TOKEN,
+    }
+
+    response = requests.put(url=update_url, json=update_params, headers=headers)
+
+    return response
+
+def delete_pixel():
+    # doc: https://docs.pixe.la/entry/delete-pixel
+    date = input("What is the pixel's date you want to delete>\n"
+                 "Please use the format yyyyMMdd: ")
+
+    delete_url = f"{PIXELA_GRAPHS_URL}/{PIXELA_GRAPH_ID}/{date}"
+
+    headers = {
+        "X-USER-TOKEN": PIXELA_TOKEN,
+    }
+
+    response = requests.delete(url=delete_url, headers=headers)
 
     return response
