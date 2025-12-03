@@ -29,6 +29,13 @@
 
 (How you solved it / what finally clicked)
 
+## 📂 Project Structure
+```
+day_{day}/
+├── main.py
+├── config.py
+```
+
 ## 🏗 Architecture
 (Optional: Remove if not needed for this day)
 ```mermaid
