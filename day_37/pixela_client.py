@@ -89,7 +89,7 @@ def update_pixel():
 
 def delete_pixel():
     # doc: https://docs.pixe.la/entry/delete-pixel
-    date = input("What is the pixel's date you want to delete>\n"
+    date = input("What is the pixel's date you want to delete?\n"
                  "Please use the format yyyyMMdd: ")
 
     delete_url = f"{PIXELA_GRAPHS_URL}/{PIXELA_GRAPH_ID}/{date}"
