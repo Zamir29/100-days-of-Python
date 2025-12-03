@@ -13,7 +13,6 @@ from config import (
 )
 
 def create_user():
-    """Run this once at the beginning"""
     # Find more info on https://docs.pixe.la/entry/post-user#Request-Body
     user_params = {
         "token": PIXELA_TOKEN,
