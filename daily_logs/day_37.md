@@ -198,51 +198,56 @@ day_37/
 ## 🏗 Architecture
 ```mermaid
 graph TD
-    %% Nodes
+    %% Main Flow - Center Column
     Start([Start Program]) --> MainLoop{Main Menu Loop}
     MainLoop -->|User Input| Action{Valid Action?}
     
-    %% Invalid Path
-    Action -->|No| ErrorMsg[Print Error] --> MainLoop
-    Action -->|Exit| End([End Program])
-    
-    %% Valid Path
-    Action -->|Yes| Execute[Get Function from ACTIONS dict]
+    %% Right Branch - Success Path
+    Action -->|Yes| Execute[Get Function]
     Execute --> RetryLoop{Retry Loop}
     
-    %% Client Layer Subgraph
-    subgraph Client_Layer [Pixela Client Layer]
+    %% Left Branch - Error Path
+    Action -->|No| ErrorMsg[Print Error]
+    ErrorMsg --> MainLoop
+    Action -->|Exit| End([End Program])
+    
+    %% Client Layer (Centered below Execute)
+    subgraph Client [Pixela Client Layer]
         direction TB
         CallFunc[Call action_func]
-        Config[Load Config / Env] -.-> CallFunc
+        Config[Load Config] -.-> CallFunc
         CallFunc --> API_Req(HTTP Request)
     end
     
     RetryLoop --> CallFunc
     
-    %% API Response Handling
-    API_Req -->|Response| Status{Check Status Code}
+    %% Response Handling
+    API_Req -->|Response| Status{Check Status}
     
-    Status -->|503 Service Unavailable| AskRetry{Retry?}
+    %% Status Branches
+    Status -->|503| AskRetry{Retry?}
+    Status -->|200/201| Success[Print Success]
+    Status -->|Error| Fail[Print Fail]
+    
+    %% Closing the Loops
     AskRetry -->|Yes| RetryLoop
-    AskRetry -->|No| BreakInner[Stop Action]
+    AskRetry -->|No| Stop[Stop Action]
     
-    Status -->|200/201 Success| PrintSuccess[Print Success Msg] --> BreakInner
-    Status -->|Other Error| PrintFail[Print Error Msg] --> BreakInner
+    Success --> Stop
+    Fail --> Stop
     
-    %% Loop Back Logic
-    BreakInner --> AskAgain{Do More Actions?}
-    AskAgain -->|Yes| MainLoop
-    AskAgain -->|No| End
+    Stop --> More{Do More?}
+    More -->|Yes| MainLoop
+    More -->|No| End
     
     %% Styling
     classDef green fill:#e6ffec,stroke:#2eb85c,stroke-width:2px;
     classDef red fill:#fce8e6,stroke:#e55353,stroke-width:2px;
     classDef blue fill:#e7f5ff,stroke:#339af0,stroke-width:2px;
     
-    class PrintSuccess,Start,End green;
-    class PrintFail,ErrorMsg red;
-    class Client_Layer blue;
+    class Start,End,Success green;
+    class ErrorMsg,Fail red;
+    class Client blue;
 ```
 
 ## 🎯 Next Steps
