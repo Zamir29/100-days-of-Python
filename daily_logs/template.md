@@ -37,7 +37,6 @@ day_{day}/
 ```
 
 ## 🏗 Architecture
-(Optional: Remove if not needed for this day)
 ```mermaid
 graph TD;
     Start([User Input]) --> Process{{Check Condition}};

@@ -1,11 +1,11 @@
 # Day 37 — Habit Tracking App
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%2037-Open%20Folder-blue)](../day_37/main.py)  
 
-| **Scope** | **Description**                                                                                                                              |
-|:---------:|:---------------------------------------------------------------------------------------------------------------------------------------------|
-|   Goal    | Build a small habit tracking tool that talks to an external API to log my daily habits (e.g. coding time) and visualize progress on a graph. |
-|   Steps   | Implement Pixela habit tracking with user, graph and pixel CRUD.                                                                             |
-|   Stack   | Python, requests, HTTP APIs (Pixela), environment variables (.env / python-dotenv), JSON                                                     |
+| **Scope**  | **Description**                                                                                                                              |
+|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------|
+|  **Goal**  | Build a small habit tracking tool that talks to an external API to log my daily habits (e.g. coding time) and visualize progress on a graph. |
+| **Steps**  | Implement Pixela habit tracking with user, graph and pixel CRUD.                                                                             |
+| **Stack**  | Python, requests, HTTP APIs (Pixela), environment variables (.env / python-dotenv), JSON                                                     |
 
 
 ## 📘 Table of contents
@@ -196,7 +196,6 @@ day_37/
 ```
 
 ## 🏗 Architecture
-(Optional: Remove if not needed for this day)
 ```mermaid
 graph TD
     %% Nodes
