@@ -9,11 +9,11 @@ X_APP_URL = "https://app.100daysofpython.dev"
 X_APP_ID = os.getenv("X_APP_ID")
 X_APP_KEY = os.getenv("X_APP_KEY")
 
-# API urls
+# Nutrition app API urls
 X_APP_POST = f"{X_APP_URL}/v1/nutrition/natural/exercise"
 X_APP_GET = f"{X_APP_URL}/healthz"
 
-# Error code
+## Error code
 ERROR_CODE = {
     "401": {
         "Error Code": "UNAUTHENTICATED",
@@ -33,3 +33,10 @@ ERROR_CODE = {
     },
 
 }
+# Sheety API key
+SHEETY_BEARER_KEY = f"Bearer {SHEETY_KEY}"
+
+# Sheety API url
+SHEETY_GET = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/myWorkouts/workouts"
+SHEET_POST = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/myWorkouts/workouts"
+
