@@ -8,6 +8,7 @@ X_APP_URL = "https://app.100daysofpython.dev"
 # Credentials of Nutrition API
 X_APP_ID = os.getenv("X_APP_ID")
 X_APP_KEY = os.getenv("X_APP_KEY")
+SHEETY_KEY = os.getenv("SHEETY_KEY")
 
 # Nutrition app API urls
 X_APP_POST = f"{X_APP_URL}/v1/nutrition/natural/exercise"
@@ -33,6 +34,7 @@ ERROR_CODE = {
     },
 
 }
+
 # Sheety API key
 SHEETY_BEARER_KEY = f"Bearer {SHEETY_KEY}"
 

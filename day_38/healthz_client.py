@@ -41,7 +41,7 @@ def add_activity(response):
     }
 
     headers = {
-        "Authorization": SHEETY_KEY,
+        "Authorization": SHEETY_BEARER_KEY,
     }
 
     response = requests.post(url=SHEET_POST, json=activity_params, headers=headers)
