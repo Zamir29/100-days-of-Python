@@ -53,7 +53,8 @@ Build a small habit tracking tool that talks to an external API to log my daily 
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_36.md)  
 Today’s goal is to recreate the core features of a Bloomberg-style stock alert system.
 The program fetches stock price movements, calculates percentage change, and—if the fluctuation is significant—pulls relevant news via a News API and sends an SMS alert through Twilio.  
-**Stack used:** Python · APIs · HTTP Requests · JSON Parsing · News API · Twilio Messaging
+**Stack used:** Python · APIs · HTTP Requests · JSON Parsing · News API · Twilio Messaging  
+
 
 - **Day 35 - Keys, Auth & Environment Variables**  
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_35/main.py)
