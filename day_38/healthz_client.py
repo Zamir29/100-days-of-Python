@@ -18,7 +18,7 @@ def get_exercise_stats(get_query):
         "X-APP-ID": X_APP_ID,
         "X-APP-KEY": X_APP_KEY,
     }
-    print(X_APP_ID, X_APP_KEY)
+
     response = requests.post(url=X_APP_POST, json=query_params, headers=headers)
 
     return response
