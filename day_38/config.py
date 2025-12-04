@@ -6,8 +6,8 @@ load_dotenv(find_dotenv())
 X_APP_URL = "https://app.100daysofpython.dev"
 
 # Credentials of Nutrition API
-X_APP_ID = os.getenv("X-APP-ID")
-X_APP_KEY = os.getenv("X-APP-KEY")
+X_APP_ID = os.getenv("X_APP_ID")
+X_APP_KEY = os.getenv("X_APP_KEY")
 
 # API urls
 X_APP_POST = f"{X_APP_URL}/v1/nutrition/natural/exercise"
