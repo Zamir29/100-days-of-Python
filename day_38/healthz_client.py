@@ -9,7 +9,6 @@ from config import (
     SHEET_POST,
     SHEETY_GET,
 )
-from day_35.main import response
 
 sheety_headers = {
         "Authorization": SHEETY_BEARER_KEY,
@@ -58,17 +57,17 @@ def get_details():
     if more_details.lower().strip() in ("n", "no"):
         return query_params
     else:
-        weight_kg = input("What's your weight?\nkg: ")
-        height_cm = input("What's your height?\ncm: ")
-        age = input("What's your age?\nnumber: ")
-        gender = input("What's your gender?\n[male][female]: ")
+        weight_kg = input("What's your weight?\nkg: ") # There is no safeguard for input
+        height_cm = input("What's your height?\ncm: ") # There is no safeguard for input
+        age = input("What's your age?\nnumber: ") # There is no safeguard for input
+        gender = input("What's your gender?\n[male][female]: ") # There is no safeguard for input
         query_params.update({
             "weight_kg": int(weight_kg),
             "height_cm": int(height_cm),
             "age": int(age),
             "gender": gender,
         })
-        print(query_params)
+
         return query_params
 
 
@@ -105,6 +104,26 @@ def edit_activity():
     # Show all the table
     table_response, table_len = get_table("all")
 
-    what_row = input("What row do you want to delete? ")
+    what_row = int(input("What row do you want to edit? "))
     while what_row not in range(table_len):
-        what_row = input(f"Please input a number between 0 and {table_len}")
+        what_row = int(input(f"Please input a number between 0 and {table_len-1}: "))
+
+    what_row = str(what_row + 2)
+    table_response, table_len = get_table(what_row)
+
+    exercise = input("What's the new exercise's name?: ") # There is no safeguard for input
+    duration = input("What's the new duration?\nmin: ") # There is no safeguard for input
+    calories = input("How many calories did you burn?\ncal: ") # There is no safeguard for input
+
+    activity_params = {
+        "workout": {
+            "exercise": exercise,
+            "duration": int(duration),
+            "calories": int(calories),
+        },
+    }
+
+    put_url = f"{SHEETY_GET}/{what_row}"
+    response = requests.put(url=put_url, json=activity_params, headers=sheety_headers)
+
+    return response

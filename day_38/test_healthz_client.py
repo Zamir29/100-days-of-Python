@@ -1,4 +1,4 @@
-from healthz_client import get_exercise_stats, add_activity, get_table
+from healthz_client import get_exercise_stats, add_activity, get_table, edit_activity
 
 def main():
 
@@ -7,7 +7,8 @@ def main():
 
     # get_details()
     # response = get_exercise_stats()
-    response = add_activity()
+    # response = add_activity()
+    edit_activity()
     print(response.status_code)
     print(response.json())
 
