@@ -4,12 +4,12 @@ from sheety_client import add_activity, get_table, edit_activity, delete_activit
 def main():
 
     # get_table("all")
-    # get_table("3")
+    # get_table("3")git
 
     # get_details()
     # response = get_exercise_stats()
     # response = add_activity()
-    response = delete_activity()
+    response = add_activity()
     print(response.status_code)
     print(response.json())
 

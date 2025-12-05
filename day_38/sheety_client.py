@@ -72,10 +72,10 @@ def add_activity():
 
         add_response = requests.post(url=SHEET_POST, json=activity_params, headers=sheety_headers)
 
-    if add_response.status_code == 200:
-        print("Done! It's there")
-    else:
-        print(f"Shoot! It says error {add_response.status_code}: {add_response.json()['message']}")
+        if add_response.status_code == 200:
+            print("Done! It's there")
+        else:
+            print(f"Shoot! It says error {add_response.status_code}: {add_response.json()['message']}")
 
     return add_response
 
