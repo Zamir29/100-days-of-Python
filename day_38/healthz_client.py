@@ -140,6 +140,7 @@ def edit_activity():
     all_table, _, table_len = get_table("all")
     print(all_table)
 
+    # Select row
     while True:
         try:
             what_row = int(input("What row do you want to edit? "))
@@ -151,38 +152,89 @@ def edit_activity():
             print("Invalid input. Please enter a number.")
 
     # Show row preview
-    only_row, _, _ = get_table(what_row)
-    print(f"Expected row to edit\n{only_row}")
+    row_df, row_response, _ = get_table(f"{what_row}")
+    print(f"\nExpected row to edit\n{row_df}")
 
+    sheety_row_id = str(what_row + 2)
+    # Dynamically extraxt the root key
+    root_key = list(row_response.json().keys())[0]
+
+    # Convert DataFrame to dict to start edit
+    current_data = row_df.to_dict(orient="records")[0]
+
+    # Confirm Edit
     while True:
-        confirm = input(f"\n---\nRow {what_row} will be edited"
-                        "\nDo you confirm?\n[Y][N]: ").lower().strip()
-
-        if confirm in ("n", "no"):
-            print("Operation Cancelled. Nothing will be edited")
+        confirm = input("\nDo you confirm you want to edit this? [Y]/[N]: ").lower().strip()
+        if confirm in ["n", "no"]:
+            print("Cancelled.")
             return None
-
-        elif confirm in ("y", "no"):
-            sheety_row_id = str(what_row + 2)
-
-            exercise = input("What's the new exercise's name?: ") # There is no safeguard for input
-            duration = input("What's the new duration?\nmin: ") # There is no safeguard for input
-            calories = input("How many calories did you burn?\ncal: ") # There is no safeguard for input
-
-            activity_params = {
-                "workout": {
-                    "exercise": exercise,
-                    "duration": int(duration),
-                    "calories": int(calories),
-                },
-            }
-
-            put_url = f"{SHEETY_GET}/{sheety_row_id}"
-            response = requests.put(url=put_url, json=activity_params, headers=sheety_headers)
-
-            return response
+        elif confirm in ["y", "yes"]:
+            break
         else:
             print("Please enter either [Y] or [N], without brackets.")
+
+    # Data driven edit loop
+    print(f"\n--- EDIT MODE (Press 'Enter' to keep current value) ---")
+
+    # We initialize our payload with the OLD values.
+    # If the user skips everything, we just send the old data back (safe).
+
+    updated_payload = {
+        "date": current_data["date"],
+        "time": current_data["time"],
+        "exercise": current_data["exercise"],
+        "duration": current_data["duration"],
+        "calories": current_data["calories"],
+    }
+
+    # Config: (Key in Dictionary, Display Name, Data Type)
+
+    edit_config = [
+        ("exercise", "Exercise Name", str),
+        ("duration", "Duration (min)", int),
+        ("calories", "Calories (cal)", int),
+    ]
+
+    for key, label, data_type in edit_config:
+        # Get the old value to show to the user
+        old_val = updated_payload[key]
+
+        while True:
+            user_input = input(f"{label} {old_val}: ").strip()
+
+            # User hit ENTER -> Keep the old value
+            if user_input == "":
+                print(f"Keeping: {old_val}")
+                break
+
+            # User typed something -> VALIDATE
+            if data_type == int:
+                try:
+                    new_val = int(user_input)
+                    updated_payload[key] = new_val
+                    break
+                except ValueError:
+                    print(f"Invalid input. Please enter a number for {label}")
+
+            elif data_type == str:
+                updated_payload[key] = user_input
+                break
+
+    final_json = {
+        root_key : updated_payload
+    }
+
+    print("\nUpdating Sheet...")
+    put_url = f"{SHEETY_GET}/{sheety_row_id}"
+
+    response = requests.put(url=put_url, json=final_json, headers=sheety_headers)
+
+    if response.status_code == 200:
+        print("Success! Row updated.")
+    else:
+        print(f"Error: {response.text}")
+
+    return response
 
 def delete_activity():
     # Show all the table
