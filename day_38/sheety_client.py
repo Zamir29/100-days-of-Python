@@ -63,7 +63,7 @@ def edit_activity():
     # Select row
     while True:
         try:
-            what_row = int(input("What row do you want to edit? "))
+            what_row = int(input("\nhat row do you want to edit? "))
             if what_row in range(table_len):
                 break  # Valid number, exit loop
             else:
@@ -163,7 +163,7 @@ def delete_activity():
 
     while True:
         try:
-            what_row = int(input("What row do you want to delete? "))
+            what_row = int(input("\nWhat row do you want to delete? "))
             if what_row in range(table_len):
                 break # Valid number, exit loop
             else:
@@ -171,13 +171,16 @@ def delete_activity():
         except ValueError:
             print("Invalid input. Please enter a number.")
 
+    # Calculate sheety ID
+    sheety_row_id = str(what_row + 2)
+
     # Show preview of the row
-    only_row, _, _ = get_table(what_row)
+    only_row, _, _ = get_table(f"{sheety_row_id}")
     print(f"Expected row to delete\n{only_row}")
 
     # Ask what action to take
     while True:
-        confirm = input(f"\n---\nRow {what_row} will be deleted\n"
+        confirm = input(f"\n---\nRow {what_row} (id: {sheety_row_id}) will be deleted\n"
                         "Do you confirm?\n[Y][N]: ").lower().strip()
 
         if confirm in ["n", "no"]:
@@ -185,17 +188,19 @@ def delete_activity():
             return None #Exit the function entirely
 
         elif confirm in ["y", "yes"]:
-            sheety_row_id = str(what_row + 2)
-
             delete_url = f"{SHEETY_GET}/{sheety_row_id}"
             response = requests.delete(url=delete_url, headers=sheety_headers)
 
-            if response.status_code == 200:
+            if response.status_code == 204:
                 print("\nRow deleted successfully!")
+                return None
+            elif response.status_code == 200:
+                print("\nRow deleted successfully!")
+                return None
             else:
-                print(f"Error deleting row: {response.text}")
-
-            return response
+                print(f"Error deleting row: {response.status_code}")
+                print(response.text)
+                return response
 
         else:
             print("Please enter either [Y] or [N], without brackets.")
