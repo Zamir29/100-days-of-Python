@@ -1,11 +1,11 @@
 # Day 39 — Flight Deal Finder
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%2039-Open%20Folder-blue)](../day_39/main.py)  
 
-| **Scope** | **Description** |
-|:---------:|:----------------|
+| **Scope** | **Description**                                                                                                                                                                  |
+|:---------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |   Goal    | Build a tool that monitors flight prices and alerts you when they drop below a target price by querying a flight search API and comparing results to stored thresholds.          |
-|   Steps   | Store destination data (e.g. in Google Sheets), connect to the flight API, fetch and parse prices, compare to thresholds, and trigger notifications (email/SMS) for deals.         |
-|   Stack   | `Python`, `requests`, Tequila/Kiwi flight API, Google Sheets + Sheety, environment variables for API keys         |
+|   Steps   | Store destination data (e.g. in Google Sheets), connect to the flight API, fetch and parse prices, compare to thresholds, and trigger notifications (email/SMS) for deals.       |
+|   Stack   | `Python` (OOP, `requests`, `datetime`, `env vars`), Google Sheets + Sheety API, Amadeus Flight Search API, Twilio SMS/WhatsApp API.                                               |
 
 
 ## 📘 Table of contents
