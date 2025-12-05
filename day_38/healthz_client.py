@@ -19,6 +19,15 @@ app_headers = {
     "X-APP-KEY": X_APP_KEY,
 }
 
+detail_data = {
+    "query": ("Tell me which exercise you did: ", str),
+    "weight_kg": ("What's your weight?\nkg: ", int),
+    "height_cm": ("What's your height?\ncm: ", int),
+    "age": ("What's your age?\nnumber: ", int),
+    "gender": ("What's your gender?\n[male][female]: ", str),
+
+}
+
 def get_table(row):
     row = row.lower().strip()
 
@@ -42,34 +51,63 @@ def get_table(row):
     # Print the list
     activity_tab = pd.DataFrame.from_dict(get_rows)
 
-    print(activity_tab)
-
-    return response, len(get_rows)
+    return activity_tab, response, len(get_rows)
 
 def get_details():
-    get_query = input("Tell me which exercise you did: ")
-    query_params = {
-        "query": get_query
-    }
+    query_params = {}
 
-    more_details = input("Do you want to add more details?\n[Y]/[N]: ")
+    # We create a flag to track if we have already asked the "More details" question
+    asked_permission = False
 
-    if more_details.lower().strip() in ("n", "no"):
-        return query_params
-    else:
-        weight_kg = input("What's your weight?\nkg: ") # There is no safeguard for input
-        height_cm = input("What's your height?\ncm: ") # There is no safeguard for input
-        age = input("What's your age?\nnumber: ") # There is no safeguard for input
-        gender = input("What's your gender?\n[male][female]: ") # There is no safeguard for input
-        query_params.update({
-            "weight_kg": int(weight_kg),
-            "height_cm": int(height_cm),
-            "age": int(age),
-            "gender": gender,
-        })
+    for key, (prompt, data_type) in detail_data.items():
 
-        return query_params
+        # --- LOGIC TO SKIP OPTIONAL QUESTIONS ---
+        # If this key is NOT 'query', we need to check if the user wants to proceed
+        if key != "query":
 
+            # If we haven't asked yet, ask now!
+            if not asked_permission:
+                while True:
+                    more_details = input("Do you want to add more details?\n[Y] [N]: ").lower().strip()
+                    if more_details in ["n", "no"]:
+                        return query_params # Stop here and return what we have (just the query)
+                    elif more_details in ["y", "yes"]:
+                        asked_permission = True # Mark as asked, so we don't ask again
+                        break
+                    else:
+                        print("Please enter either [Y] or [N], without brackets.")
+
+        # --- INPUT COLLECTION LOGIC ---
+        while True:
+            user_input = input(prompt)
+
+            try:
+                # 1. Check if the required type is an integer
+                if data_type == int:
+                    # This will rais ValueError if input is not a number
+                    converted_value = int(user_input)
+                    query_params[key] = converted_value
+                    break
+
+                # 2. Check if the required type is a string
+                elif data_type == str:
+                    # Manual check: We don't want empty strings
+                    if len(user_input.strip()) == 0:
+                        print("Input cannot be empty.")
+                        continue
+
+                    # Specific check for gender to ensure API compatibility
+                    if key == "gender" and user_input.lower().strip() not in ["male", "female"]:
+                        print("Please type 'male' or 'female'.")
+                        continue
+
+                    query_params[key] = user_input
+                    break
+
+            except ValueError:
+                print(f"Invalid input. Please enter a valid {data_type.__name__}.")
+
+    return query_params
 
 def get_exercise_stats():
 
@@ -78,7 +116,6 @@ def get_exercise_stats():
     response = requests.post(url=X_APP_POST, json=query_params, headers=app_headers)
 
     return response
-
 
 def add_activity():
     exercise_stats = get_exercise_stats().json()
@@ -94,36 +131,99 @@ def add_activity():
         },
     }
 
-
-
     response = requests.post(url=SHEET_POST, json=activity_params, headers=sheety_headers)
 
     return response
 
 def edit_activity():
     # Show all the table
-    table_response, table_len = get_table("all")
+    all_table, _, table_len = get_table("all")
+    print(all_table)
 
-    what_row = int(input("What row do you want to edit? "))
-    while what_row not in range(table_len):
-        what_row = int(input(f"Please input a number between 0 and {table_len-1}: "))
+    while True:
+        try:
+            what_row = int(input("What row do you want to edit? "))
+            if what_row in range(table_len):
+                break  # Valid number, exit loop
+            else:
+                print(f"Please input a number between 0 and {table_len - 1}.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
-    what_row = str(what_row + 2)
-    table_response, table_len = get_table(what_row)
+    # Show row preview
+    only_row, _, _ = get_table(what_row)
+    print(f"Expected row to edit\n{only_row}")
 
-    exercise = input("What's the new exercise's name?: ") # There is no safeguard for input
-    duration = input("What's the new duration?\nmin: ") # There is no safeguard for input
-    calories = input("How many calories did you burn?\ncal: ") # There is no safeguard for input
+    while True:
+        confirm = input(f"\n---\nRow {what_row} will be edited"
+                        "\nDo you confirm?\n[Y][N]: ").lower().strip()
 
-    activity_params = {
-        "workout": {
-            "exercise": exercise,
-            "duration": int(duration),
-            "calories": int(calories),
-        },
-    }
+        if confirm in ("n", "no"):
+            print("Operation Cancelled. Nothing will be edited")
+            return None
 
-    put_url = f"{SHEETY_GET}/{what_row}"
-    response = requests.put(url=put_url, json=activity_params, headers=sheety_headers)
+        elif confirm in ("y", "no"):
+            sheety_row_id = str(what_row + 2)
 
-    return response
+            exercise = input("What's the new exercise's name?: ") # There is no safeguard for input
+            duration = input("What's the new duration?\nmin: ") # There is no safeguard for input
+            calories = input("How many calories did you burn?\ncal: ") # There is no safeguard for input
+
+            activity_params = {
+                "workout": {
+                    "exercise": exercise,
+                    "duration": int(duration),
+                    "calories": int(calories),
+                },
+            }
+
+            put_url = f"{SHEETY_GET}/{sheety_row_id}"
+            response = requests.put(url=put_url, json=activity_params, headers=sheety_headers)
+
+            return response
+        else:
+            print("Please enter either [Y] or [N], without brackets.")
+
+def delete_activity():
+    # Show all the table
+    all_table, table_response, table_len = get_table("all")
+    print(all_table)
+
+    while True:
+        try:
+            what_row = int(input("What row do you want to delete? "))
+            if what_row in range(table_len):
+                break # Valid number, exit loop
+            else:
+                print(f"Please input a number between 0 and {table_len-1}.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    # Show preview of the row
+    only_row, _, _ = get_table(what_row)
+    print(f"Expected row to delete\n{only_row}")
+
+    # Ask what action to take
+    while True:
+        confirm = input(f"\n---\nRow {what_row} will be deleted\n"
+                        "Do you confirm?\n[Y][N]: ").lower().strip()
+
+        if confirm in ["n", "no"]:
+            print("\nOperation Cancelled. Nothing will be deleted")
+            return None #Exit the function entirely
+
+        elif confirm in ["y", "yes"]:
+            sheety_row_id = str(what_row + 2)
+
+            delete_url = f"{SHEETY_GET}/{sheety_row_id}"
+            response = requests.delete(url=delete_url, headers=sheety_headers)
+
+            if response.status_code == 200:
+                print("\nRow deleted successfully!")
+            else:
+                print(f"Error deleting row: {response.text}")
+
+            return response
+
+        else:
+            print("Please enter either [Y] or [N], without brackets.")

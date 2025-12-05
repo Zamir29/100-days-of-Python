@@ -8,7 +8,7 @@ def main():
     # get_details()
     # response = get_exercise_stats()
     # response = add_activity()
-    edit_activity()
+    response = edit_activity()
     print(response.status_code)
     print(response.json())
 
