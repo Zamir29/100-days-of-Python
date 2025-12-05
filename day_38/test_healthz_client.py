@@ -1,4 +1,5 @@
-from healthz_client import get_exercise_stats, add_activity, get_table, edit_activity
+from healthz_client import get_exercise_stats, get_details
+from sheety_client import add_activity, get_table, edit_activity, delete_activity
 
 def main():
 
@@ -8,7 +9,7 @@ def main():
     # get_details()
     # response = get_exercise_stats()
     # response = add_activity()
-    response = edit_activity()
+    response = delete_activity()
     print(response.status_code)
     print(response.json())
 
