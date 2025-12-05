@@ -63,7 +63,7 @@ def edit_activity():
     # Select row
     while True:
         try:
-            what_row = int(input("\nhat row do you want to edit? "))
+            what_row = int(input("\nWhat row do you want to edit? "))
             if what_row in range(table_len):
                 break  # Valid number, exit loop
             else:
@@ -71,11 +71,13 @@ def edit_activity():
         except ValueError:
             print("Invalid input. Please enter a number.")
 
+    # Calculate sheety ID
+    sheety_row_id =all_table.iloc[what_row]["id"]
+
     # Show row preview
-    row_df, row_response, _ = get_table(f"{what_row}")
+    row_df, row_response, _ = get_table(f"{sheety_row_id}")
     print(f"\nExpected row to edit\n{row_df}")
 
-    sheety_row_id = str(what_row + 2)
     # Dynamically extraxt the root key
     root_key = list(row_response.json().keys())[0]
 
@@ -172,7 +174,7 @@ def delete_activity():
             print("Invalid input. Please enter a number.")
 
     # Calculate sheety ID
-    sheety_row_id = str(what_row + 2)
+    sheety_row_id =all_table.iloc[what_row]["id"]
 
     # Show preview of the row
     only_row, _, _ = get_table(f"{sheety_row_id}")

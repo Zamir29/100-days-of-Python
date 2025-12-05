@@ -27,14 +27,15 @@ def main():
         elif user_input == "delete":
             delete_activity()
         elif user_input == "table":
-            get_table("all")
+            all_table, _, _ = get_table("all")
+            print(all_table)
         elif user_input in ["exit", "q"]:
             break
         else:
             print("Invalid input. Please hit [Enter] or type [Edit], [Delete], [Table] without brackets.")
 
         while True:
-            user_input = input("\nDo you want to do something else? [Y]/[N]").lower().strip()
+            user_input = input("\nDo you want to do something else?\n Type [Y]/[N]: ").lower().strip()
 
             if user_input in ["y", "yes"]:
                 break
