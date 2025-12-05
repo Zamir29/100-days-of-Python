@@ -38,22 +38,46 @@ def get_table(row):
     return activity_tab, response, len(get_rows)
 
 def add_activity():
-    exercise_stats = get_exercise_stats().json()
-    data = exercise_stats["exercises"][0]
 
-    activity_params = {
-        "workout": {
-            "date": datetime.now().strftime("%d/%m/%Y"),
-            "time": datetime.now().strftime("%H:%M:%S"), # issue: on Google sheet this is a string not time
-            "exercise": data["name"],
-            "duration": data["duration_min"],
-            "calories": data["nf_calories"],
-        },
-    }
+    while True:
+        stats_response = get_exercise_stats()
 
-    response = requests.post(url=SHEET_POST, json=activity_params, headers=sheety_headers)
+        if stats_response.status_code == 200:
+            exercise_stats = stats_response.json()
+            exercises = exercise_stats["exercises"]
 
-    return response
+            if len(exercises) == 0 or exercises[0]["name"] == "exercise" :
+                print("Please use a format like 'ran for 30 minutes', 'jogged 2 miles'")
+            else:
+                break
+
+        else:
+            print(f"There was an issue {stats_response.status_code}: {stats_response.json()['message']}.\nLet's retry\n")
+
+
+
+    now = datetime.now()
+    add_response = None
+
+    for exercise in exercises:
+        activity_params = {
+            "workout": {
+                "date": now.strftime("%d/%m/%Y"),
+                "time": now.strftime("%H:%M:%S"), # issue: on Google sheet this is a string not time
+                "exercise": exercise["name"],
+                "duration": exercise["duration_min"],
+                "calories": exercise["nf_calories"],
+            },
+        }
+
+        add_response = requests.post(url=SHEET_POST, json=activity_params, headers=sheety_headers)
+
+    if add_response.status_code == 200:
+        print("Done! It's there")
+    else:
+        print(f"Shoot! It says error {add_response.status_code}: {add_response.json()['message']}")
+
+    return add_response
 
 def edit_activity():
     # Show all the table
