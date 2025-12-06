@@ -24,4 +24,6 @@ AMADEUS_KEY = os.getenv("AMADEUS_KEY")
 AMADEUS_SECRET = os.getenv("AMADEUS_SECRET")
 
 # Amadeus API Url
-AMADEUS_POST = "https://test.api.amadeus.com/v1/security/oauth2/token"
+AMADEUS_URL = "https://test.api.amadeus.com/"
+AMADEUS_URL_TOKEN = f"{AMADEUS_URL}v1/security/oauth2/token"
+AMADEUS_URL_GET_DEAL = f"{AMADEUS_URL}v1/shopping/flight-destinations"
