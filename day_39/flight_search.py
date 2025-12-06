@@ -14,7 +14,7 @@ class FlightSearch:
         self.url_get_token = AMADEUS_URL_TOKEN
         self.url_get_deal = AMADEUS_URL_GET_DEAL
 
-    def get_amadeus_token(self):
+    def get_token(self):
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
         }
@@ -30,14 +30,15 @@ class FlightSearch:
 
         return amadeus_response.json()["access_token"]
 
-    def find_deals(self, origin, destination):
+    def find_deals(self):
+        # , origin: str, map_price: str
         headers = {
-            "Authorization": f"Bearer {self.get_amadeus_token()}",
+            "Authorization": f"Bearer {self.get_token()}",
         }
 
         params = {
-            "origin": origin,
-            "destination": destination,
+            "origin": "PAR",
+            "maxPrice": 200,
         }
 
         deals_response = requests.get(url=self.url_get_deal, params=params, headers=headers)
