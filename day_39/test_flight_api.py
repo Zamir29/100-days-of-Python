@@ -1,31 +1,78 @@
-from config import (
-    AMADEUS_SECRET,
-    AMADEUS_KEY,
-    AMADEUS_TOKEN,
-    AMADEUS_POST,
-)
 import requests
 
-# AMADEUS API TEST
+from config import AMADEUS_URL_CHEAPEST_DATE
+import pandas as pd
 
-# Get the token
-def get_amadeus_token():
+from flight_search import FlightSearch
+from flight_data import FlightData
+from notification_manager import NotificationManager
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-    }
+amadeus = FlightSearch()
 
-    user_params = {
-        "grant_type": "client_credentials",
-        "client_id": AMADEUS_KEY,
-        "client_secret": AMADEUS_SECRET,
-    }
+# # --- AMADEUS API TEST ---
+# # Get the first request
+#
+# get_url = "https://test.api.amadeus.com/v1/shopping/flight-destinations"
+#
+# # get_url = AMADEUS_URL_CHEAPEST_DATE
+# amadeus_token = amadeus.get_token()
+#
+# amadeus_headers = {
+#     "Authorization": f"Bearer {amadeus_token}",
+# }
+#
+# amadeus_params = {
+#     "origin": "MIL",
+#     "destination": "PAR",
+#     "maxPrice": 20,
+# }
+#
+# response = requests.get(url=get_url, params=amadeus_params, headers=amadeus_headers)
+#
+# get_search_response = response.json()
+#
+# print(get_search_response)
+#
+# # ---
+#
+# # --- AMADEUS FIND CHEAPEST DATE ---
+#
+# find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=300)
+# # find_deals.raise_for_status()
+#
+# print(find_deals)
+#
+# data = find_deals.json()["data"]
+#
+# rows = [
+#     {
+#         "origin": item["origin"],
+#         "destination": item["destination"],
+#         "departure": item["departureDate"],
+#         "price": float(item["price"]["total"]),
+#     }
+#     for item in data
+# ]
+#
+# df = pd.DataFrame(rows).sort_values("price")
+#
+# print(df.to_string(index=False))
+#
+# # ---
 
-    amadeus_response = requests.post(url=AMADEUS_POST, data=user_params, headers=headers)
-    amadeus_response.raise_for_status()
+# # --- TRY CITY IATA CODE ---
+#
+# iata_code = amadeus.get_iata_code(city_name="Barcelona")
+# print(iata_code)
+#
+# # ---
 
-    return amadeus_response.json()["access_token"]
+# --- Twilio test --
+data = FlightData(price=200, departure_code="MIL", arrival_code="BCN", departure_date="2025-12-24", start_date="2025-12-10", end_date="2025-04-29")
+
+message = NotificationManager()
+
+send_messsage = message.send_notification(data)
+
+print(send_messsage)
 # ---
-
-
-

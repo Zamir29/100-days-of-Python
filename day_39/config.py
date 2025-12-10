@@ -24,4 +24,20 @@ AMADEUS_KEY = os.getenv("AMADEUS_KEY")
 AMADEUS_SECRET = os.getenv("AMADEUS_SECRET")
 
 # Amadeus API Url
-AMADEUS_POST = "https://test.api.amadeus.com/v1/security/oauth2/token"
+AMADEUS_URL = "https://test.api.amadeus.com/"
+AMADEUS_URL_TOKEN = f"{AMADEUS_URL}v1/security/oauth2/token"
+AMADEUS_URL_GET_DEAL = f"{AMADEUS_URL}v1/shopping/flight-destinations"
+AMADEUS_URL_CHEAPEST_DATE = f"{AMADEUS_URL}v1/shopping/flight-dates"
+AMADEUS_URL_AIRPORT_CITY_SEARCH = f"{AMADEUS_URL}v1/reference-data/locations"
+
+# ---
+
+# --- TWILIO API ---
+
+# Twilio Key, Token
+TWILIO_SID = os.getenv("TWILIO_SID")
+TWILIO_TOKEN = os.getenv("TWILIO_TOKEN")
+
+# Twilio whatsapp sandbox numbers
+TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
+TWILIO_WHATSAPP_TO = os.getenv("TWILIO_WHATSAPP_TO")
