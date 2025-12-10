@@ -41,7 +41,7 @@ class FlightSearch:
 
         return amadeus_response.json()["access_token"]
 
-    def find_deals(self, origin_code: str, destination_code: str, max_price: int):
+    def find_deals(self, origin_code: str, destination_code: str, max_price: float):
         # --- Flight Cheapest Date API --> https://developers.amadeus.com/self-service/category/flights/api-doc/flight-cheapest-date-search
 
         # Retrieve automatically the date of Tomorrow and in Six months
