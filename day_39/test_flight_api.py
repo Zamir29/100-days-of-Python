@@ -1,14 +1,17 @@
 import requests
-from flight_search import FlightSearch
-import pandas
 
-# AMADEUS API TEST
-# Get the first request
+from config import AMADEUS_URL_CHEAPEST_DATE
+import pandas as pd
+from flight_search import FlightSearch
 
 amadeus = FlightSearch()
 
+# # --- AMADEUS API TEST ---
+# # Get the first request
+#
 # get_url = "https://test.api.amadeus.com/v1/shopping/flight-destinations"
 #
+# # get_url = AMADEUS_URL_CHEAPEST_DATE
 # amadeus_token = amadeus.get_token()
 #
 # amadeus_headers = {
@@ -16,23 +19,46 @@ amadeus = FlightSearch()
 # }
 #
 # amadeus_params = {
-#     "origin": "PAR",
-#     # "destination": "CAS",
-#     "maxPrice": 200,
+#     "origin": "MIL",
+#     "destination": "PAR",
+#     "maxPrice": 20,
 # }
 #
 # response = requests.get(url=get_url, params=amadeus_params, headers=amadeus_headers)
 #
 # get_search_response = response.json()
-
-find_deals = amadeus.find_deals()
-
-print(find_deals.json())
-
-# get_table = get_search_response["data"][:3]
 #
-# show_table = pandas.DataFrame.from_dict(get_table)
+# print(get_search_response)
 #
-# print(show_table)
+# # ---
+#
+# --- AMADEUS FIND CHEAPEST DATE ---
+
+find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=100)
+# find_deals.raise_for_status()
+
+print(find_deals.status_code, find_deals.text)
+
+data = find_deals.json()["data"]
+
+rows = [
+    {
+        "origin": item["origin"],
+        "destination": item["destination"],
+        "departure": item["departureDate"],
+        "price": float(item["price"]["total"]),
+    }
+    for item in data
+]
+
+df = pd.DataFrame(rows).sort_values("price")
+
+print(df.to_string(index=False))
 
 # ---
+
+# # --- TRY CITY IATA CODE ---
+#
+# iata_code = amadeus.get_iata_code(city_name="Barcelona")
+# print(iata_code)
+

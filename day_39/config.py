@@ -27,3 +27,5 @@ AMADEUS_SECRET = os.getenv("AMADEUS_SECRET")
 AMADEUS_URL = "https://test.api.amadeus.com/"
 AMADEUS_URL_TOKEN = f"{AMADEUS_URL}v1/security/oauth2/token"
 AMADEUS_URL_GET_DEAL = f"{AMADEUS_URL}v1/shopping/flight-destinations"
+AMADEUS_URL_CHEAPEST_DATE = f"{AMADEUS_URL}v1/shopping/flight-dates"
+AMADEUS_URL_AIRPORT_CITY_SEARCH = f"{AMADEUS_URL}v1/reference-data/locations"
