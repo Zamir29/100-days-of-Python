@@ -3,6 +3,7 @@ import requests
 from config import AMADEUS_URL_CHEAPEST_DATE
 import pandas as pd
 from flight_search import FlightSearch
+from notification_manager import NotificationManager
 
 amadeus = FlightSearch()
 
@@ -32,33 +33,36 @@ amadeus = FlightSearch()
 #
 # # ---
 #
-# --- AMADEUS FIND CHEAPEST DATE ---
-
-find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=300)
-# find_deals.raise_for_status()
-
-print(find_deals)
-
-data = find_deals.json()["data"]
-
-rows = [
-    {
-        "origin": item["origin"],
-        "destination": item["destination"],
-        "departure": item["departureDate"],
-        "price": float(item["price"]["total"]),
-    }
-    for item in data
-]
-
-df = pd.DataFrame(rows).sort_values("price")
-
-print(df.to_string(index=False))
-
-# ---
+# # --- AMADEUS FIND CHEAPEST DATE ---
+#
+# find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=300)
+# # find_deals.raise_for_status()
+#
+# print(find_deals)
+#
+# data = find_deals.json()["data"]
+#
+# rows = [
+#     {
+#         "origin": item["origin"],
+#         "destination": item["destination"],
+#         "departure": item["departureDate"],
+#         "price": float(item["price"]["total"]),
+#     }
+#     for item in data
+# ]
+#
+# df = pd.DataFrame(rows).sort_values("price")
+#
+# print(df.to_string(index=False))
+#
+# # ---
 
 # # --- TRY CITY IATA CODE ---
 #
 # iata_code = amadeus.get_iata_code(city_name="Barcelona")
 # print(iata_code)
+#
+# # ---
 
+# --- Twilio test --
