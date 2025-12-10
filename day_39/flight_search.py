@@ -6,6 +6,7 @@ from config import (
     AMADEUS_URL_CHEAPEST_DATE,
     AMADEUS_URL_AIRPORT_CITY_SEARCH,
 )
+from flight_data import FlightData
 import requests
 from datetime import datetime, timedelta
 
@@ -43,7 +44,7 @@ class FlightSearch:
     def find_deals(self, origin_code: str, destination_code: str, max_price: int):
         # --- Flight Cheapest Date API --> https://developers.amadeus.com/self-service/category/flights/api-doc/flight-cheapest-date-search
 
-        # Retrive automatically the date of Tomorrow and in Six months
+        # Retrieve automatically the date of Tomorrow and in Six months
         tomorrow = self.tomorrow.strftime("%Y-%m-%d")
         six_months = self.six_months.strftime("%Y-%m-%d")
 
@@ -63,10 +64,33 @@ class FlightSearch:
         deals_response = requests.get(url=self.url_cheapest_date, params=params, headers=headers)
 
         if not deals_response.ok:
-            print("Amadeus Error: ", deals_response.status_code, deals_response.text)
-            return None
+            msg = f"Amadeus Error: {deals_response.status_code},{deals_response.text}"
+            raise ValueError(msg)
 
-        return deals_response
+        deal_list = deals_response.json()["data"]
+
+        if not deal_list:
+            raise ValueError("No flights found for given parameters")
+
+        best_price = None
+        best_deal = None
+        for deal in deal_list:
+            price = float(deal["price"]["total"])
+            if price <= max_price:
+                if best_price is None or price < best_price:
+                    best_price = price
+                    best_deal = deal
+
+        if best_deal is None:
+            raise ValueError(f"No flight from {origin_code} to {destination_code} between {tomorrow} and {six_months} is below {max_price}")
+
+
+        return FlightData(price=float(best_deal["price"]["total"]),
+                          departure_code=best_deal["origin"],
+                          arrival_code=best_deal["destination"],
+                          departure_date=best_deal["departureDate"],
+                          start_date=tomorrow,
+                          end_date=six_months)
 
     def get_iata_code(self, city_name: str):
         # --- Airport & City Search API --- -> https://developers.amadeus.com/self-service/category/flights/api-doc/airport-and-city-search/api-reference

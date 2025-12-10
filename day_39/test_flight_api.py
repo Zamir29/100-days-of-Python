@@ -34,7 +34,7 @@ amadeus = FlightSearch()
 #
 # --- AMADEUS FIND CHEAPEST DATE ---
 
-find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=100)
+find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=300)
 # find_deals.raise_for_status()
 
 print(find_deals)
