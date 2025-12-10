@@ -14,14 +14,14 @@ class NotificationManager:
         self.to_number = TWILIO_WHATSAPP_TO
 
     def send_notification(self, content):
-
+        # First activate the client on https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn?frameUrl=%2Fconsole%2Fsms%2Fwhatsapp%2Flearn%3Fx-target-region%3Dus1
         body = (
             f"🚨Low price alert\n"
-            f"Only *€{content.price:2f}* to fly "
-            f"from {content.departure_code} "
-            f"to {content.arrival_code} "
-            f"on {content.departure_date}\n"
-            f"[search window {deal.start_date} → {deal.end_date}]"
+            f"Only *€{content.price:.2f}* to fly "
+            f"from *{content.departure_code}* "
+            f"to *{content.arrival_code}* "
+            f"on *{content.departure_date}*\n\n"
+            f"Search window\n{content.start_date} → {content.end_date}"
         )
 
         message = self.client.messages.create(
