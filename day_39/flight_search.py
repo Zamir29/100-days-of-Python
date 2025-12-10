@@ -62,6 +62,10 @@ class FlightSearch:
 
         deals_response = requests.get(url=self.url_cheapest_date, params=params, headers=headers)
 
+        if not deals_response.ok:
+            print("Amadeus Error: ", deals_response.status_code, deals_response.text)
+            return None
+
         return deals_response
 
     def get_iata_code(self, city_name: str):

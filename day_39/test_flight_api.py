@@ -37,7 +37,7 @@ amadeus = FlightSearch()
 find_deals = amadeus.find_deals(origin_code="MIL", destination_code="PAR",  max_price=100)
 # find_deals.raise_for_status()
 
-print(find_deals.status_code, find_deals.text)
+print(find_deals)
 
 data = find_deals.json()["data"]
 
