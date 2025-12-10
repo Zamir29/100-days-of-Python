@@ -15,6 +15,8 @@ class NotificationManager:
 
     def send_notification(self, content):
         # First activate the client on https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn?frameUrl=%2Fconsole%2Fsms%2Fwhatsapp%2Flearn%3Fx-target-region%3Dus1
+
+        # Body is build following: https://www.twilio.com/docs/whatsapp/api#web-links-in-freeform-whatsapp-messages
         body = (
             f"🚨Low price alert\n"
             f"Only *€{content.price:.2f}* to fly "

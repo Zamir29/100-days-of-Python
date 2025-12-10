@@ -74,5 +74,5 @@ message = NotificationManager()
 
 send_messsage = message.send_notification(data)
 
-
+print(send_messsage)
 # ---
