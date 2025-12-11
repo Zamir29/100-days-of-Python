@@ -104,16 +104,16 @@ class NotificationManager:
             f"Search window\n{content.start_date} → {content.end_date}"
         )
 
-        for email in user_emails:
-            with smtplib.SMTP(host=self.gmail_smtp,
-                              port=587,
-                              timeout=30
-                              ) as connection:  # adding the port number solves the idle
-                connection.starttls()
-                connection.login(
-                    user=self.gmail_email,
-                    password=self.gmail_password
-                )
+        with smtplib.SMTP(host=self.gmail_smtp,
+                          port=587,
+                          timeout=30
+                          ) as connection:  # adding the port number solves the idle
+            connection.starttls()
+            connection.login(
+                user=self.gmail_email,
+                password=self.gmail_password
+            )
+            for email in user_emails:
                 connection.sendmail(
                     from_addr=MY_EMAIL,
                     to_addrs=email,
