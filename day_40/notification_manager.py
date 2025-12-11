@@ -12,17 +12,21 @@ from config import (
 from flight_data import FlightData
 
 class NotificationManager:
-    """Handles sending flight deal alerts to the user.
+    """
+    Send flight deal alerts via Twilio (WhatsApp/SMS) and email.
 
-    This class wraps Twilio so the rest of the codebase only needs to pass
-    a `FlightData` instance and doesn’t care about Twilio’s API details.
+    This class centralises all outbound notifications so the rest of the
+    application only needs to pass a ``FlightData`` instance (and, for
+    emails, a list of recipient addresses). It hides all the details of
+    Twilio and SMTP configuration behind a simple Python interface.
 
     Attributes:
-        client (Client): Authenticated Twilio client used to send messages.
-        from_number (str): Twilio phone number / WhatsApp sender used
-            as the message origin.
-        to_number (str): Destination phone number / WhatsApp recipient
-            for the alerts.
+        client (Client): Authenticated Twilio client used to send WhatsApp/SMS messages.
+        from_number (str): Twilio WhatsApp/SMS sender identifier (e.g. 'whatsapp:+123456789').
+        to_number (str): Default Twilio recipient used for single-recipient alerts.
+        gmail_smtp (str): Hostname of the SMTP server used for sending emails.
+        gmail_email (str): Email address used as the sender in outgoing messages.
+        gmail_password (str): App-specific password or SMTP password for ``gmail_email``.
     """
     #This class is responsible for sending notifications with the deal flight details.
     def __init__(self):
@@ -72,6 +76,25 @@ class NotificationManager:
         return message.sid
 
     def send_emails(self, content: FlightData, user_emails: list[str]) -> None:
+        """
+        Send a flight deal email to each address in ``user_emails``.
+
+        This method constructs a plain-text email body from the ``content``
+        (price, route, departure date, and search window) and sends the
+        same message to all recipients using the configured SMTP server.
+
+        Args:
+            content: The ``FlightData`` instance describing the deal that
+                should be advertised in the email.
+            user_emails: A list of email addresses for all subscribed customers.
+
+        Returns:
+            None. Emails are sent as a side effect.
+
+        Raises:
+            smtplib.SMTPException: If there is a problem establishing the
+                SMTP connection or sending messages.
+        """
         body = (
             f"🚨Low price alert\n"
             f"Only *€{content.price:.2f}* to fly "
