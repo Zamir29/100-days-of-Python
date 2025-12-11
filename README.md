@@ -2,7 +2,7 @@
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
 ![](https://progress-bar.xyz/39/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
-![Repo Size](https://img.shields.io/github/repo-size/Zamir29/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/Zamir29/100-days-of-Python)
+![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
 
 This repository tracks my full journey through Angela's course on Python, including:
@@ -32,7 +32,7 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
-![Last Updated](https://img.shields.io/github/last-commit/Zamir29/100-days-of-Python)
+![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
 - **Day 39 - Flight Deal Finder**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_39/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_39.md)  
