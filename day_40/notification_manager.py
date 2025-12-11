@@ -5,8 +5,7 @@ from config import (
     TWILIO_WHATSAPP_FROM,
     TWILIO_WHATSAPP_TO,
 )
-from day_39.flight_data import FlightData
-
+from flight_data import FlightData
 
 class NotificationManager:
     """Handles sending flight deal alerts to the user.
