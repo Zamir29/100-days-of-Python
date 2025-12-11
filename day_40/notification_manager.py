@@ -1,9 +1,13 @@
+import smtplib
 from twilio.rest import Client
 from config import (
     TWILIO_SID,
     TWILIO_TOKEN,
     TWILIO_WHATSAPP_FROM,
     TWILIO_WHATSAPP_TO,
+    GMAIL_SMTP,
+    MY_PASSWORD,
+    MY_EMAIL,
 )
 from flight_data import FlightData
 
@@ -25,6 +29,9 @@ class NotificationManager:
         self.client = Client(TWILIO_SID, TWILIO_TOKEN)
         self.from_number = TWILIO_WHATSAPP_FROM
         self.to_number = TWILIO_WHATSAPP_TO
+        self.gmail_smtp = GMAIL_SMTP
+        self.gmail_email = MY_EMAIL
+        self.gmail_password = MY_PASSWORD
 
     def send_notification(self, content: FlightData) -> str:
         """Send a low-price alert for the given flight deal.
@@ -63,3 +70,29 @@ class NotificationManager:
         )
 
         return message.sid
+
+    def send_emails(self, content: FlightData, user_emails: list[str]) -> None:
+        body = (
+            f"🚨Low price alert\n"
+            f"Only *€{content.price:.2f}* to fly "
+            f"from *{content.departure_code}* "
+            f"to *{content.arrival_code}* "
+            f"on *{content.departure_date}*\n\n"
+            f"Search window\n{content.start_date} → {content.end_date}"
+        )
+
+        for email in user_emails:
+            with smtplib.SMTP(host=self.gmail_smtp,
+                              port=587,
+                              timeout=30
+                              ) as connection:  # adding the port number solves the idle
+                connection.starttls()
+                connection.login(
+                    user=self.gmail_email,
+                    password=self.gmail_password
+                )
+                connection.sendmail(
+                    from_addr=MY_EMAIL,
+                    to_addrs=email,
+                    msg=f"Subject:[Alert] Low Price from {content.departure_code} to {content.arrival_code}\n\n{body}"
+                )

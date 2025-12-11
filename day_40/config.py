@@ -46,3 +46,10 @@ TWILIO_TOKEN = os.getenv("TWILIO_TOKEN")
 # Twilio whatsapp sandbox numbers
 TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
 TWILIO_WHATSAPP_TO = os.getenv("TWILIO_WHATSAPP_TO")
+
+# ---
+
+# --- GMAIL SMTP ---
+GMAIL_SMTP = os.getenv("GMAIL_SMTP")
+MY_EMAIL = os.getenv("MY_EMAIL")
+MY_PASSWORD = os.getenv("MY_PASSWORD")
