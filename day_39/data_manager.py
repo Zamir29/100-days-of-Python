@@ -71,8 +71,13 @@ class DataManager:
         }
 
         # Put the update to the row
-        update_response = requests.put(url=row_url, json=payload, headers=self.headers)
-        update_response.raise_for_status()
+        try:
+            update_response = requests.put(url=row_url, json=payload, headers=self.headers)
+            update_response.raise_for_status()
+        except requests.exceptions.HTTPError as error:
+            status = error.response.status_code
+            body = error.response.text
+            raise ValueError(f"Sheety error while updating row {row_id}: {status} - {body}") from error
 
         return update_response
 
@@ -97,7 +102,13 @@ class DataManager:
             worksheet_name: new_row,
         }
 
-        response = requests.post(url=self.post_url, json=payload, headers=self.headers)
-        response.raise_for_status()
+        # Add a new row
+        try:
+            response = requests.post(url=self.post_url, json=payload, headers=self.headers)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as error:
+            status = error.response.status_code
+            body = error.response.text
+            raise ValueError(f"Sheety error while adding the new row: {status} - {body}") from error
 
         return response

@@ -12,8 +12,19 @@ from datetime import datetime, timedelta
 
 # Available API for test https://developers.amadeus.com/self-service/apis-docs/guides/developer-guides/test-data/
 class FlightSearch:
+    """Client for interacting with the Amadeus Flight APIs.
+
+        This class:
+        - Retrieves OAuth tokens from Amadeus.
+        - Searches for cheapest flight dates and prices between two locations.
+        - Looks up IATA city codes from city names.
+    """
     #This class is responsible for talking to the Flight Search API.
     def __init__(self):
+        """Initialize the FlightSearch client with configuration and date window.
+
+        The search window is set from "tomorrow" up to roughly six months from now.
+        """
         self.client_id = AMADEUS_KEY
         self.client_secret = AMADEUS_SECRET
         self.url_get_token = AMADEUS_URL_TOKEN
@@ -24,6 +35,16 @@ class FlightSearch:
         self.six_months = self.tomorrow + timedelta(days=6*365/12)
 
     def get_token(self):
+        """Request an OAuth access token from Amadeus.
+
+        Uses the `client_credentials` flow as described in the Amadeus docs.
+
+        Returns:
+            The access token string.
+
+        Raises:
+            requests.HTTPError: If the Amadeus token endpoint returns a non-2xx status.
+        """
         # --- TOKEN API --- -> https://developers.amadeus.com/self-service/apis-docs/guides/developer-guides/API-Keys/authorization/
         headers = {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -42,6 +63,24 @@ class FlightSearch:
         return amadeus_response.json()["access_token"]
 
     def find_deals(self, origin_code: str, destination_code: str, max_price: float):
+        """Find the cheapest flight within a date range under a maximum price.
+
+        Uses the "Flight Cheapest Date Search" Amadeus endpoint.
+        The date range is from `self.tomorrow` up to `self.six_months`.
+
+        Args:
+            origin_code: IATA code of the origin city/airport (e.g. "MIL").
+            destination_code: IATA code of the destination city/airport (e.g. "PAR").
+            max_price: Maximum acceptable price (in the currency returned by Amadeus).
+
+        Returns:
+            A `FlightData` instance representing the best deal found.
+
+        Raises:
+            ValueError: If the Amadeus API returns a non-OK response,
+                if no flights are returned,
+                or if no flight is cheaper than `max_price`.
+        """
         # --- Flight Cheapest Date API --> https://developers.amadeus.com/self-service/category/flights/api-doc/flight-cheapest-date-search
 
         # Retrieve automatically the date of Tomorrow and in Six months
@@ -93,6 +132,21 @@ class FlightSearch:
                           end_date=six_months)
 
     def get_iata_code(self, city_name: str):
+        """Look up the IATA city code for a given city name.
+
+        Uses the Amadeus "Airport & City Search" endpoint with `subType="CITY"`.
+
+        Args:
+            city_name: Human-readable city name (e.g. "Paris", "Tokyo").
+
+        Returns:
+            The IATA location code for the city (e.g. "PAR").
+
+        Raises:
+            ValueError: If the API returns an empty `data` list,
+                meaning no IATA code was found for the given city.
+            requests.HTTPError: If the Amadeus API returns a non-2xx status.
+        """
         # --- Airport & City Search API --- -> https://developers.amadeus.com/self-service/category/flights/api-doc/airport-and-city-search/api-reference
         headers = {
             "Authorization": f"Bearer {self.get_token()}",
