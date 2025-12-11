@@ -16,6 +16,7 @@ class FlightData:
             in 'YYYY-MM-DD' format.
         end_date (str): End of the search window used to query Amadeus,
             in 'YYYY-MM-DD' format.
+        stops (int): Number of stops used to query Amadeus,
     """
     #This class is responsible for structuring the flight data.
 
@@ -26,10 +27,11 @@ class FlightData:
                  departure_date: str,
                  start_date: str,
                  end_date:str,
-                 ):
+                 stops:int):
         self.price = price
         self.departure_code = departure_code
         self.arrival_code = arrival_code
         self.departure_date = departure_date
+        self.stops = stops
         self.start_date = start_date
         self.end_date = end_date
