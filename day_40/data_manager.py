@@ -2,18 +2,18 @@ import requests
 
 from config import (
     SHEETY_BEARER_KEY,
-    SHEETY_GET,
-    SHEET_POST,
-    SHEET_PUT
+    SHEETY_PRICES_GET,
+    SHEETY_PRICES_POST,
+    SHEETY_PRICES_PUT
 )
 
 class DataManager:
     """Handles all the read/write operations to the Google Sheet via Sheety"""
     #This class is responsible for talking to the Google Sheet.
     def __init__(self):
-        self.get_url = SHEETY_GET
-        self.post_url = SHEET_POST
-        self.put_url = SHEET_PUT
+        self.get_url = SHEETY_PRICES_GET
+        self.post_url = SHEETY_PRICES_POST
+        self.put_url = SHEETY_PRICES_PUT
         self.headers = {"Authorization": SHEETY_BEARER_KEY,}
 
     def get_table(self):

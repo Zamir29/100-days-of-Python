@@ -62,7 +62,7 @@ class FlightSearch:
 
         return amadeus_response.json()["access_token"]
 
-    def find_deals(self, origin_code: str, destination_code: str, max_price: float):
+    def find_deals(self, origin_code: str, destination_code: str, max_price: float, is_direct=True, ):
         """Find the cheapest flight within a date range under a maximum price.
 
         Uses the "Flight Cheapest Date Search" Amadeus endpoint.
@@ -72,6 +72,7 @@ class FlightSearch:
             origin_code: IATA code of the origin city/airport (e.g. "MIL").
             destination_code: IATA code of the destination city/airport (e.g. "PAR").
             max_price: Maximum acceptable price (in the currency returned by Amadeus).
+            is_direct: if True only direct flights, otherwise flights with stops in between will be considered
 
         Returns:
             A `FlightData` instance representing the best deal found.
@@ -86,6 +87,7 @@ class FlightSearch:
         # Retrieve automatically the date of Tomorrow and in Six months
         tomorrow = self.tomorrow.strftime("%Y-%m-%d")
         six_months = self.six_months.strftime("%Y-%m-%d")
+        non_stop = "true" if is_direct else "false"
 
         headers = {
             "Authorization": f"Bearer {self.get_token()}",
@@ -96,6 +98,7 @@ class FlightSearch:
             "destination": destination_code,
             "departureDate": f"{tomorrow},{six_months}",
             "oneWay": True, # Can be set to false, but then "duration: str" should be set
+            "nonStop": non_stop,
             "maxPrice": max_price,
 
         }
@@ -108,6 +111,18 @@ class FlightSearch:
 
         deal_list = deals_response.json()["data"]
 
+        # This runs if deal_list is empty and is_direct=True, to look to indirect flights
+        if not deal_list and is_direct:
+            params["nonStop"] = "false"
+            deals_response = requests.get(url=self.url_cheapest_date, params=params, headers=headers)
+
+            if not deals_response.ok:
+                msg = f"Amadeus Error: {deals_response.status_code},{deals_response.text}"
+                raise ValueError(msg)
+
+            deal_list = deals_response.json()["data"]
+
+        # If everything fails, then give up
         if not deal_list:
             raise ValueError("No flights found for given parameters")
 
