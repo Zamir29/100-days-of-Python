@@ -3,8 +3,8 @@ import requests
 from config import (
     SHEETY_BEARER_KEY,
     SHEETY_GET,
-    SHEET_POST,
-    SHEET_PUT
+    SHEETY_POST,
+    SHEETY_PUT
 )
 
 class DataManager:
@@ -12,8 +12,8 @@ class DataManager:
     #This class is responsible for talking to the Google Sheet.
     def __init__(self):
         self.get_url = SHEETY_GET
-        self.post_url = SHEET_POST
-        self.put_url = SHEET_PUT
+        self.post_url = SHEETY_POST
+        self.put_url = SHEETY_PUT
         self.headers = {"Authorization": SHEETY_BEARER_KEY,}
 
     def get_table(self):

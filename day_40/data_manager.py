@@ -2,24 +2,26 @@ import requests
 
 from config import (
     SHEETY_BEARER_KEY,
-    SHEETY_GET,
-    SHEET_POST,
-    SHEET_PUT
+    SHEETY_PRICES_GET,
+    SHEETY_PRICES_POST,
+    SHEETY_PRICES_PUT,
+    SHEETY_USERS_GET,
 )
 
 class DataManager:
     """Handles all the read/write operations to the Google Sheet via Sheety"""
     #This class is responsible for talking to the Google Sheet.
     def __init__(self):
-        self.get_url = SHEETY_GET
-        self.post_url = SHEET_POST
-        self.put_url = SHEET_PUT
+        self.get_prices_url = SHEETY_PRICES_GET
+        self.post_prices_url = SHEETY_PRICES_POST
+        self.put_prices_url = SHEETY_PRICES_PUT
+        self.get_users_url = SHEETY_USERS_GET
         self.headers = {"Authorization": SHEETY_BEARER_KEY,}
 
-    def get_table(self):
+    def get_table(self, url: str):
         """Return all rows as list of dict [{},{}] and the worksheet name"""
         try:
-            response = requests.get(url=self.get_url, headers=self.headers)
+            response = requests.get(url=url, headers=self.headers)
             response.raise_for_status()
         except requests.exceptions.HTTPError as error:
             #Turn it into a ValueError with a clean message for main
@@ -47,10 +49,10 @@ class DataManager:
         Only keys in `updates` are changed.
         """
         # Build the URL for that row
-        row_url = f"{self.put_url}/{row_id}"
+        row_url = f"{self.put_prices_url}/{row_id}"
 
         # Get the row from Google Sheet
-        rows, worksheet_name = self.get_table()
+        rows, worksheet_name = self.get_table(url=self.get_prices_url)
 
         # Select the row
         row = next(r for r in rows if r["id"] == row_id)
@@ -87,7 +89,7 @@ class DataManager:
         Missing fields are filled with empty strings, 'id' is left for Sheety to assign.
         """
         # Get worksheet name
-        rows, worksheet_name = self.get_table()
+        rows, worksheet_name = self.get_table(url=self.get_prices_url)
         # Get the schema
         schema = self.get_schema(rows)
 
@@ -104,7 +106,7 @@ class DataManager:
 
         # Add a new row
         try:
-            response = requests.post(url=self.post_url, json=payload, headers=self.headers)
+            response = requests.post(url=self.post_prices_url, json=payload, headers=self.headers)
             response.raise_for_status()
         except requests.exceptions.HTTPError as error:
             status = error.response.status_code
@@ -112,3 +114,9 @@ class DataManager:
             raise ValueError(f"Sheety error while adding the new row: {status} - {body}") from error
 
         return response
+
+    def get_customer_emails(self) -> list[str]:
+        rows, _ = self.get_table(url=self.get_users_url)
+        colum_name = "whatIsYourEmail"
+
+        return [row[colum_name] for row in rows]

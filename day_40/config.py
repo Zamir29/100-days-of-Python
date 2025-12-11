@@ -12,9 +12,13 @@ SHEETY_KEY = os.getenv("SHEETY_KEY")
 SHEETY_BEARER_KEY = f"Bearer {SHEETY_KEY}"
 
 # Sheety API url
-SHEETY_GET = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
-SHEET_POST = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
-SHEET_PUT = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
+SHEETY_PRICES_GET = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
+SHEETY_PRICES_POST = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
+SHEETY_PRICES_PUT = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
+
+SHEETY_USERS_GET = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/users"
+SHEETY_USERS_POST = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/users"
+SHEETY_USERS_PUT = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/users"
 
 # ---
 
@@ -42,3 +46,10 @@ TWILIO_TOKEN = os.getenv("TWILIO_TOKEN")
 # Twilio whatsapp sandbox numbers
 TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
 TWILIO_WHATSAPP_TO = os.getenv("TWILIO_WHATSAPP_TO")
+
+# ---
+
+# --- GMAIL SMTP ---
+GMAIL_SMTP = os.getenv("GMAIL_SMTP")
+MY_EMAIL = os.getenv("MY_EMAIL")
+MY_PASSWORD = os.getenv("MY_PASSWORD")
