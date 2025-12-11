@@ -18,8 +18,14 @@ class DataManager:
 
     def get_table(self):
         """Return all rows as list of dict [{},{}] and the worksheet name"""
-        response = requests.get(url=self.get_url, headers=self.headers)
-        response.raise_for_status()
+        try:
+            response = requests.get(url=self.get_url, headers=self.headers)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as error:
+            #Turn it into a ValueError with a clean message for main
+            status = error.response.status_code
+            body = error.response.text
+            raise ValueError(f"Sheety error here: {status} - {body}") from error
 
         get_data = response.json()
         worksheet_name = list(get_data.keys())[0]
@@ -64,7 +70,7 @@ class DataManager:
             worksheet_name: row,
         }
 
-        # Put the update
+        # Put the update to the row
         update_response = requests.put(url=row_url, json=payload, headers=self.headers)
         update_response.raise_for_status()
 

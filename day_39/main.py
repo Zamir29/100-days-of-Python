@@ -9,15 +9,21 @@ notifier = NotificationManager()
 departure_city_code = "MIL" # This can be an input request from the user
 
 # Get the row from the table on Google Sheet
-rows, _ = data_manager.get_table()
+try:
+    rows, _ = data_manager.get_table()
+except ValueError as error:
+    print(f"Fatal {error}")
+    exit(1)
 
 # For each row check if there is any field empty to fill.
 for row in rows:
-    if not row["iataCode"]:
-        row["iataCode"] = flight_search.get_iata_code(city_name=row["city"])
-        data_manager.update_row(row_id=str(row["id"]), updates={"iataCode": row["iataCode"]})
-
+    # Try to check on Amadeus, gathering the ValueError in each method and print it
     try:
+        # First check if an Iata Code is present for the row
+        if not row["iataCode"]:
+            row["iataCode"] = flight_search.get_iata_code(city_name=row["city"])
+            data_manager.update_row(row_id=row["id"], updates={"iataCode": row["iataCode"]})
+
         best_deal = flight_search.find_deals(
             origin_code=departure_city_code,
             destination_code=row["iataCode"],
@@ -30,5 +36,5 @@ for row in rows:
 
     except ValueError as error_message:
         # The ValueError in each step of any method will be printed and will skip this destination
-        print(f"Skipping destination from {departure_city_code} to {row['iataCode']}: {error_message}")
+        print(f"Skipping destination: {error_message}")
         continue
