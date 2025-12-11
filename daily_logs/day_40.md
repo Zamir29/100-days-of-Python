@@ -1,11 +1,11 @@
 # Day 40 — Capstone: Flight Club – Users & Email Alerts
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%2040-Open%20Folder-blue)](../day_40/main.py)  
 
-| **Scope** | **Description** |
-|:---------:|:----------------|
-|   Goal    | Upgrade yesterday's personal flight deal finder into a multi-user "Flight Club" service. Let users sign up with name and email and receive cheap flight alerts automatically.          |
-|   Steps   | Collect user details (name, email) and store them in a separate users sheet via the Sheety API. Reuse the flight search + price check logic and integrate the SMTP module to email all users when a new deal is found.         |
-|   Stack   | Python, requests, SMTP, Sheety API, flight search API (Amadeus/Tequila). Use environment variables for API keys and email credentials.         |
+| **Scope** | **Description**                                                                                                                                                                                                        |
+|:---------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|   Goal    | Upgrade yesterday's personal flight deal finder into a multi-user "Flight Club" service. Let users sign up with name and email and receive cheap flight alerts automatically.                                          |
+|   Steps   | Collect user details (name, email) and store them in a separate users sheet via the Sheety API. Reuse the flight search + price check logic and integrate the SMTP module to email all users when a new deal is found. |
+|   Stack   | Python, requests, SMTP, Sheety API, flight search API (Amadeus/Tequila). Use environment variables for API keys and email credentials.                                                                                 |
 
 
 ## 📘 Table of contents
