@@ -1,6 +1,11 @@
 import requests
 
-from config import SHEETY_BEARER_KEY, SHEETY_GET, SHEET_POST
+from config import (
+    SHEETY_BEARER_KEY,
+    SHEETY_GET,
+    SHEET_POST,
+    SHEET_PUT
+)
 
 class DataManager:
     """Handles all the read/write operations to the Google Sheet via Sheety"""
@@ -8,7 +13,7 @@ class DataManager:
     def __init__(self):
         self.get_url = SHEETY_GET
         self.post_url = SHEET_POST
-        self.put_url = SHEET_POST
+        self.put_url = SHEET_PUT
         self.headers = {"Authorization": SHEETY_BEARER_KEY,}
 
     def get_table(self):
@@ -44,7 +49,10 @@ class DataManager:
         # Select the row
         row = next(r for r in rows if r["id"] == row_id)
 
-        # Edit only the value wit the same key in the row
+        # Eliminate the "id" key,value
+        del row["id"]
+
+        # Edit only the value with the same key in the row
         for key, value in updates.items():
             if key in row:
                 row[key] = value

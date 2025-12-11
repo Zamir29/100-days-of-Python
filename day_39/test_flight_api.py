@@ -6,8 +6,11 @@ import pandas as pd
 from flight_search import FlightSearch
 from flight_data import FlightData
 from notification_manager import NotificationManager
+from data_manager import DataManager
 
 amadeus = FlightSearch()
+data_manager = DataManager()
+notifier = NotificationManager()
 
 # # --- AMADEUS API TEST ---
 # # Get the first request
@@ -67,12 +70,22 @@ amadeus = FlightSearch()
 #
 # # ---
 
-# --- Twilio test --
-data = FlightData(price=200, departure_code="MIL", arrival_code="BCN", departure_date="2025-12-24", start_date="2025-12-10", end_date="2025-04-29")
+# # --- Twilio test --
+# data = FlightData(price=200, departure_code="MIL", arrival_code="BCN", departure_date="2025-12-24", start_date="2025-12-10", end_date="2025-04-29")
+#
+# message = NotificationManager()
+#
+# send_messsage = message.send_notification(data)
+#
+# print(send_messsage)
+# # ---
 
-message = NotificationManager()
+# --- Sheety testing ---
 
-send_messsage = message.send_notification(data)
+rows, _ = data_manager.get_table()
 
-print(send_messsage)
+
+update_response = data_manager.update_row(row_id=2, updates={"iataCode": "MIL"})
+
+print(update_response.status_code)
 # ---

@@ -12,8 +12,9 @@ SHEETY_KEY = os.getenv("SHEETY_KEY")
 SHEETY_BEARER_KEY = f"Bearer {SHEETY_KEY}"
 
 # Sheety API url
-SHEETY_GET = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/prices"
-SHEET_POST = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/prices"
+SHEETY_GET = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
+SHEET_POST = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
+SHEET_PUT = "https://api.sheety.co/3ddb00ef84d1e4724f8af231f008a342/flightDeals/ggg"
 
 # ---
 

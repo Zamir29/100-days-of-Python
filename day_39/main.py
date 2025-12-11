@@ -15,7 +15,7 @@ rows, _ = data_manager.get_table()
 for row in rows:
     if not row["iataCode"]:
         row["iataCode"] = flight_search.get_iata_code(city_name=row["city"])
-        data_manager.update_row(row_id=row["id"], updates={"iataCode": row["iataCode"]})
+        data_manager.update_row(row_id=str(row["id"]), updates={"iataCode": row["iataCode"]})
 
     try:
         best_deal = flight_search.find_deals(
@@ -29,13 +29,6 @@ for row in rows:
         print(f"Alert send for {row['city']} - Twilio SID: {message_id}")
 
     except ValueError as error_message:
-        # The ValueError in each step of any method will be printed and will interrupt this instance
+        # The ValueError in each step of any method will be printed and will skip this destination
         print(f"Skipping destination from {departure_city_code} to {row['iataCode']}: {error_message}")
         continue
-
-# for each row of the table
-#   first check the table with destinations.
-#       if there is no value then update row with the code
-# use the code to check the best flight deal
-#   if anything good, send a notification,
-#   else skip
