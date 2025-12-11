@@ -67,36 +67,34 @@ day_40/
 ```mermaid
 graph TD;
 
-    subgraph External Services
-        A1[Sheety API\n(prices sheet)]
-        A2[Sheety API\n(users sheet)]
-        A3[Amadeus API\nCheapest Date Search]
-        A4[Twilio API]
-        A5[Gmail SMTP]
-    end
+  subgraph External_Services
+    A1[Sheety API (prices)]
+    A2[Sheety API (users)]
+    A3[Amadeus API - Cheapest Date]
+    A4[Twilio API]
+    A5[Gmail SMTP]
+  end
 
-    subgraph App
-        M[main.py]
-        DM[DataManager]
-        FS[FlightSearch]
-        FD[FlightData]
-        NM[NotificationManager]
-    end
+  subgraph App
+    M[main.py]
+    DM[DataManager]
+    FS[FlightSearch]
+    FD[FlightData]
+    NM[NotificationManager]
+  end
 
-    M --> DM
-    M --> FS
-    M --> NM
+  M --> DM
+  M --> FS
+  M --> NM
 
-    DM --> A1
-    DM --> A2
+  DM --> A1
+  DM --> A2
 
-    FS --> A3
+  FS --> A3
 
-    M -->|creates| FD
-
-    NM --> A4
-    NM --> A5
-
+  M --> FD
+  NM --> A4
+  NM --> A5
 ```
 
 ## 🎯 Next Steps
