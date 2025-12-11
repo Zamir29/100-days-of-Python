@@ -68,8 +68,8 @@ day_40/
 graph TD;
 
   subgraph External_Services
-    A1[Sheety API (prices)]
-    A2[Sheety API (users)]
+    A1[Sheety API - prices]
+    A2[Sheety API - users]
     A3[Amadeus API - Cheapest Date]
     A4[Twilio API]
     A5[Gmail SMTP]
