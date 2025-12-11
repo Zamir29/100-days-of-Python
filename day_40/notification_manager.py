@@ -104,6 +104,10 @@ class NotificationManager:
             f"Search window\n{content.start_date} → {content.end_date}"
         )
 
+        if not user_emails:
+            print("[INFO] No user emails found, skipping email sending.")
+            return
+
         with smtplib.SMTP(host=self.gmail_smtp,
                           port=587,
                           timeout=30
@@ -115,7 +119,7 @@ class NotificationManager:
             )
             for email in user_emails:
                 connection.sendmail(
-                    from_addr=MY_EMAIL,
+                    from_addr=self.gmail_email,
                     to_addrs=email,
                     msg=f"Subject:[Alert] Low Price from {content.departure_code} to {content.arrival_code}\n\n{body}"
                 )
