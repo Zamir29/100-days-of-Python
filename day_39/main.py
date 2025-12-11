@@ -6,7 +6,7 @@ DEPARTURE_CITY_CODE = "MIL" # This can be an input request from the user
 
 
 # Helpers
-def ensure_iata_code(row: dict, flight_search: FlightSearch, data_manager: DataManager) -> str:
+def ensure_iata_code(row: dict, flight_search: FlightSearch, data_manager: DataManager) -> None:
     """
     Ensure the row has an IATA code.
     - If it's missing, fetch it from Amadeus and update the sheet.
@@ -20,7 +20,6 @@ def ensure_iata_code(row: dict, flight_search: FlightSearch, data_manager: DataM
         iata = flight_search.get_iata_code(city_name=row["city"])
         row["iataCode"] = iata
         data_manager.update_row(row_id=row["id"], updates={"iataCode": iata})
-    return row["iataCode"]
 
 def send_alert_if_deal(
         row: dict,
