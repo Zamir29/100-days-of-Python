@@ -9,17 +9,24 @@
 
 
 ## 📘 Table of contents
-* [🧠 Concepts Learned](#-concepts-learned)
-* [⚠️ Challenges](#-challenges)
-* [✅ Solutions / Insights](#-solutions--insights)
-* [🏗 Architecture](#-architecture)
-* [🎯 Next steps](#-next-steps)
+- [Day 41 — Introduction to HTML](#day-41--introduction-to-html)
+  - [📘 Table of contents](#-table-of-contents)
+  - [🧠 Concepts Learned](#-concepts-learned)
+  - [⚠️ Challenges](#️-challenges)
+  - [✅ Solutions / Insights](#-solutions--insights)
+  - [📂 Project Structure](#-project-structure)
+  - [🏗 Architecture](#-architecture)
+  - [🎯 Next Steps](#-next-steps)
 
 ---
 
 ## 🧠 Concepts Learned
+- Refreshed the absolute basics of HTML structure (doctype, html/head/body).
+- Reviewed semantic elements like headings, paragraphs, void elements (`<hr />`).
+- Reinforced the idea that HTML is purely structural and intentionally minimal at this stage.
+- Practiced writing a small, clean static page following a consistent hierarchy.
+- Understood VS Code workflow for editing and previewing HTML without relying on PyCharm.
 
-(Write bullet points here)
 
 ## ⚠️ Challenges
 
@@ -31,9 +38,20 @@
 
 ## 📂 Project Structure
 ```
-day_41/
-├── main.py
+day_41
+├── 2.1 Heading Element
+│   ├── goal_headings.png
+│   └── index.html
+├── 2.2 Paragraph Element
+│   ├── goal_paragraphs.png
+│   └── index.html
+├── 2.3 Void Elements
+│   ├── goal_void.png
+│   └── index.html
+├── 2.4 Movie Ranking Project
+│   └── index.html
 ├── config.py
+└── main.py
 ```
 
 ## 🏗 Architecture
