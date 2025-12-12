@@ -1,0 +1,52 @@
+# Day 42 — HTML List & Birthday Invite
+[![Open Project Folder](https://img.shields.io/badge/📁%20Day%2042-Open%20Folder-blue)](../day_42/main.py)  
+
+| **Scope** | **Description** |
+|:---------:|:----------------|
+|   Goal    | Learn ordered/unordered lists and build a simple birthday invitation webpage using basic HTML structure.          |
+|   Steps   | Generate day_42, create index.html, practice <ul>/<ol>/<li> elements, add images/links, and build the birthday invite page following Angela’s instructions.         |
+|   Stack   | VS Code, HTML, browser preview (generator script still Python).         |
+
+
+## 📘 Table of contents
+* [🧠 Concepts Learned](#-concepts-learned)
+* [⚠️ Challenges](#-challenges)
+* [✅ Solutions / Insights](#-solutions--insights)
+* [🏗 Architecture](#-architecture)
+* [🎯 Next steps](#-next-steps)
+
+---
+
+## 🧠 Concepts Learned
+
+(Write bullet points here)
+
+## ⚠️ Challenges
+
+(What was confusing / hard)
+
+## ✅ Solutions / Insights
+
+(How you solved it / what finally clicked)
+
+## 📂 Project Structure
+```
+day_42/
+├── main.py
+├── config.py
+```
+
+## 🏗 Architecture
+```mermaid
+graph TD;
+    Start([User Input]) --> Process{Check Condition};
+    Process -->|Yes| Result[Success];
+    Process -->|No| Error[Raise Exception];
+```
+
+## 🎯 Next Steps
+
+(Refactors, extra features, things to revisit)  
+
+---
+[![prev_day](https://img.shields.io/badge/⬅️_Day_41-grey?style=for-the-badge)](day_41.md) [![prev_day](https://img.shields.io/badge/Day_43_➡️-grey?style=for-the-badge)](day_43.md)

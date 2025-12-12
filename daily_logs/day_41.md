@@ -29,16 +29,22 @@
 
 
 ## ⚠️ Challenges
+- No technical difficulty — the lesson was intentionally simple compared to the heavy API/code days before.
+- Adjusting mentally from PyCharm’s Python-only workflow to VS Code’s multi-language environment.
+- Minor friction understanding how Prettier formats HTML differently from Angela’s teaching style.
+- Git identity confusion after seeing `Zamir29` still appear in GitLens.
 
-(What was confusing / hard)
 
 ## ✅ Solutions / Insights
+- Accepted that today’s simplicity is part of Angela’s progression toward Flask and backend ↔ frontend integration.
+- Learned how VS Code handles formatting (Prettier) and why indentation is structural, not semantic.
+- Clarified the difference between `git user.name`, `user.email`, and GitHub username (`hashorva`) — understanding that email, not name, determines commit ownership.
+- Set up a clean VS Code workflow, including GitLens and icons, making the environment more enjoyable and productive.
 
-(How you solved it / what finally clicked)
 
 ## 📂 Project Structure
 ```
-day_41
+day_41/
 ├── 2.1 Heading Element
 │   ├── goal_headings.png
 │   └── index.html
@@ -57,14 +63,17 @@ day_41
 ## 🏗 Architecture
 ```mermaid
 graph TD;
-    Start([User Input]) --> Process{Check Condition};
-    Process -->|Yes| Result[Success];
-    Process -->|No| Error[Raise Exception];
+    User[User opens index.html in browser]
+        --> Browser[Browser interprets HTML structure]
+        --> Render[Render headings, paragraphs, and layout]
+        --> Output[Static webpage displaying movie ranking]
 ```
 
 ## 🎯 Next Steps
-
-(Refactors, extra features, things to revisit)  
+- Continue Angela’s HTML/CSS days with VS Code to build comfort before Flask templates arrive.
+- Practice keyboard-only navigation in VS Code to build speed and reduce mouse usage.
+- Keep using GitLens + no-ff merges to clearly document daily progression.
+- Optional: explore semantic grouping (`<main>`, `<section>`) as pages become more complex — not required now.
 
 ---
 [![prev_day](https://img.shields.io/badge/⬅️_Day_40-grey?style=for-the-badge)](day_40.md) [![prev_day](https://img.shields.io/badge/Day_42_➡️-grey?style=for-the-badge)](day_42.md)
