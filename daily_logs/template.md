@@ -9,11 +9,14 @@
 
 
 ## 📘 Table of contents
-* [🧠 Concepts Learned](#-concepts-learned)
-* [⚠️ Challenges](#-challenges)
-* [✅ Solutions / Insights](#-solutions--insights)
-* [🏗 Architecture](#-architecture)
-* [🎯 Next steps](#-next-steps)
+- [Day {day} — {title}](#day-day--title)
+  - [📘 Table of contents](#-table-of-contents)
+  - [🧠 Concepts Learned](#-concepts-learned)
+  - [⚠️ Challenges](#️-challenges)
+  - [✅ Solutions / Insights](#-solutions--insights)
+  - [📂 Project Structure](#-project-structure)
+  - [🏗 Architecture](#-architecture)
+  - [🎯 Next Steps](#-next-steps)
 
 ---
 
