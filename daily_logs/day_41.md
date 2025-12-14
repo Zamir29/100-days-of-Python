@@ -1,4 +1,4 @@
-# Day 41 — Introduction to HTML
+# Day 41 — Introduction to HTML <!-- omit in toc -->
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%2041-Open%20Folder-blue)](../day_41/main.py)  
 
 | **Scope** | **Description** |
@@ -8,15 +8,13 @@
 |   Stack   | VS Code, HTML, web browser (Python only for the generator script).         |
 
 
-## 📘 Table of contents
-- [Day 41 — Introduction to HTML](#day-41--introduction-to-html)
-  - [📘 Table of contents](#-table-of-contents)
-  - [🧠 Concepts Learned](#-concepts-learned)
-  - [⚠️ Challenges](#️-challenges)
-  - [✅ Solutions / Insights](#-solutions--insights)
-  - [📂 Project Structure](#-project-structure)
-  - [🏗 Architecture](#-architecture)
-  - [🎯 Next Steps](#-next-steps)
+## 📘 Table of contents <!-- omit in toc -->
+- [🧠 Concepts Learned](#-concepts-learned)
+- [⚠️ Challenges](#️-challenges)
+- [✅ Solutions / Insights](#-solutions--insights)
+- [📂 Project Structure](#-project-structure)
+- [🏗 Architecture](#-architecture)
+- [🎯 Next Steps](#-next-steps)
 
 ---
 
