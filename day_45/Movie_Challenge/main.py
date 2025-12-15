@@ -18,6 +18,11 @@ def main():
         for movie in movies:
             file.write(movie + "\n")
 
+    with open("./top10.txt", "w", encoding="utf-8") as file:
+        top_ten = movies[:10]
+        for movie in top_ten:
+            file.write(movie + "\n")
+
     print(len(movies))
 
 if __name__ == "__main__":
