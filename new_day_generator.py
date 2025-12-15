@@ -11,6 +11,11 @@ README_PATH = os.path.join(REPO_ROOT, "README.md")
 
 # Create the folder, main.py, config.py
 def create_folder_structure(day_num):
+    """
+    Docstring for create_folder_structure
+    
+    :param day_num: Description
+    """
     folder_name = f"day_{day_num}"
     folder_path = os.path.join(REPO_ROOT, folder_name)
 
@@ -24,23 +29,32 @@ def create_folder_structure(day_num):
 
     # Create main.py
     main_path = os.path.join(folder_path, "main.py")
-    with open(main_path, "w") as f:
+    with open(main_path, "w", encoding="utf-8") as f:
         f.write(
             f"# Day {day_num} - Created automatically\n\ndef main():\n    print('Hello Day {day_num}')\n\nif __name__ == '__main__':\n    main()\n")
-    print(f"   └── Created main.py")
+    print("   └── Created main.py")
 
     # Create config.py
     config_path = os.path.join(folder_path, "config.py")
-    with open(config_path, "w") as f:
+    with open(config_path, "w", encoding="utf-8") as f:
         f.write(
-            f"import os\nfrom dotenv import load_dotenv, find_dotenv\n\nload_dotenv(find_dotenv())\n"
+            "import os\nfrom dotenv import load_dotenv, find_dotenv\n\nload_dotenv(find_dotenv())\n"
         )
-    print(f"   └── Created config.py")
+    print("   └── Created config.py")
 
     return folder_path
 
 # Creates and edits the template for the specific day
 def create_log_file(day_num, title, goal, steps, stack):
+    """
+    Docstring for create_log_file
+    
+    :param day_num: Description
+    :param title: Description
+    :param goal: Description
+    :param steps: Description
+    :param stack: Description
+    """
     filename = f"day_{day_num}.md"
     output_path = os.path.join(LOGS_DIR, filename)
 
@@ -134,6 +148,9 @@ def update_readme(day_num, title, goal, stack):
 
 
 def main():
+    """
+    Docstring for main
+    """
     print("--- 🚀 100 Days Automation ---")
     day_num = input("Day Number: ").strip()
     title = input("Project Title: ").strip()
