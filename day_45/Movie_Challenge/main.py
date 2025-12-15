@@ -10,7 +10,7 @@ def main():
     rows = soup.find_all(name="h3", class_="title")
 
     # To reverse the movies use the slice [::-1] or the reverse() object as list(reversed(movies))
-    movies = [ row.getText() for row in rows ]
+    movies = [ row.getText().strip() for row in rows ]
     movies = movies[::-1] # Reverse with slicing
 
     # Take each movie and write it to the file
@@ -19,8 +19,7 @@ def main():
             file.write(movie + "\n")
 
     with open("./top10.txt", "w", encoding="utf-8") as file:
-        top_ten = movies[:10]
-        for movie in top_ten:
+        for movie in movies[:10]:
             file.write(movie + "\n")
 
     print(len(movies))
