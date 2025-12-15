@@ -1,10 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-EMPIRE_URL = 'https://web.archive.org/web/20200518073855/https://www.empireonline.com/movies/features/best-movies-2/'
+URL = 'https://web.archive.org/web/20200518073855/https://www.empireonline.com/movies/features/best-movies-2/'
 
 def main():
-    response = requests.get(EMPIRE_URL)
+    response = requests.get(URL)
     soup = BeautifulSoup(response.content, 'html.parser')
 
     rows = soup.find_all(name="h3", class_="title")
