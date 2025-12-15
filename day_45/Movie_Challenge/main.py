@@ -5,7 +5,7 @@ URL = 'https://web.archive.org/web/20200518073855/https://www.empireonline.com/m
 
 def main():
     response = requests.get(URL)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')
 
     rows = soup.find_all(name="h3", class_="title")
 
