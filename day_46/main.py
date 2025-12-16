@@ -4,9 +4,8 @@ import requests
 from config import (
     BILLBOARD_LISTS_URL,
     BILLBOARD_URL,
+    THIS_YEAR,
 )
-
-THIS_YEAR = datetime.today().year
 
 def check_date(input_date, wiki_available_date):
     while True:
@@ -36,11 +35,15 @@ def check_date(input_date, wiki_available_date):
 
             # Check if year is within the range
             start_year, last_year = wiki_available_date
-            if not (start_year <= year <= last_year):
-                raise ValueError(f"Please enter a year between {start_year} and {last_year}.")
 
-            if year == THIS_YEAR and THIS_YEAR != last_year:
-                raise ValueError(f"The billboard for {year} is not available yet! The last available is {last_year}.")
+            if not (start_year <= year <= THIS_YEAR):
+                raise ValueError(f"Please enter a year between {start_year} and {THIS_YEAR}.")
+
+            if year > last_year:
+                if year == THIS_YEAR:
+                    raise ValueError(f"The billboard for {year} is not available yet! The last available is {last_year}.")
+                else:
+                    raise ValueError(f"Billboard data is only available up to {last_year}.")
 
             return year
 
@@ -57,12 +60,19 @@ def wiki_date_available():
     soup = BeautifulSoup(response.text, "html.parser")
 
     # Target the div that contains all the anchors to the billboards
-    billboard_lists = soup.find("div", class_="mw-category-group")
-    billboard_anchor = billboard_lists.find_all("a")
+    groups = soup.find_all("div", class_="mw-category-group")
+    years = []
+
+    for group in groups:
+        for a in group.find_all("a"):
+            title = a.get("title", "")
+            parts = title.split()
+            if parts and parts[-1].isdigit():
+                years.append(int(parts[-1]))
 
     # Extract the starting year and the last year available
-    start_year = int(billboard_anchor[0].get("title").split()[-1])
-    last_year = int(billboard_anchor[-1].get("title").split()[-1])
+    start_year = min(years)
+    last_year = max(years)
 
     return start_year, last_year
 
@@ -109,15 +119,13 @@ def wiki_billboard(year):
     return songs
 
 def main():
+    available_years = wiki_date_available()
 
     ask_date = input("What year would you like to travel?\nType in this format YYYY-MM-DD: ")
-
-    scraping_date = check_date(ask_date, wiki_date_available())
-
+    scraping_date = check_date(ask_date, available_years)
     print(f"Using scraping year: {scraping_date}")
 
     billboard_list = wiki_billboard(scraping_date)
-
     print(billboard_list)
 
 if __name__ == '__main__':
