@@ -1,14 +1,18 @@
 from datetime import datetime
-TODAY = datetime.today()
-TODAY_YEAR = TODAY.year
-START_YEAR = 1900
+from bs4 import BeautifulSoup
+import requests
+from config import (
+    BILLBOARD_LISTS_URL,
+    BILLBOARD_URL,
+)
 
-def check_date(input_date):
-    scraping_date = input_date
+THIS_YEAR = datetime.today().year
+
+def check_date(input_date, wiki_available_date):
     while True:
         try:
             # Split string by -
-            checking_date = scraping_date.split("-")
+            checking_date = input_date.split("-")
 
             # Check if there are three items
             if len(checking_date) != 3:
@@ -22,27 +26,99 @@ def check_date(input_date):
             # Map every item as an int
             year, month, day = map(int, checking_date)
 
-            # Check if year is within the range
-            if not (START_YEAR <= year <= TODAY_YEAR):
-                raise ValueError(f"Please enter a year above {START_YEAR} and below {TODAY_YEAR}.")
-
             try:
                 # Check if date is a calendar valid date
                 datetime(year=year, month=month, day=day)
 
-                return scraping_date
 
             except ValueError:
                     raise ValueError("The date you entered does not exist!")
 
+            # Check if year is within the range
+            start_year, last_year = wiki_available_date
+            if not (start_year <= year <= last_year):
+                raise ValueError(f"Please enter a year between {start_year} and {last_year}.")
+
+            if year == THIS_YEAR and THIS_YEAR != last_year:
+                raise ValueError(f"The billboard for {year} is not available yet! The last available is {last_year}.")
+
+            return year
 
         except ValueError as error:
             print(error)
-            scraping_date = input("Please enter a year in the format YYYY-MM-DD: ")
+            input_date = input("Please enter a year in the format YYYY-MM-DD: ")
+
+def wiki_date_available():
+    # Get the response from wiki and build the soup
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15"
+    }
+    response = requests.get(url=BILLBOARD_LISTS_URL, headers=headers)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Target the div that contains all the anchors to the billboards
+    billboard_lists = soup.find("div", class_="mw-category-group")
+    billboard_anchor = billboard_lists.find_all("a")
+
+    # Extract the starting year and the last year available
+    start_year = int(billboard_anchor[0].get("title").split()[-1])
+    last_year = int(billboard_anchor[-1].get("title").split()[-1])
+
+    return start_year, last_year
+
+def wiki_billboard(year):
+    # Get the response from wiki and build the soup
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15"
+    }
+
+    response = requests.get(url=f'{BILLBOARD_URL}{year}', headers=headers)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    table = soup.find(name="table", class_="wikitable sortable")
+    body_rows = table.find_all(name="tr")[1:]
+
+    songs = []
+    for row in body_rows:
+        cells = row.find_all(name="td")
+        if len(cells) < 3:
+            continue
+
+        # Get the rank
+        rank = cells[0].get_text(strip=True)
+
+        # Get title inside the <a>, no surrounding quotes
+        title_tag = cells[1].select_one("a")
+        if title_tag:
+            title = title_tag.get_text(strip=True)
+        else:
+            title = cells[1].get_text(strip=True)
+
+        # Get artists spaced and without the \n at the end
+        artist = cells[2].get_text(separator=" ", strip=True)
+
+        song_data = {
+            "no.": rank,
+            "title": title,
+            "artist(s)": artist,
+        }
+        songs.append(song_data)
+
+    return songs
 
 def main():
-    scraping_date = input("What year would you like to travel?\nType in this format YYYY-MM-DD: ")
-    scraping_date = check_date(scraping_date)
-    print(f"Using scraping date: {scraping_date}")
+
+    ask_date = input("What year would you like to travel?\nType in this format YYYY-MM-DD: ")
+
+    scraping_date = check_date(ask_date, wiki_date_available())
+
+    print(f"Using scraping year: {scraping_date}")
+
+    billboard_list = wiki_billboard(scraping_date)
+
+    print(billboard_list)
+
 if __name__ == '__main__':
     main()
