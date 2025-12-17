@@ -63,7 +63,7 @@ def send_email(message):
 def main():
     currency, price, product_title, url_amazon = get_item_data()
     message = (f"Oh wow!\n\nThe price for\n'{product_title}'\n\nis {currency} {price}\n\nbelow the {PRICE_THRESHOLD} by {(PRICE_THRESHOLD-price)/PRICE_THRESHOLD*100:.2f}%!!\n"
-               f"GO and by it: {url_amazon}")
+               f"GO and buy it: {url_amazon}")
 
     if price < PRICE_THRESHOLD:
         send_email(message)
