@@ -1,14 +1,7 @@
-from bs4 import BeautifulSoup
 import requests
-import smtplib
-from email.message import EmailMessage
+from bs4 import BeautifulSoup
 from config import (
     AMAZON_URL,
-    PRICE_THRESHOLD,
-    GMAIL_SMTP,
-    MY_PASSWORD,
-    MY_EMAIL,
-    ZCH_MAIL,
     USER_AGENT,
 )
 
@@ -59,33 +52,9 @@ def get_item_data():
         print("No price foud for this item.")
         return None
 
-def send_email(message):
-    # To avoid any ascii error using email that is safer
-    email = EmailMessage()
-    email["From"] = MY_EMAIL
-    email["To"] = ZCH_MAIL
-    email["Subject"] = "[Alert] Lower Price on Amazon"
-    email.set_content(message)
-
-    with smtplib.SMTP(host=GMAIL_SMTP,
-                      port=587,
-                      timeout=30
-                      ) as connection:  # adding the port number solves the idle
-        connection.starttls()
-        connection.login(
-            user=MY_EMAIL,
-            password=MY_PASSWORD,
-        )
-        connection.send_message(email)
 
 def main():
-    symbol, price, product_title, url_amazon = get_item_data()
-    message = (f"Oh wow!\n\nThe price for\n'{product_title}'\n\nis {symbol} {price}\n\nbelow the {PRICE_THRESHOLD} by {(PRICE_THRESHOLD-price)/PRICE_THRESHOLD*100:.2f}%!!\n"
-               f"GO and buy it: {url_amazon}")
+    print(get_item_data())
 
-    if price < PRICE_THRESHOLD:
-        send_email(message)
-    else:
-        print(f"Sorry, the price of '{product_title}' is still higher than {PRICE_THRESHOLD}.")
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
