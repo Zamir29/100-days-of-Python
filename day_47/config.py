@@ -10,5 +10,12 @@ USER_AGENT = os.getenv("USER_AGENT")
 # ---
 
 # --- Price configuration ---
-PRICE_THRESHOLD = 100
+PRICE_THRESHOLD = 120
+# ---
+
+# --- GMAIL SMTP ---
+GMAIL_SMTP = os.getenv("GMAIL_SMTP")
+MY_EMAIL = os.getenv("MY_EMAIL")
+MY_PASSWORD = os.getenv("MY_PASSWORD")
+ZCH_MAIL = os.getenv("ZCH_MAIL")
 # ---
