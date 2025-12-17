@@ -24,16 +24,17 @@ def get_item_data():
     }
 
     # Get the whole
-    response = requests.get(url=url_brewery)
+    response = requests.get(url=url_amazon, headers=headers)
     # print(response.status_code)
 
     # Create the soup
     soup = BeautifulSoup(response.content, "html.parser")
 
     # Get the item price
-    full_price = soup.find(class_="aok-offscreen").get_text().split()[0]
+    full_price = soup.find(class_="aok-offscreen").get_text().split()
+    print(full_price)
     currency = full_price[0]
-    price = float(full_price[1:])
+    price = float(full_price[1])
 
     # Get the item title
     product_title = soup.find(id="productTitle").get_text().strip().split()
@@ -62,7 +63,7 @@ def send_email(message):
 
 def main():
     currency, price, product_title, url_amazon = get_item_data()
-    message = (f"Oh wow! The price for\n'{product_title}'\nis {price}, below the {PRICE_THRESHOLD} by {(PRICE_THRESHOLD-price)/PRICE_THRESHOLD*100:.2f}%!!\n"
+    message = (f"Oh wow!\n\nThe price for\n'{product_title}'\n\nis {currency} {price}\n\nbelow the {PRICE_THRESHOLD} by {(PRICE_THRESHOLD-price)/PRICE_THRESHOLD*100:.2f}%!!\n"
                f"GO and by it: {url_amazon}")
 
     if price < PRICE_THRESHOLD:
