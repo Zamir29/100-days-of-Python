@@ -79,7 +79,11 @@ def send_email(message):
         connection.send_message(email)
 
 def main():
-    symbol, price, product_title, url_amazon = get_item_data()
+    result = get_item_data()
+    if not result:
+        print("Could not fetch item data (blocked page / missing tags).")
+        return
+    symbol, price, product_title, url_amazon = result
     message = (f"Oh wow!\n\nThe price for\n'{product_title}'\n\nis {symbol} {price}\n\n"
                f"below the {PRICE_THRESHOLD} by {(PRICE_THRESHOLD-price)/PRICE_THRESHOLD*100:.2f}%!!\n"
                f"GO and buy it: {url_amazon}")
