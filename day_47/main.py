@@ -56,7 +56,7 @@ def get_item_data():
         price = float(parts[1])
         return symbol, price, product_title, url_amazon
     else:
-        print("No price foud for this item.")
+        print("No price found for this item.")
         return None
 
 def send_email(message):
