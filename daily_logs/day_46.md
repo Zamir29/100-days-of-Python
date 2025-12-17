@@ -96,20 +96,20 @@ day_46
 
 ```mermaid
 flowchart TD
-    A[User inputs date YYYY-MM-DD] --> B[Build Billboard URL for that date]
-    B --> C[Scrape Hot 100 songs with BeautifulSoup]
-    C --> D[Spotify OAuth: get user token with scopes]
-    D --> E[Check if playlist exists (same name)]
-    E -->|Exists| F[Use existing playlist_id]
-    E -->|Not found| G[Create new playlist]
-    F --> H[For each scraped song: Spotify Search]
+    A["User inputs date (YYYY-MM-DD)"] --> B["Build Billboard URL for that date"]
+    B --> C["Scrape Hot 100 songs with BeautifulSoup"]
+    C --> D["Spotify OAuth: get user token with scopes"]
+    D --> E{"Playlist exists with same name?"}
+    E -->|Yes| F["Use existing playlist_id"]
+    E -->|No| G["Create new playlist"]
+    F --> H["For each scraped song: Spotify search"]
     G --> H
-    H --> I{Search returned items?}
-    I -->|No| J[Log skip + continue]
-    I -->|Yes| K[Pick best match (e.g., max popularity)]
-    K --> L[Collect track URIs in a list]
-    L --> M[Add items to playlist in batches]
-    M --> N[Done: playlist created/updated]
+    H --> I{"Search returned items?"}
+    I -->|No| J["Log skip and continue"]
+    I -->|Yes| K["Pick best match (e.g. max popularity)"]
+    K --> L["Collect track URIs in a list"]
+    L --> M["Add items to playlist in batches"]
+    M --> N["Done: playlist created/updated"]
 ```
 
 ## 🎯 Next Steps
