@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import smtplib
+from email.message import EmailMessage
 from config import (
     BREWERY_URL,
     AMAZON_URL,
@@ -9,12 +10,18 @@ from config import (
     MY_PASSWORD,
     MY_EMAIL,
     ZCH_MAIL,
+    USER_AGENT,
 )
 
 def get_item_data():
     # Using the URL from Angela
     url_brewery = BREWERY_URL
     url_amazon = AMAZON_URL
+
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept-Language": "en-US,en;q=0.5",
+    }
 
     # Get the whole
     response = requests.get(url=url_brewery)
@@ -35,6 +42,13 @@ def get_item_data():
     return currency, price, product_title, url_amazon
 
 def send_email(message):
+    # To avoid any ascii error using email that is safer
+    email = EmailMessage()
+    email["From"] = MY_EMAIL
+    email["To"] = ZCH_MAIL
+    email["Subject"] = "[Alert] Lower Price on Amazon"
+    email.set_content(message)
+
     with smtplib.SMTP(host=GMAIL_SMTP,
                       port=587,
                       timeout=30
@@ -42,18 +56,14 @@ def send_email(message):
         connection.starttls()
         connection.login(
             user=MY_EMAIL,
-            password=MY_PASSWORD
+            password=MY_PASSWORD,
         )
-        connection.sendmail(
-                from_addr=MY_EMAIL,
-                to_addrs=ZCH_MAIL,
-                msg=f"Subject:[Alert] Lower Price on Amazon\n\n{message}"
-            )
+        connection.send_message(email)
 
 def main():
     currency, price, product_title, url_amazon = get_item_data()
-    message = (f"Oh wow! The price for\n'{product_title}'\nis {price}, below the {PRICE_THRESHOLD} by {price/PRICE_THRESHOLD*100:.2f}%!!\n"
-               f"GO and by it: {url_amazon}").encode("utf-8")
+    message = (f"Oh wow! The price for\n'{product_title}'\nis {price}, below the {PRICE_THRESHOLD} by {(PRICE_THRESHOLD-price)/PRICE_THRESHOLD*100:.2f}%!!\n"
+               f"GO and by it: {url_amazon}")
 
     if price < PRICE_THRESHOLD:
         send_email(message)
