@@ -117,7 +117,7 @@ def wiki_billboard(year):
         if artist_tag:
             artist = artist_tag.get_text(strip=True)
         else:
-            artist = cells[1].get_text(strip=True)
+            artist = cells[2].get_text(strip=True)
 
         song_data = {
             "no.": rank,
@@ -137,48 +137,91 @@ def get_spotify_client(scope: str):
             scope=scope))
 
 def get_spotify_uri(sp_client, track: dict[str, str]):
-    search_track = sp_client.search(q=f"track:{track['title']} artist:{track['artist']}", limit=1, type="track")
-    track_uri = search_track["tracks"]["items"][0]["uri"]
+    q = f"track:{track['title']} artist:{track['artist']}"
 
-    return track_uri
+    search_track = sp_client.search(
+        q=q,
+        limit=1,
+        type="track")
+
+    track_uri = search_track["tracks"]["items"]
+
+    if not track_uri:
+        print(f"No track found for {track['title']}")
+        return None
+
+    return track_uri[0]["uri"]
+
+def find_playlist_by_name(sp_client, playlist_name: str, user_id: str):
+    results = sp_client.user_playlists(
+        user=user_id,
+        limit=50,
+    )
+
+    while results:
+        for playlist in results["items"]:
+            if playlist["name"] == playlist_name:
+                return playlist
+        results = sp_client.next(results) if results["next"] else None
+
+    return None
 
 def main():
+    # Get available years of Billboards on wiki
     available_years = wiki_date_available()
+    # Get the year from the user
+    ask_date = input("What year would you like to travel? 🚋\nType in this format YYYY-MM-DD: ")
 
-    ask_date = input("What year would you like to travel?\nType in this format YYYY-MM-DD: ")
+    # Checking the date
     scraping_date = check_date(ask_date, available_years)
-    print(f"\nUsing scraping year: {scraping_date}\n")
+    print(f"📝\nUsing scraping year: {scraping_date}\n")
 
     billboard_list = wiki_billboard(scraping_date)
 
     # Spotify auth test
     sp = get_spotify_client("playlist-modify-private")
     user_id = sp.me()["id"]
-    print("Now searching all the tracks URI...\n")
+    print("⌛️ Now searching all the tracks URI...\n")
+
+    # Build the list of URIS to post
     track_uris_list = []
     for track in billboard_list:
         track_uri = get_spotify_uri(sp, track)
+        if not track_uri:
+            continue
         track_uris_list.append(track_uri)
 
+    # Prepare the playlist name and check if there is already an existing one to use it id
+    playlist_name = f"{scraping_date} - Year-End Hot 100 singles"
+    print(f"⌛️ Now creating the playlist '{playlist_name}' and adding tracks...\n")
 
-    print("Now creating the list and adding the tracks...\n")
-    create_playlist = sp.user_playlist_create(
-        user=user_id,
-        name=f"{scraping_date} - Year-End Hot 100 singles",
-        public=False,
-        description=f"Billboard Year-End Hot 100 singles of {scraping_date}"
-    )
+    # Check if a playlist exists and use that id instead
+    existing = find_playlist_by_name(sp, playlist_name, user_id)
+    if existing:
+        playlist_id = existing["id"]
+        print(f"✅ Using existing Playlist: '{playlist_name}'\n")
+    else:
+        create_playlist = sp.user_playlist_create(
+            user=user_id,
+            name=playlist_name,
+            public=False,
+            description=f"Billboard Year-End Hot 100 singles of {scraping_date}"
+        )
 
+        playlist_id = create_playlist["id"]
+        print(f"🆕 Created playlist: {playlist_name}")
+
+    # Add all the tracks using the list of URI on the playlist
     add_items = sp.playlist_add_items(
-        playlist_id=create_playlist["id"],
+        playlist_id=playlist_id,
         items=track_uris_list,
     )
 
-    print(add_items)
-
-    # search_track = sp.search(q="track:Lose Control artist:Teddy Swims", limit=1, type="track")
-    # track_uri = search_track["tracks"]["items"][0]["uri"]
-    # print(track_uri)
+    # Check if everything is OK
+    if add_items:
+        print(f"All the items added to playlist: {playlist_name}")
+    else:
+        print("Uhm.. something went wrong!")
 
 if __name__ == '__main__':
     main()
