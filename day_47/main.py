@@ -3,7 +3,7 @@ import requests
 import smtplib
 from email.message import EmailMessage
 from config import (
-    BREWERY_URL,
+    # BREWERY_URL,
     AMAZON_URL,
     PRICE_THRESHOLD,
     GMAIL_SMTP,
@@ -15,7 +15,7 @@ from config import (
 
 def get_item_data():
     # Using the URL from Angela
-    url_brewery = BREWERY_URL
+    # url_brewery = BREWERY_URL
     url_amazon = AMAZON_URL
 
     headers = {
@@ -32,7 +32,6 @@ def get_item_data():
 
     # Get the item price
     full_price = soup.find(class_="aok-offscreen").get_text().split()
-    print(full_price)
     currency = full_price[0]
     price = float(full_price[1])
 
