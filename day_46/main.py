@@ -1,11 +1,16 @@
 from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 from config import (
     BILLBOARD_LISTS_URL,
     BILLBOARD_URL,
     THIS_YEAR,
     USER_AGENT,
+    SPOTIFY_URI,
+    SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET
 )
 
 def check_date(input_date, wiki_available_date):
@@ -108,26 +113,72 @@ def wiki_billboard(year):
             title = cells[1].get_text(strip=True)
 
         # Get artists spaced and without the \n at the end
-        artist = cells[2].get_text(separator=" ", strip=True)
+        artist_tag = cells[2].select_one("a")
+        if artist_tag:
+            artist = artist_tag.get_text(strip=True)
+        else:
+            artist = cells[1].get_text(strip=True)
 
         song_data = {
             "no.": rank,
             "title": title,
-            "artist(s)": artist,
+            "artist": artist,
         }
         songs.append(song_data)
 
     return songs
+
+def get_spotify_client(scope: str):
+    return spotipy.Spotify(
+        auth_manager=SpotifyOAuth(
+            client_id=f"{SPOTIFY_CLIENT_ID}",
+            client_secret=f"{SPOTIFY_CLIENT_SECRET}",
+            redirect_uri=f"{SPOTIFY_URI}",
+            scope=scope))
+
+def get_spotify_uri(sp_client, track: dict[str, str]):
+    search_track = sp_client.search(q=f"track:{track['title']} artist:{track['artist']}", limit=1, type="track")
+    track_uri = search_track["tracks"]["items"][0]["uri"]
+
+    return track_uri
 
 def main():
     available_years = wiki_date_available()
 
     ask_date = input("What year would you like to travel?\nType in this format YYYY-MM-DD: ")
     scraping_date = check_date(ask_date, available_years)
-    print(f"Using scraping year: {scraping_date}")
+    print(f"\nUsing scraping year: {scraping_date}\n")
 
     billboard_list = wiki_billboard(scraping_date)
-    print(billboard_list)
+
+    # Spotify auth test
+    sp = get_spotify_client("playlist-modify-private")
+    user_id = sp.me()["id"]
+    print("Now searching all the tracks URI...\n")
+    track_uris_list = []
+    for track in billboard_list:
+        track_uri = get_spotify_uri(sp, track)
+        track_uris_list.append(track_uri)
+
+
+    print("Now creating the list and adding the tracks...\n")
+    create_playlist = sp.user_playlist_create(
+        user=user_id,
+        name=f"{scraping_date} - Year-End Hot 100 singles",
+        public=False,
+        description=f"Billboard Year-End Hot 100 singles of {scraping_date}"
+    )
+
+    add_items = sp.playlist_add_items(
+        playlist_id=create_playlist["id"],
+        items=track_uris_list,
+    )
+
+    print(add_items)
+
+    # search_track = sp.search(q="track:Lose Control artist:Teddy Swims", limit=1, type="track")
+    # track_uri = search_track["tracks"]["items"][0]["uri"]
+    # print(track_uri)
 
 if __name__ == '__main__':
     main()
