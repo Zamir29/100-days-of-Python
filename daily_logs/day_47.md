@@ -60,31 +60,31 @@ day_47/
 ## 🏗 Architecture
 
 ```mermaid
-graph TD;
-    Start([Start Script]) --> Request[GET Amazon Product Page];
-    Request --> Status{HTTP OK?};
-    Status -->|No| Stop[raise_for_status() / Abort];
+graph TD
+    Start[Start Script] --> Request[GET Amazon Product Page]
+    Request --> Status{HTTP OK?}
+    Status -->|No| Stop[raise_for_status - Abort]
 
-    Status -->|Yes| Parse[Parse HTML with BeautifulSoup];
-    Parse --> Title{productTitle found?};
-    Title -->|No| Abort[Print + Return None];
+    Status -->|Yes| Parse[Parse HTML with BeautifulSoup]
+    Parse --> Title{productTitle found?}
+    Title -->|No| Abort[Return None]
 
-    Title -->|Yes| Price{Price tags found?};
+    Title -->|Yes| Price{Price tags found?}
 
-    Price -->|Yes| ExtractA[Extract symbol + whole + fraction];
-    ExtractA --> Normalize[Clean separators + Build float];
+    Price -->|Yes| ExtractA[Extract symbol, whole, fraction]
+    ExtractA --> Normalize[Clean separators and build float]
 
-    Price -->|No| Fallback{.aok-offscreen found?};
-    Fallback -->|Yes| ExtractB[Extract fallback price + Convert];
-    Fallback -->|No| Abort2[Print + Return None];
+    Price -->|No| Fallback{aok-offscreen found?}
+    Fallback -->|Yes| ExtractB[Extract fallback price and convert]
+    Fallback -->|No| Abort2[Return None]
 
-    Normalize --> Compare{price < threshold?};
-    ExtractB --> Compare;
+    Normalize --> Compare{price < threshold?}
+    ExtractB --> Compare
 
-    Compare -->|Yes| Email[Send Email Alert (SMTP + EmailMessage)];
-    Compare -->|No| Done[Print "still higher" / Exit];
+    Compare -->|Yes| Email[Send email alert]
+    Compare -->|No| Done[Exit - still higher]
 
-    Email --> Done;
+    Email --> Done
 ```
 
 ## 🎯 Next Steps
