@@ -58,6 +58,8 @@ def extract_events_challenge():
 
     print(events)
 
+    driver.quit() # Quit the entire program
+
 def main():
     extract_events_challenge()
 if __name__ == '__main__':
