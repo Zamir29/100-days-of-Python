@@ -1,7 +1,7 @@
-# Day 48 - Created automatically
+from selenium import webdriver
 
 def main():
-    print('Hello Day 48')
+    driver = webdriver.Chrome()
 
 if __name__ == '__main__':
     main()
