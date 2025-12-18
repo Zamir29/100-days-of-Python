@@ -14,8 +14,9 @@ def main():
     driver.get(website_url)
 
     # Get the statistics and the articles count
-    statistics = driver.find_elements(By.CSS_SELECTOR, value="div#articlecount ul li a")
-    articles_count = statistics[1].text
+    statistics = driver.find_element(By.CSS_SELECTOR, value="div#articlecount")
+    articles_count = statistics.find_elements(By.TAG_NAME, value="a")[1].text
+
     print(articles_count)
 
     driver.quit()  # Quit the instance
