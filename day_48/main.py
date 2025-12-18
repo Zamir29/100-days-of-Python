@@ -4,7 +4,7 @@ from config import (
     AMAZON_URL,
 )
 
-def main():
+def learn_selenium():
     # Keep Chrome browser open after program finishes
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_experimental_option("detach", True)
@@ -12,7 +12,7 @@ def main():
     # Start instance of Chrome
     driver = webdriver.Chrome(options=chrome_options)
 
-    # driver.get(AMAZON_URL)
+    driver.get(AMAZON_URL)
     # # Use locators as explained in https://www.selenium.dev/documentation/webdriver/elements/locators/
     # price_eur = driver.find_element(By.CLASS_NAME, value="a-price-whole")
     # price_cents = driver.find_element(By.CLASS_NAME, value="a-price-fraction")
@@ -34,5 +34,31 @@ def main():
     # driver.close() # Close a tab
     # driver.quit() # Quit the entire program
 
+def extract_events_challenge():
+    # Keep Chrome browser open after program finishes
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+
+    # Start instance of Chrome
+    driver = webdriver.Chrome(options=chrome_options)
+
+    # Open Python org page
+    driver.get("https://www.python.org/")
+
+
+    # Get the list of events
+    events_list = driver.find_elements(By.CSS_SELECTOR, value='.event-widget ul.menu li')
+
+    # Build dictionary with enumerate to extract the index
+    events = {}
+    for i,event in enumerate(events_list):
+        date = event.find_element(By.TAG_NAME, value='time').text
+        title = event.find_element(By.TAG_NAME, value='a').text
+        events[i] = {"time": date, "name": title}
+
+    print(events)
+
+def main():
+    extract_events_challenge()
 if __name__ == '__main__':
     main()
