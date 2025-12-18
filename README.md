@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/47/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/48/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 48 - Selenium WebDriver: Browser Automation & Advanced Web Scraping**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_48/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_48.md)  
+Learn how Selenium WebDriver automates a real browser to interact with websites (type, click, scroll) beyond what BeautifulSoup can do. Use it to run repeatable “human-like” flows with Python.  
+**Stack used:** `Python`, `Selenium`, `WebDriver` (ChromeDriver/SafariDriver), `VS Code`/`PyCharm`, `Chrome` or `Safari`.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 47 - Amazon Price Tracker**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_47/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_47.md)  
 Build a Python bot that checks an Amazon product page price and emails you when it drops below a target.  
 **Stack used:** `Python`, `requests`, `BeautifulSoup`, `smtplib` (+ dotenv optional)
 
-<details><summary>Show all logs</summary>  
 
 - **Day 46 - Spotify Musical Time Machine**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_46/main.py)
