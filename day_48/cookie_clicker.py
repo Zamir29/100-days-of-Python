@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 
 MAX_TIME = 5 * 60 # 5 minuts
 
@@ -15,13 +15,25 @@ def make_driver():
     # Return a driver
     return webdriver.Chrome(options=chrome_options)
 
-def safe_text(driver, by, value, retries=5):
+def safe_text(driver, by, value, retries=10):
     for _ in range(retries):
         try:
             return driver.find_element(by, value).text
         except StaleElementReferenceException:
             time.sleep(0.05)
     return ""
+
+def close_banner_if_present(driver, retries=10):
+    for _ in range(retries):
+        try:
+            banners = driver.find_elements(By.CSS_SELECTOR, "a.cc_btn_accept_all")
+            if not banners:
+                return False
+            driver.execute_script("arguments[0].click();", banners[0])
+            return True
+        except StaleElementReferenceException:
+            time.sleep(0.05)
+    return False
 
 def parse_human_number(s: str) -> float:
     s = s.lower().replace(",", "").strip()
@@ -53,9 +65,7 @@ def main():
     language_prompt.find_element(By.ID, value="langSelect-EN").click()
 
     # If Cookie Banner is present, click it
-    banners = driver.find_elements(By.CSS_SELECTOR, "a.cc_btn_accept_all")
-    if banners:
-        driver.execute_script("arguments[0].click();", banners[0])
+    close_banner_if_present(driver)
 
 
     cookie_button = wait.until(
@@ -111,11 +121,16 @@ def main():
                 next_check = time.time() + 0.5
                 continue
 
-            cps_value_text = cps_text.split(":")[1].strip()
+            cps_value_text = cps_text.split(":", 1)[1].strip()
             cps_value = parse_human_number(cps_value_text)
 
             # Current cookies (first line of #cookies)
-            cookies_text = safe_text(driver, By.ID, "cookies").split("\n")[0].strip()
+            cookies_raw = safe_text(driver, By.ID, "cookies")
+            if not cookies_raw:
+                next_check = time.time() + 0.5
+                continue
+
+            cookies_text = cookies_raw.split("\n")[0].strip()
             cookies_now = parse_human_number(cookies_text)
 
             # Use the best item unlocked to calculate how much to wait before recheck
