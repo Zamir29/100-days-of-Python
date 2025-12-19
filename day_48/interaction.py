@@ -7,11 +7,11 @@ def make_driver():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_experimental_option("detach", True)
 
-    # Start instance of Chrome
+    # Return a driver
     return webdriver.Chrome(options=chrome_options)
 
 def interaction_kickstart():
-    # Start instance of Chrome
+    # Start a driver of Chrome
     driver = make_driver()
 
     # Go to website
