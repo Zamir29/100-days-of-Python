@@ -21,36 +21,95 @@
 
 ## 🧠 Concepts Learned
 
-(Write bullet points here)
+- **Selenium WebDriver basics**: launching Chrome, navigating pages, locating elements, clicking, typing. 
+- **Dynamic pages**: why websites can “change under you” (JS re-renders DOM), causing flaky selectors. 
+- **Waiting properly**: using `WebDriverWait` + `expected_conditions` instead of guessing with `sleep()`. 
+- **Robust automation patterns**:
+  - Re-find elements instead of storing them when the DOM updates. 
+  - Handle popups/banners that reappear and break flows. 
+  - Use retries for unstable reads (`safe_text`) and clicks.
+- **Automation logic**: loop that clicks continuously + periodic decision-making (upgrades/products) + adaptive timer based on CPS and prices.
 
 ## ⚠️ Challenges
 
-(What was confusing / hard)
+- Consent banner kept reappearing and breaking the run (`ElementNotInteractable`, then `StaleElementReference`). 
+- Shimmers occasionally escaped clicking. 
+- DOM re-renders caused stale element crashes for products, upgrades, and CPS reads. 
+- Parsing “human formatted” numbers like `1.193 million` into real numeric values. 
+- Timer logic broke when reads returned empty strings (`IndexError`).
 
 ## ✅ Solutions / Insights
 
-(How you solved it / what finally clicked)
+- Built a **banner killer** (`close_banner_if_present`) with retry + JS click + periodic checks. 
+- Fixed shimmer capture by selecting `.shimmer` and re-checking inside the loop. 
+- Eliminated staleness by:
+  - Re-finding upgrades each iteration before clicking.
+  - Re-finding products by id during purchase loops. 
+  - Using `safe_text()` with retries to read CPS/cookies safely.
+- Implemented adaptive recheck time:
+  - `wait_seconds = (price - cookies_now) / cps` clamped to stay responsive.
+- Result: stable automation that hit ~90 CPS in 5 minutes.
 
 ## 📂 Project Structure
 
 ```text
 day_48/
-├── main.py
 ├── config.py
+├── cookie_clicker.py
+├── interaction.py
+└── main.py
 ```
 
 ## 🏗 Architecture
 
 ```mermaid
 graph TD;
-    Start([User Input]) --> Process{Check Condition};
-    Process -->|Yes| Result[Success];
-    Process -->|No| Error[Raise Exception];
+    A([Start]) --> B[Launch Chrome WebDriver]
+    B --> C[Open Cookie Clicker URL]
+    C --> D[Wait for language prompt]
+    D --> E[Click EN]
+    E --> F[Close cookie banner if present]
+    F --> G[Wait for Big Cookie clickable]
+    G --> H[Init timers: end_time, next_check, next_banner_check]
+
+    H --> I{time < end_time?}
+    I -->|Yes| J[Click Big Cookie]
+    J --> K[Find & click all shimmers]
+    K --> L{time >= next_banner_check?}
+    L -->|Yes| M[Close banner if present]
+    M --> N[Update next_banner_check = now + 2s]
+    L -->|No| O{time >= next_check?}
+    N --> O
+
+    O -->|No| I
+    O -->|Yes| P[Buy all enabled upgrades\n(re-find each loop, JS click)]
+    P --> Q[Buy products (unlocked)\nfrom most expensive to cheapest\n(re-find by id until disabled)]
+    Q --> R[Read CPS safely]
+    R --> S{CPS text valid?}
+    S -->|No| T[Set next_check = now + 0.5s]
+    T --> I
+    S -->|Yes| U[Read cookies safely]
+    U --> V{Cookies text valid?}
+    V -->|No| T
+    V -->|Yes| W[Refresh unlocked products list]
+    W --> X{Any unlocked products?}
+    X -->|No| T
+    X -->|Yes| Y[Pick best_unlocked = last product]
+    Y --> Z[Read best_unlocked price]
+    Z --> AA[Compute missing = max(0, price - cookies)]
+    AA --> AB[wait_seconds = missing / cps\nclamp 0.2..5.0]
+    AB --> AC[Set next_check = now + wait_seconds]
+    AC --> I
+
+    I -->|No| AD([Stop])
+
 ```
 
 ## 🎯 Next Steps
 
-(Refactors, extra features, things to revisit)  
+- Day 49: keep the “Angela baseline” + add **one small upgrade** (e.g., lightweight stats logging per check).
+
+Optional side quest: move your helpers (`safe_text`, `close_banner_if_present`, `parse_human_number`) into a tiny `utils.py` for reuse across Selenium scripts. 
 
 ---
 [![prev_day](https://img.shields.io/badge/⬅️_Day_47-grey?style=for-the-badge)](day_47.md) [![next_day](https://img.shields.io/badge/Day_49_➡️-grey?style=for-the-badge)](day_49.md)
