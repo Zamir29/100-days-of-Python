@@ -63,45 +63,50 @@ day_48/
 ## 🏗 Architecture
 
 ```mermaid
-graph TD;
+flowchart TD
     A([Start]) --> B[Launch Chrome WebDriver]
     B --> C[Open Cookie Clicker URL]
     C --> D[Wait for language prompt]
     D --> E[Click EN]
-    E --> F[Close cookie banner if present]
+    E --> F[Close banner if present]
     F --> G[Wait for Big Cookie clickable]
-    G --> H[Init timers: end_time, next_check, next_banner_check]
+    G --> H[Init timers: end, next_check, next_banner_check]
 
-    H --> I{time < end_time?}
+    H --> I{Time < end?}
     I -->|Yes| J[Click Big Cookie]
-    J --> K[Find & click all shimmers]
-    K --> L{time >= next_banner_check?}
+    J --> K[Click any shimmers]
+    K --> L{Time >= next_banner_check?}
     L -->|Yes| M[Close banner if present]
-    M --> N[Update next_banner_check = now + 2s]
-    L -->|No| O{time >= next_check?}
+    M --> N[Set next_banner_check = now + 2s]
+    L -->|No| O{Time >= next_check?}
     N --> O
 
     O -->|No| I
-    O -->|Yes| P[Buy all enabled upgrades\n(re-find each loop, JS click)]
-    P --> Q[Buy products (unlocked)\nfrom most expensive to cheapest\n(re-find by id until disabled)]
+
+    O -->|Yes| P[Buy enabled upgrades]
+    P --> Q[Buy unlocked products\nmost expensive to cheapest]
     Q --> R[Read CPS safely]
-    R --> S{CPS text valid?}
+    R --> S{CPS valid?}
     S -->|No| T[Set next_check = now + 0.5s]
     T --> I
+
     S -->|Yes| U[Read cookies safely]
-    U --> V{Cookies text valid?}
+    U --> V{Cookies valid?}
     V -->|No| T
+
     V -->|Yes| W[Refresh unlocked products list]
     W --> X{Any unlocked products?}
     X -->|No| T
-    X -->|Yes| Y[Pick best_unlocked = last product]
-    Y --> Z[Read best_unlocked price]
-    Z --> AA[Compute missing = max(0, price - cookies)]
-    AA --> AB[wait_seconds = missing / cps\nclamp 0.2..5.0]
+
+    X -->|Yes| Y[Pick best unlocked product]
+    Y --> Z[Read best price]
+    Z --> AA[Compute missing cookies]
+    AA --> AB[Compute wait_seconds\nclamp 0.2 to 5.0]
     AB --> AC[Set next_check = now + wait_seconds]
     AC --> I
 
     I -->|No| AD([Stop])
+
 
 ```
 
