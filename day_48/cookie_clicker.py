@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 
-MAX_TIME = 200 * 60 # n minutes
+MAX_TIME = (24 * 60) * 60 # n minutes
 
 def make_driver():
     # Keep Chrome browser open after program finishes
