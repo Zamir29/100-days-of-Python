@@ -110,8 +110,8 @@ def main():
     day = "2025-12-31"
     hours = "1800"
 
-    # Get the list of day groups
-    card_specific = driver.find_element(By.CSS_SELECTOR, f"div[id$='{day}-{hours}']")
+    # Get the list of class cards
+    class_cards = driver.find_elements(By.CSS_SELECTOR, f"div[id^='class-card-']")
     # How to select by partial text
     # / *Internal
     # links, beginning with "#"
@@ -125,8 +125,7 @@ def main():
     #     }
     #
     # Links with "insensitive" anywhere in the URL, regardless of capitalization
-    # a[href *= "insensitive"
-    # i] {
+    # a[href *= "insensitive"i] {
     #     color: cyan;
     # }
     #
@@ -134,10 +133,12 @@ def main():
     # a[href$=".org"] {
     #     color: red;
     # }
-    button = card_specific.find_element(By.CSS_SELECTOR, "button")
-    button.click()
 
-    print(card_specific)
+    for card in class_cards:
+        # Get the day title from the parent day group
+        day_group = card.find_element(By.XPATH, "./ancestor::div[contains(@id, 'day-group')]")
+    button = class_cards.find_element(By.CSS_SELECTOR, "button")
+    button.click()
 
 
 
