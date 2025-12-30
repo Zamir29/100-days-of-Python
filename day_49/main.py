@@ -1,7 +1,7 @@
 import os
 import time
 from selenium import webdriver
-from selenium.common import TimeoutException
+from selenium.common import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -182,17 +182,55 @@ def main():
 
     total = counts["booked"] + counts["waitlisted"] + counts["already"] + counts["unknown"]
 
-    print("\n--- BOOKING SUMMARY ---")
-    print(f"Classes booked: {counts['booked']}")
-    print(f"Waitlists joined: {counts['waitlisted']}")
-    print(f"Already booked/waitlisted: {counts['already']}")
-    print(f"Unknown states: {counts['unknown']}")
-    print(f"Total Tuesday & Thursday 6pm classes processed: {total}")
+    # print("\n--- BOOKING SUMMARY ---")
+    # print(f"Classes booked: {counts['booked']}")
+    # print(f"Waitlists joined: {counts['waitlisted']}")
+    # print(f"Already booked/waitlisted: {counts['already']}")
+    # print(f"Unknown states: {counts['unknown']}")
 
-    print("\n--- DETAILED CLASS LIST ---")
-    for class_detail in processed_classes:
-        print(f"  • {class_detail}")
+    # print("\n--- DETAILED CLASS LIST ---")
+    # for class_detail in processed_classes:
+    #     print(f"  • {class_detail}")
 
+    print(f"\n--- Total Tuesday & Thursday 6pm classes processed: {total} ---")
+    print("\n--- VERIFYING ON MY BOOKINGS PAGE ---")
+
+    # Go to My Booking page
+    my_bookings_link = driver.find_element(By.ID, "my-bookings-link")
+    my_bookings_link.click()
+
+    # Wait for the page to load
+    wait.until(
+        ec.presence_of_element_located((By.ID, "my-booking-page"))
+    )
+
+    # Count all Tue/Thu 6 pm bookings
+    verified_count = 0
+
+    # Find all booking cards (confirmed and waitlist)
+    all_cards = driver.find_elements(By.CSS_SELECTOR, "div[id*='card-']")
+
+    for card in all_cards:
+        try:
+            when_paragraph = card.find_element(By.XPATH, ".//p[strong[text()='When:']]")
+            when_text = when_paragraph.text
+
+            if ("Tue" in when_text or "Thu" in when_text) and "6:00 PM" in when_text:
+                class_name = card.find_element(By.TAG_NAME, "h3").text
+                print(f"  ✅ Verified: {class_name}")
+                verified_count += 1
+        except NoSuchElementException:
+            # If no "When:" skip
+            pass
+
+    print(f"\n--- VERIFICATION RESULTS ---")
+    print(f"Expected: {total} bookings")
+    print(f"Found: {verified_count} bookings")
+
+    if total == verified_count:
+        print("✅ SUCCESS: All bookings verified")
+    else:
+        print(f"❌ FAILURE: Missing {total - verified_count} bookings")
 
 if __name__ == '__main__':
     main()
