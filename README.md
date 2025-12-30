@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/49/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/50/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 50 - Day 50 - Auto Tinder Swiping Bot**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_50/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_50.md)  
+Build a Selenium automation script that logs into Tinder on the web, handles popups/permissions, and performs automated swipes in a controlled loop.  
+**Stack used:** Python, Selenium WebDriver, Chrome (or Safari) + WebDriver/Selenium Manager, VS Code/PyCharm.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 49 - Automating Gym Class Bookings with Selenium (Snack & Lift)**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_49/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_49.md)  
 Automate a real browser with Selenium to log in and book gym classes on the Snack & Lift site. Practice reliable element waits, handling dynamic UI states (book/full/waitlist), and building resilient automation.  
 **Stack used:** `Python`, `Selenium WebDriver`, Google Chrome + ChromeDriver (persistent profile), `WebDriverWait`/`Expected Conditions`. Local Snack & Lift practice website (browser storage / `IndexedDB`).
 
-<details><summary>Show all logs</summary>  
 
 - **Day 48 - Selenium WebDriver: Browser Automation & Advanced Web Scraping**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_48/main.py)
