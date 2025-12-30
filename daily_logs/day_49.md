@@ -73,33 +73,33 @@ day_49/
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[make_driver() with persistent chrome_profile]
-    B --> C[Open Gym URL]
-    C --> D[login()]
+  A["Start"] --> B["make_driver (persistent chrome profile)"]
+  B --> C["Open Gym URL"]
+  C --> D["login"]
 
-    D --> E[Open Schedule Page]
-    E --> F[Find all class cards]
-    F --> G{Is Tue/Thu AND 6:00 PM?}
+  D --> E["Open Schedule Page"]
+  E --> F["Find all class cards"]
+  F --> G{"Is Tue or Thu AND 6.00 PM?"}
 
-    G -->|No| F
-    G -->|Yes| H[Read booking button.text -> status]
-    H --> I[Lookup status in rules dict]
-    I --> J{should_click?}
+  G -->|No| F
+  G -->|Yes| H["Read booking button text -> status"]
+  H --> I["Lookup status in rules dict"]
+  I --> J{"should_click?"}
 
-    J -->|No| K[Count + log + store processed class]
-    J -->|Yes| L[Click booking button]
-    L --> M[Wait a moment / UI updates]
-    M --> K
+  J -->|No| K["Count + log + store processed class"]
+  J -->|Yes| L["Click booking button"]
+  L --> M["Wait for UI update"]
+  M --> K
 
-    K --> F
+  K --> F
 
-    F --> N[Compute totals]
-    N --> O[Go to My Bookings page]
-    O --> P[Find booking cards]
-    P --> Q[Verify Tue/Thu 6pm bookings count]
-    Q --> R{expected == found?}
-    R -->|Yes| S([SUCCESS ✅])
-    R -->|No| T([MISMATCH ❌])
+  F --> N["Compute totals"]
+  N --> O["Go to My Bookings page"]
+  O --> P["Find booking cards"]
+  P --> Q["Verify Tue or Thu 6pm bookings count"]
+  Q --> R{"expected == found?"}
+  R -->|Yes| S["SUCCESS"]
+  R -->|No| T["MISMATCH"]
 ```
 
 ## 🎯 Next Steps
