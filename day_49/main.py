@@ -1,7 +1,7 @@
 import os
 import time
 from selenium import webdriver
-from selenium.common import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -92,6 +92,36 @@ def login(driver, wait):
         ec.presence_of_element_located((By.ID, "logout-button"))
     )
 
+def retry(func, retries=7, description=None):
+    for i in range(retries):
+        print(f"Trying {description}. Attempt: {i + 1}")
+        try:
+            return func()
+        except TimeoutException:
+            if i == retries - 1:
+                raise
+            time.sleep(1)
+    raise TimeoutException(f"{description} failed after {retries} retries")
+
+def open_schedule(driver, wait):
+    driver.get(GYM_URL_SCHEDULE)
+    wait.until(ec.presence_of_element_located((By.ID, "schedule-page")))
+
+def click_and_confirm_button_text(wait, button, expected_text: str):
+    button.click()
+    wait.until(lambda d: button.text.strip() == expected_text)
+
+def open_my_bookings(driver, wait):
+    link = wait.until(ec.element_to_be_clickable((By.ID, "my-bookings-link")))
+    link.click()
+
+    wait.until(ec.presence_of_element_located((By.ID, "my-bookings-page")))
+
+    cards = driver.find_elements(By.CSS_SELECTOR, "div[id*='card-']")
+    if not cards:
+        raise TimeoutException("No booking cards found - page may not have loaded")
+    return cards
+
 def main():
     # Start a driver of Chrome
     driver = make_driver()
@@ -101,10 +131,10 @@ def main():
     driver.get(GYM_URL)
 
     # Log in to homepage
-    login(driver, wait)
-
     # Go to Schedule page
-    driver.get(GYM_URL_SCHEDULE)
+    retry(lambda: login(driver, wait), description="login")
+    # Wait for schedule page to load
+    retry(lambda: open_schedule(driver, wait), description="open schedule")
 
     # How to select by partial text
     # / *Internal
@@ -128,8 +158,6 @@ def main():
     #     color: red;
     # }
 
-    # Wait for schedule page to load
-    wait.until(ec.presence_of_element_located((By.ID, "schedule-page")))
 
     # --- Book Upcoming Tuesday or Thursday Class at 6 pm ---
 
@@ -143,10 +171,10 @@ def main():
     }
 
     rules = {
-        "Booked": ("✓ Already booked", False, "already", "[Booked]"),
-        "Waitlisted": ("✓ Already on waitlist", False, "already", "[Waitlisted]"),
-        "Book Class": ("✓ Successfully booked", True, "booked", "[New Booked]"),
-        "Join Waitlist": ("✓ Joined waitlist", True, "waitlisted", "[New Waitlist]"),
+        "Booked": ("✓ Already booked", False, "already", "[Booked]", None),
+        "Waitlisted": ("✓ Already on waitlist", False, "already", "[Waitlisted]", None),
+        "Book Class": ("✓ Successfully booked", True, "booked", "[New Booked]", "Booked"),
+        "Join Waitlist": ("✓ Joined waitlist", True, "waitlisted", "[New Waitlist]", "Waitlisted"),
     }
 
     processed_classes = []
@@ -169,18 +197,23 @@ def main():
                 status = button.text.strip()
                 class_info = f"{class_name} on {day_title}"
 
-                msg, should_click, bucket, process = rules.get(status, ("? Unknown button state", False, "unknown", "No process"))
+                msg, should_click, bucket, process, expected_text = rules.get(
+                    status,
+                    ("? Unknown button state", False, "unknown", "[Unknown]", None)
+                )
                 print(f"{msg}: {class_name} on {day_title}")
                 counts[bucket] += 1
                 processed_classes.append(f"{process} {class_info}")
 
-
                 if should_click:
-                    button.click()
+                    retry(
+                        lambda: click_and_confirm_button_text(wait, button, expected_text),
+                        description=f"{status} -> {expected_text} ({class_info})"
+                    )
                     time.sleep(0.5)
 
 
-    total = counts["booked"] + counts["waitlisted"] + counts["already"] + counts["unknown"]
+    expected_total = counts["booked"] + counts["waitlisted"] + counts["already"]
 
     # print("\n--- BOOKING SUMMARY ---")
     # print(f"Classes booked: {counts['booked']}")
@@ -192,23 +225,15 @@ def main():
     # for class_detail in processed_classes:
     #     print(f"  • {class_detail}")
 
-    print(f"\n--- Total Tuesday & Thursday 6pm classes processed: {total} ---")
+    print(f"\n--- Total Tuesday & Thursday 6pm classes processed: {expected_total} ---")
     print("\n--- VERIFYING ON MY BOOKINGS PAGE ---")
 
     # Go to My Booking page
-    my_bookings_link = driver.find_element(By.ID, "my-bookings-link")
-    my_bookings_link.click()
-
-    # Wait for the page to load
-    wait.until(
-        ec.presence_of_element_located((By.ID, "my-booking-page"))
-    )
+    all_cards = retry(lambda: open_my_bookings(driver, wait), description="open my bookings")
 
     # Count all Tue/Thu 6 pm bookings
     verified_count = 0
 
-    # Find all booking cards (confirmed and waitlist)
-    all_cards = driver.find_elements(By.CSS_SELECTOR, "div[id*='card-']")
 
     for card in all_cards:
         try:
@@ -224,13 +249,13 @@ def main():
             pass
 
     print(f"\n--- VERIFICATION RESULTS ---")
-    print(f"Expected: {total} bookings")
+    print(f"Expected: {expected_total} bookings")
     print(f"Found: {verified_count} bookings")
 
-    if total == verified_count:
+    if expected_total == verified_count:
         print("✅ SUCCESS: All bookings verified")
     else:
-        print(f"❌ FAILURE: Missing {total - verified_count} bookings")
+        print(f"❌ FAILURE: Missing {expected_total - verified_count} bookings")
 
 if __name__ == '__main__':
     main()
