@@ -1,6 +1,6 @@
-from selenium import webdriver
 import os
-
+import time
+from selenium import webdriver
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -131,10 +131,25 @@ def main():
     # Wait for schedule page to load
     wait.until(ec.presence_of_element_located((By.ID, "schedule-page")))
 
-    # --- Book Upcoming Tuesday Class at 6 pm ---
+    # --- Book Upcoming Tuesday or Thursday Class at 6 pm ---
 
     # Find all class cards
     class_cards = driver.find_elements(By.CSS_SELECTOR, "div[id^='class-card-']")
+    counts = {
+        "booked": 0,
+        "waitlisted": 0,
+        "already": 0,
+        "unknown": 0,
+    }
+
+    rules = {
+        "Booked": ("✓ Already booked", False, "already", "[Booked]"),
+        "Waitlisted": ("✓ Already on waitlist", False, "already", "[Waitlisted]"),
+        "Book Class": ("✓ Successfully booked", True, "booked", "[New Booked]"),
+        "Join Waitlist": ("✓ Joined waitlist", True, "waitlisted", "[New Waitlist]"),
+    }
+
+    processed_classes = []
 
     for card in class_cards:
         # Get the day title from the parent day group
@@ -142,7 +157,7 @@ def main():
         day_title = day_group.find_element(By.TAG_NAME, "h2").text
 
         # Check if this is a Tuesday
-        if "Tue" in day_title:
+        if "Tue" in day_title or "Thu" in day_title:
             # Check if this is a 6pm class
             time_text = card.find_element(By.CSS_SELECTOR, "p[id^='class-time-']").text
             if "6:00 PM" in time_text:
@@ -152,22 +167,31 @@ def main():
                 button = card.find_element(By.CSS_SELECTOR, "button[id^='book-button-']")
 
                 status = button.text.strip()
+                class_info = f"{class_name} on {day_title}"
 
-                rules = {
-                    "Booked": ("✓ Already booked", False),
-                    "Waitlisted": ("✓ Already on waitlist", False),
-                    "Book Class": ("✓ Successfully booked", True),
-                    "Join Waitlist": ("✓ Joined waitlist", True),
-                }
-
-                msg, should_click = rules.get(status, ("? Unknown button state", False))
+                msg, should_click, bucket, process = rules.get(status, ("? Unknown button state", False, "unknown", "No process"))
                 print(f"{msg}: {class_name} on {day_title}")
+                counts[bucket] += 1
+                processed_classes.append(f"{process} {class_info}")
+
 
                 if should_click:
                     button.click()
+                    time.sleep(0.5)
 
-                if status in rules:
-                    break
+
+    total = counts["booked"] + counts["waitlisted"] + counts["already"] + counts["unknown"]
+
+    print("\n--- BOOKING SUMMARY ---")
+    print(f"Classes booked: {counts['booked']}")
+    print(f"Waitlists joined: {counts['waitlisted']}")
+    print(f"Already booked/waitlisted: {counts['already']}")
+    print(f"Unknown states: {counts['unknown']}")
+    print(f"Total Tuesday & Thursday 6pm classes processed: {total}")
+
+    print("\n--- DETAILED CLASS LIST ---")
+    for class_detail in processed_classes:
+        print(f"  • {class_detail}")
 
 
 if __name__ == '__main__':
