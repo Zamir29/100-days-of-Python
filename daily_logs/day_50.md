@@ -52,8 +52,8 @@ day_50/
 ```mermaid
 flowchart TD
     A([Start]) --> B[Open tinder.com]
-    B --> C[Click "Log In"]
-    C --> D[Click "Log in with Facebook"]
+    B --> C[Click Log In]
+    C --> D[Click Log in with Facebook]
     D --> E{Popup window opened?}
     E -- Yes --> F[Switch to FB window]
     F --> G[Enter email + password]
