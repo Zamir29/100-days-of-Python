@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 from time import sleep
 from config import (
     FACEBOOK_EMAIL,
@@ -23,7 +24,7 @@ def main():
 
     # Select Facebook login window pop up
     sleep(2)
-    base_window = driver.window_handles[0]
+    base_window = driver.current_window_handle # Not using index to avoid any scrambling
     fb_login_window = driver.window_handles[1]
     driver.switch_to.window(fb_login_window)
     print(driver.title)
@@ -38,6 +39,39 @@ def main():
     # Switch back to Tinder window
     driver.switch_to.window(base_window)
     print(driver.title)
+
+    sleep(5)
+
+    allow_location_button = driver.find_element(By.XPATH, value='//*[@id="modal-manager"]/div/div/div/div/div[3]/button[]1]')
+    allow_location_button.click()
+
+    notifications_button = driver.find_element(By.XPATH, value='//*[@id="modal-manager"]/div/div/div/div/div[3]/button[2]')
+    notifications_button.click()
+
+    cookies_button = driver.find_element(By.XPATH, value='//*[@id="content"]/div/div[2]/div/div/div[1]/button')
+    cookies_button.click()
+
+    # Tinder limit 100:
+    for n in range(100):
+        # Add 1 second delay between likes
+        sleep(1)
+
+        try:
+            print("called")
+            like_button = driver.find_element(By.XPATH, value='//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[2]/div[4]/button')
+            like_button.click()
+
+        # If It's a Match window pops up
+        except ElementClickInterceptedException:
+            try:
+                match_popup = driver.find_element(By.CSS_SELECTOR, value='.itsAMatch a')
+                match_popup.click()
+
+            # Catches the cases where the "Like" button has not yet loaded
+            except NoSuchElementException:
+                sleep(2)
+
+    driver.quit()
 
 if __name__ == '__main__':
     main()
