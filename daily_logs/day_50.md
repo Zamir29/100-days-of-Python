@@ -57,11 +57,11 @@ flowchart TD
     D --> E{Popup window opened?}
     E -- Yes --> F[Switch to FB window]
     F --> G[Enter email + password]
-    G --> H[Submit (ENTER)]
+    G --> H[Submit ENTER]
     H --> I[Switch back to Tinder window]
     E -- No --> D
 
-    I --> J[Handle optional popups<br/>(location / notifications / cookies)]
+    I --> J[Handle optional popups<br/>location / notifications / cookies]
     J --> K[Loop up to N swipes]
     K --> L[Wait & click Like button]
     L --> M{Click intercepted?}
