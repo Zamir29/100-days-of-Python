@@ -37,7 +37,7 @@ I’m building this as both a **learning archive** and a **public portfolio**.
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_50/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_50.md)  
 Build a Selenium automation script that logs into Tinder on the web, handles popups/permissions, and performs automated swipes in a controlled loop.  
-**Stack used:** Python, Selenium WebDriver, Chrome (or Safari) + WebDriver/Selenium Manager, VS Code/PyCharm.
+**Stack used:** `Python`, `Selenium WebDriver`, `Chrome` (or `Safari`) + `WebDriver`/`Selenium Manager`, `VS Code`/`PyCharm`.
 
 <details><summary>Show all logs</summary>  
 
