@@ -1,4 +1,4 @@
-# Day 50 — Day 50 - Auto Tinder Swiping Bot <!-- omit in toc -->
+# Day 50 — Auto Tinder Swiping Bot <!-- omit in toc -->
 
 [![Open Project Folder](https://img.shields.io/badge/📁%20Day%2050-Open%20Folder-blue)](../day_50/main.py)  
 
