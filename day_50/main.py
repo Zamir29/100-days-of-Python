@@ -2,36 +2,52 @@ from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from time import sleep
 from config import (
     FACEBOOK_EMAIL,
     FACEBOOK_PASSWORD,
 )
 
+def wait_click(wait, by, selector):
+    return wait.until(ec.element_to_be_clickable((by, selector))).click()
+
+def wait_find(wait, by, selector):
+    return wait.until(ec.presence_of_element_located((by, selector)))
 
 def main():
     driver = webdriver.Chrome()
+    wait = WebDriverWait(driver, 10)
 
     driver.get("https://www.tinder.com")
 
-    sleep(2)
-    login_button = driver.find_element(By.XPATH, value='//*[text()="Log In"]')
+    login_button = wait.until(
+        ec.element_to_be_clickable((By.XPATH, '//*[text()="Log In"]'))
+    )
     login_button.click()
 
-    sleep(2)
-    fb_login = driver.find_element(By.XPATH, value='//*[@id="modal-manager"]/div/div/div[1]/div/div[3]/span/div[2]/button')
+    fb_login = wait.until(
+        ec.element_to_be_clickable((By.XPATH, '//*[@id="modal-manager"]/div/div/div[1]/div/div[3]/span/div[2]/button'))
+    )
     fb_login.click()
 
     # Select Facebook login window pop up
-    sleep(2)
+    wait.until(ec.number_of_windows_to_be(2))
     base_window = driver.current_window_handle # Not using index to avoid any scrambling
-    fb_login_window = driver.window_handles[1]
+
+    # Pick the first of all the windows that are different from base_window
+    fb_login_window = [w for w in driver.window_handles if w != base_window][0]
     driver.switch_to.window(fb_login_window)
     print(driver.title)
 
     # Login and click enter
-    email = driver.find_element(By.XPATH, value='//*[@id="email"]')
-    password = driver.find_element(By.XPATH, value='//*[@id="pass"]')
+    email = wait.until(
+        ec.visibility_of_element_located((By.XPATH, '//*[@id="email"]'))
+    )
+    password = wait.until(
+        ec.visibility_of_element_located((By.XPATH, '//*[@id="pass"]'))
+    )
     email.send_keys(FACEBOOK_EMAIL)
     password.send_keys(FACEBOOK_PASSWORD)
     password.send_keys(Keys.ENTER)
@@ -42,7 +58,7 @@ def main():
 
     sleep(5)
 
-    allow_location_button = driver.find_element(By.XPATH, value='//*[@id="modal-manager"]/div/div/div/div/div[3]/button[]1]')
+    allow_location_button = driver.find_element(By.XPATH, value='//*[@id="modal-manager"]/div/div/div/div/div[3]/button[1]]')
     allow_location_button.click()
 
     notifications_button = driver.find_element(By.XPATH, value='//*[@id="modal-manager"]/div/div/div/div/div[3]/button[2]')
@@ -53,7 +69,7 @@ def main():
 
     # Tinder limit 100:
     for n in range(100):
-        # Add 1 second delay between likes
+        # Add one-second delay between likes
         sleep(1)
 
         try:
