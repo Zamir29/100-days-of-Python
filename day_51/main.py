@@ -1,7 +1,9 @@
-# Day 51 - Created automatically
+import internet_bot
 
 def main():
-    print('Hello Day 51')
+    bot = internet_bot.InternetSpeedXBot()
+    bot.get_internet_speed()
+    bot.x_at_provider()
 
 if __name__ == '__main__':
     main()
