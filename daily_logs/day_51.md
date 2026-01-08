@@ -82,7 +82,7 @@ flowchart TD
     J -->|Yes| K[Print All good summary]
     J -->|No| L[Build complaint text]
     L --> M[Attempt X login + compose tweet]
-    M --> N[Post tweet (if allowed)]
+    M --> N[Post tweet -if allowed-)]
     K --> O[Quit driver]
     N --> O[Quit driver]
     O --> P([End])
