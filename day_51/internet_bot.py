@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
+import os
 from config import (
     SPEEDTEST_URL,
     X_EMAIL,
@@ -14,7 +15,13 @@ from config import (
 
 class InternetSpeedXBot:
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        # Keep Chrome browser open after program finishes
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_experimental_option("detach", True)
+        # Create user data directory
+        user_data_dir = os.path.join(os.getcwd(), "x_profile")
+        chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+        self.driver = webdriver.Chrome(options=chrome_options)
         self.timeout_default = 10
         self.wait = WebDriverWait(self.driver, self.timeout_default)
         self.down = 0
@@ -78,6 +85,9 @@ class InternetSpeedXBot:
     def x_at_provider(self, complaint_text):
         # Go directly to the login page
         self.driver.get(X_URL)
+
+        # wait for x to render for available users
+        time.sleep(3)
 
         # Input username
         input_username = self.wait.until(

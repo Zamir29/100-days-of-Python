@@ -48,7 +48,7 @@ def main():
               f"⬆️ Your upload speed ({up:.2f} Mbps) delta is: {up_difference:+.2f} Mbps, lower than promised\n"
               f"\n💬 Sending complaint on x.com:\n{complaint_text}\n")
         bot.x_at_provider(complaint_text)
-    bot.driver_quit()
+    # bot.driver_quit()
 
 if __name__ == '__main__':
     main()
