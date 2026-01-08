@@ -55,16 +55,16 @@ day_52/
 ```mermaid
 flowchart TD
   A[Start] --> B[Open Instagram login]
-  B --> C[Handle cookies #40;if shown#41;]
+  B --> C[Handle cookies<br>#40;if shown#41;]
   C --> D[Submit username and password]
-  D --> E[Dismiss popups #40;Not now x2#41;]
+  D --> E[Dismiss popups<br>#40;Not now x2#41;]
   E --> F[Open target profile]
   F --> G[Open followers modal]
-  G --> H[Scroll modal #40;load more users#41;]
+  G --> H[Scroll modal<br>#40;load more users#41;]
   H --> I[Loop buttons inside modal]
   I --> J{Button text is Follow?}
-  J -->|Yes| K[Click Follow #40;increment new follows#41;]
-  J -->|No| L[Skip #40;count already following or requested#41;]
+  J -->|Yes| K[Click Follow<br>#40;increment new follows#41;]
+  J -->|No| L[Skip<br>#40;count already following or requested#41;]
   K --> M{Reached MAX_FOLLOWS?}
   L --> M
   M -->|No| H
