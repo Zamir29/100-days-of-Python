@@ -1,12 +1,15 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-# from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
 from config import (
-    SPEEDTEST_URL
+    SPEEDTEST_URL,
+    X_EMAIL,
+    X_PASSWORD,
+    X_URL,
 )
 
 class InternetSpeedXBot:
@@ -72,8 +75,48 @@ class InternetSpeedXBot:
 
         return self.down, self.up
 
-    def x_at_provider(self):
-        pass
+    def x_at_provider(self, complaint_text):
+        # Go directly to the login page
+        self.driver.get(X_URL)
+
+        # Input username
+        input_username = self.wait.until(
+            ec.element_to_be_clickable((By.CSS_SELECTOR, "input[autocomplete='username']"))
+        )
+        input_username.send_keys(X_EMAIL)
+
+        # Click Enter
+        input_username.send_keys(Keys.ENTER)
+
+        # Input Password
+        input_password = self.wait.until(
+            ec.element_to_be_clickable((By.CSS_SELECTOR, "input[autocomplete='current-password']"))
+        )
+        input_password.send_keys(X_PASSWORD)
+
+        # Click Enter
+        input_password.send_keys(Keys.ENTER)
+
+        # Tweet Text editor
+        tweet_box = self.wait.until(
+            ec.element_to_be_clickable((By.CSS_SELECTOR, "div[data-testid='tweetTextarea_0']"))
+        )
+
+        # Activate the box to input text
+        tweet_box.click()
+
+        # Input tweet text
+        tweet_box.send_keys(complaint_text)
+
+        # # Send tweet
+        # tweet_box.send_keys(Keys.ENTER)
+
+        # Alternative of Post button
+        post_tweet = self.wait.until(
+            ec.element_to_be_clickable((By.CSS_SELECTOR, "button[data-testid='tweetButtonInline']"))
+        )
+        post_tweet.click()
+
 
     def driver_quit(self):
         self.driver.quit()
