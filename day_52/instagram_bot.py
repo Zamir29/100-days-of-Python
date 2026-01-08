@@ -3,13 +3,20 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import (
+    TimeoutException,
+    NoSuchElementException,
+    ElementClickInterceptedException,
+    StaleElementReferenceException,
+    WebDriverException,
+)
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from config import (
     INSTA_USERNAME,
     INSTA_PASSWORD,
     SIMILAR_ACCOUNT,
+    MAX_FOLLOWS,
 )
 class InstaFollower:
     def __init__(self):
@@ -24,6 +31,9 @@ class InstaFollower:
         self.wait = WebDriverWait(self.driver, self.timeout_default)
         self.insta_url = "https://www.instagram.com/"
         self.insta_login = f"{self.insta_url}accounts/login/"
+        self.dialog = None
+        self.scroll_box = None
+
 
     def login(self):
         self.driver.get(self.insta_login)
@@ -100,4 +110,48 @@ class InstaFollower:
         self.scroll_box = scroll_box
 
     def follow(self):
-        pass
+        time.sleep(2)
+
+        new_followed = 0
+        already_followed = 0
+
+        while new_followed < MAX_FOLLOWS:
+            # Get all the buttons inside the followers modal
+            buttons = self.driver.find_elements(By.XPATH, "//div[@role='dialog']//button")
+
+            if not buttons:
+                print("❌ No buttons found in followers modal!")
+                break
+            for btn in buttons:
+                if new_followed >= MAX_FOLLOWS:
+                    break
+
+                try:
+                    label = btn.text.strip()
+
+                    if label == "Follow":
+                        btn.click()
+                        new_followed += 1
+                        time.sleep(1.2)
+                    elif label in ("Following", "Requested"):
+                        already_followed += 1
+
+                    # else: ignore, other scenarios are out of scope
+
+                except (ElementClickInterceptedException, StaleElementReferenceException):
+                    time.sleep(0.9)
+                    continue
+
+            try:
+                self.driver.execute_script(
+                    "arguments[0].scrollTop = arguments[0].scrollHeight",
+                    self.scroll_box
+                )
+            except WebDriverException:
+                pass
+
+            time.sleep(1.2)
+
+        print(f"SUMMARY:\n"
+              f"{new_followed}/{MAX_FOLLOWS} new follows\n"
+              f"{already_followed}/{MAX_FOLLOWS} already followed, skipped\n")
