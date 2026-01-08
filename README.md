@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/52/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/53/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 53 - Data Entry Job Automation**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_53/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_53.md)  
+Scrape rent listings (price, address, link) from the Zillow Clone and auto-submit each entry into a Google Form to generate a spreadsheet.  
+**Stack used:** `Python`, `requests`, `BeautifulSoup4`, `Selenium` + `WebDriver` (`Chrome`), `Google Forms` (+ `Google Sheets` via Responses tab).
+
+<details><summary>Show all logs</summary>  
+
 - **Day 52 - Instagram Follower Bot**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_52/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_52.md)  
 Build an Instagram follower bot with Selenium that logs in and follows users from a target account’s follower list. Keep it stable with explicit waits and safe follow limits.  
 **Stack used:** `Python`, `Selenium WebDriver`, `ChromeDriver` (or `Safari` on macOS). Optional: `python-dotenv` for credentials.
 
-<details><summary>Show all logs</summary>  
 
 - **Day 51 - Internet Speed Twitter Complain Bot**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_51/main.py)
