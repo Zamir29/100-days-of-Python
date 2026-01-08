@@ -37,7 +37,7 @@ I’m building this as both a **learning archive** and a **public portfolio**.
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_51/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_51.md)  
 Build an automated “Internet Speed Complaint” bot that uses Selenium to run a Speedtest, captures download/upload results, compares them to promised speeds, and posts a complaint tweet when the speed is below the guarantee.  
-**Stack used:** Python, Selenium WebDriver (Chrome/Safari), speedtest.net, X/Twitter web app. Environment variables (.env) for credentials and promised speed thresholds.
+**Stack used:** `Python`, `Selenium WebDriver` (`Chrome`/`Safari`), `speedtest.net`, X/Twitter web app. Environment variables (`.env`) for credentials and promised speed thresholds.
 
 <details><summary>Show all logs</summary>  
 
