@@ -1,21 +1,27 @@
 import requests
+import re
 from bs4 import BeautifulSoup
-from config import (
-    GOOGLE_FORM_URL,
-    ZILLOW_URL,
-    REQUEST_HEADERS,
-)
-
 
 class Scraper:
-    def __init__(self):
-        response = requests.get(ZILLOW_URL, headers=REQUEST_HEADERS, timeout=20)
-        response.raise_for_status()
-        self.site_html = response.text
-        self.soup = BeautifulSoup(self.site_html, "html.parser")
+    def __init__(self, url: str, headers: dict, timeout: int = 15):
+        self.url = url
+        self.headers = headers
+        self.timeout = timeout
+        self.currency = "$"
 
-    def get_list(self):
-        result_container = self.soup.select_one(selector="div.result-list-container ul")
+    def fetch(self) -> str:
+        response = requests.get(url=self.url, headers=self.headers, timeout=self.timeout)
+        response.raise_for_status()
+        site_html = response.text
+
+        return site_html
+
+    @staticmethod
+    def parse(html: str):
+        return BeautifulSoup(html, "html.parser")
+
+    def get_list(self, soup):
+        result_container = soup.select_one(selector="div.result-list-container ul")
 
         if not result_container:
             print("Container is empty")
@@ -32,8 +38,8 @@ class Scraper:
 
         return all_items
 
-    @staticmethod
-    def get_item_data( one_item):
+
+    def get_item_data(self, one_item):
         # Focus on the <a> tag that contains link and address
         get_a = one_item.select_one("a[data-test='property-card-link']")
 
@@ -47,12 +53,25 @@ class Scraper:
         # Retrieve the link
         get_link = get_a.get("href", "")
 
+        # Retrieve the price tag
         price_tag = one_item.select_one("span[data-test='property-card-price']")
         price_raw = price_tag.get_text(strip=True) if price_tag else ""
-        get_price = ""
-        for char in price_raw:
-            if char.isdigit() or char in ("$", ",", "."):
-                get_price += char
+        if not price_raw:
+            return None
+
+        # get_price = ""
+        # for char in price_raw:
+        #     if char.isdigit() or char in ("$", ",", "."):
+        #         get_price += char
+
+        # Match the pattern using the price raw output
+        match = re.search(r"(\d[\d,]*\.?\d*)", price_raw)
+        if not match:
+            return None
+
+        # Create the price as required by Angela to input in the Google Form
+        number_str = match.group(1)
+        get_price = f"{self.currency}{number_str}"
 
         data_dict = {
             "address": get_address,
@@ -61,3 +80,8 @@ class Scraper:
         }
 
         return data_dict
+
+    def run(self) -> list[dict[str, str]]:
+        html = self.fetch()
+        soup = self.parse(html=html)
+        return self.get_list(soup=soup)

@@ -1,8 +1,12 @@
 from scraper_bot import Scraper
+from config import (
+    ZILLOW_URL,
+    REQUEST_HEADERS,
+)
 
-scraper = Scraper()
+scraper = Scraper(url=ZILLOW_URL, headers=REQUEST_HEADERS)
 
-ul_list = scraper.get_list()
+ul_list = scraper.run()
 
 
 
