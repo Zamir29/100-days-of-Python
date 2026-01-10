@@ -41,17 +41,17 @@ class Scraper:
 
     def get_item_data(self, one_item):
         # Focus on the <a> tag that contains link and address
-        get_a = one_item.select_one("a[data-test='property-card-link']")
+        link_tag = one_item.select_one("a[data-test='property-card-link']")
 
-        if not get_a:
+        if not link_tag:
             return None
 
         # Retrieve the address
-        address_tag = get_a.select_one("address")
-        get_address = address_tag.get_text(strip=True) if address_tag else ""
+        address_tag = link_tag.select_one("address")
+        address_text = address_tag.get_text(strip=True) if address_tag else ""
 
         # Retrieve the link
-        get_link = get_a.get("href", "")
+        listing_url = link_tag.get("href", "")
 
         # Retrieve the price tag
         price_tag = one_item.select_one("span[data-test='property-card-price']")
@@ -71,12 +71,12 @@ class Scraper:
 
         # Create the price as required by Angela to input in the Google Form
         number_str = match.group(1)
-        get_price = f"{self.currency}{number_str}"
+        price_text = f"{self.currency}{number_str}"
 
         data_dict = {
-            "address": get_address,
-            "price": get_price,
-            "link": get_link,
+            "address": address_text,
+            "price": price_text,
+            "link": listing_url,
         }
 
         return data_dict
