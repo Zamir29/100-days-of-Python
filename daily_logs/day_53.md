@@ -6,7 +6,7 @@
 |:---------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |   Goal    | Scrape rent listings (price, address, link) from the Zillow Clone and auto-submit each entry into a Google Form to generate a spreadsheet.                                                                                                                          |
 |   Steps   | 1. Use requests + BeautifulSoup to extract all listings (price, address, URL).<br/>2. Clean/normalize the scraped text (remove extra symbols, standardize formats).<br/>3. Use Selenium to open the Google Form and submit one response per listing with reliable waits. |
-|   Stack   | Clean/normalize the scraped text (remove extra symbols, standardize formats).                                                                                                                                                                                       |
+|   Stack   | `Python`, `requests`, `BeautifulSoup4`, `Selenium` + `WebDriver` (`Chrome`), `Google Forms` (+ `Google Sheets` via Responses tab).                                                                                                                                                                                       |
 
 ## 📘 Table of contents <!-- omit in toc -->
 
