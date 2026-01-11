@@ -1,6 +1,12 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import TimeoutException
 
 class Scraper:
     def __init__(self, url: str, headers: dict, timeout: int = 15):
@@ -85,3 +91,19 @@ class Scraper:
         html = self.fetch()
         soup = self.parse(html=html)
         return self.get_list(soup=soup)
+
+class FormFiller:
+    def __init__(self, url: str, headers: dict, timeout: int = 15):
+        self.url = url
+        self.headers = headers
+        self.timeout = timeout
+
+    def create_webdriver(self):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_experimental_option(name="detach", value=True)
+
+        driver = webdriver.Chrome(options=chrome_options)
+        wait = WebDriverWait(driver, self.timeout)
+
+        return driver, wait
+
