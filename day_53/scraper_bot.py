@@ -3,11 +3,14 @@ import re
 import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.common import InvalidElementStateException
 from selenium.webdriver.common.by import By
-# from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-# from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import (
+    ElementNotInteractableException,
+    StaleElementReferenceException, TimeoutException,
+)
 
 class Scraper:
     def __init__(self, url: str, headers: dict, timeout: int = 15):
@@ -106,6 +109,19 @@ class FormFiller:
 
         return driver, wait
 
+    @staticmethod
+    def pick_visible_input(item, item_index):
+        selector_list = [
+            "div[role='heading'] span",
+            "input, textarea",
+        ]
+        try:
+            elements = item.find_elements(By.CSS_SELECTOR, selector_list[item_index])
+            return next((element for element in elements if element.is_displayed() and element.is_enabled())
+                        , None)
+        except StaleElementReferenceException:
+            return None
+
     def fill_form(self, data_dict: dict[str, str]):
 
         # Map Google Form field labels -> your dict keys
@@ -131,32 +147,84 @@ class FormFiller:
             By.CSS_SELECTOR, "div[role='listitem']"
         )
 
+        item_filled = 0
+        all_items_filled = False
         # Loops through items
         for item in form_items:
 
-            #Find the label and compare to the Map
-            label = item.find_element(By.CSS_SELECTOR, "div[role='heading'] span").text.strip().lower()
-            print("Field label:", label)
+            # Scroll question into view to help Google Forms render the label/input
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", item)
 
-            if label not in align_params:
+            # Label check and get the value
+            label = self.pick_visible_input(item, item_index=0)
+            if label is None or not label.text.strip():
+                try:
+                    label = WebDriverWait(driver, 4).until(
+                        lambda d: self.pick_visible_input(item, item_index=0)
+                    )
+                except TimeoutException:
+                    # Can't map this questions without its label
+                    continue
+
+            label = label.text.strip().lower()
+            if not label or label not in align_params:
                 continue
 
             key = align_params[label]
             value = data_dict.get(key, "")
 
-            input_item = item.find_element(By.CSS_SELECTOR, "input")
-            input_item.click()
-            input_item.send_keys(value)
+            input_item = self.pick_visible_input(item, item_index=1)
+
+            if input_item is None:
+                try:
+                    input_item = WebDriverWait(driver, 4).until(
+                        lambda d: self.pick_visible_input(item, item_index=1)
+                    )
+                except TimeoutException:
+                    print(f"⚠️ No visible input for label: {label}")
+                    continue
+
+            # Retries for three times to input the value
+            for attempt in range(3):
+                if input_item is None:
+                    time.sleep(0.2)
+                    input_item = self.pick_visible_input(item, item_index=1)
+                    continue
+
+                try:
+                    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", input_item)
+                    input_item.click()
+                    input_item.clear()
+                    input_item.send_keys(value)
+                    item_filled += 1
+                    time.sleep(0.2)
+                    break
+                except (ElementNotInteractableException, StaleElementReferenceException, InvalidElementStateException):
+                    if attempt == 2:
+                        print(f"❌ Could not type into filed '{label}' after retries")
+                        break
+                    time.sleep(0.2)
+                    # re-find after DOM update
+                    # candidates = item.find_elements(By.CSS_SELECTOR, "input, textarea")
+                    # input_item = next(
+                    #     (element for element in candidates if element.is_displayed() and element.is_enabled()),
+                    #     None
+                    # )
+                    input_item = self.pick_visible_input(item, item_index=1)
+                    continue
+
+        if item_filled >= len(align_params):
+            all_items_filled = True
 
         buttons = wait.until(
             ec.element_to_be_clickable(
-                (By.CSS_SELECTOR, "div[aria-label='Submit']")
+                (By.CSS_SELECTOR, "div[aria-label='Submit'], div[aria-label='Invia']")
             )
         )
-
         buttons.click()
+
         time.sleep(0.2)
 
         driver.quit()
 
-        return
+        return all_items_filled
