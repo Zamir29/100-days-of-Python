@@ -1,13 +1,19 @@
 from flask import Flask
 import random
 
-GREETING_TEXT = ('<h1 style="text-align: center">Guess a number between 0 and 9</h1>'
+GREETING_TEXT = ('<h1 style="color: black; text-align: center">Guess a number between 0 and 9</h1>'
             '<img style="display: block; margin: auto; width: 50%;" '
             'src="https://media.giphy.com/media/3o7aCSPqXE5C6T8tBC/giphy.gif">')
 
-YOU_GUESSED_IT = "<h1>You guessed the number</h1>"
-TOO_LOW = "<h1>Too Low, Try again</h1>"
-TOO_HIGH = "<h1>Too High, Try again</h1>"
+YOU_GUESSED_IT = ('<h1 style="color: green; text-align: center">You guessed the number</h1>'
+                  '<img style="display: block; margin: auto; width: 50%;" '
+            'src="https://media.giphy.com/media/4T7e4DmcrP9du/giphy.gif">')
+TOO_LOW = ('<h1 style="color: purple; text-align: center">Too Low, Try again</h1>'
+           '<img style="display: block; margin: auto; width: 50%;" '
+            'src="https://media.giphy.com/media/jD4DwBtqPXRXa/giphy.gif">')
+TOO_HIGH = ('<h1 style="color: red; text-align: center">Too High, Try again</h1>'
+            '<img style="display: block; margin: auto; width: 50%;" '
+            'src="https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif">')
 
 app = Flask(__name__)
 
@@ -27,7 +33,7 @@ def guess_result(user_number):
         return TOO_LOW
 
 def main():
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
 
 if __name__ == "__main__":
     main()
