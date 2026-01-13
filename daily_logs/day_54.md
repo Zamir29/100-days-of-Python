@@ -60,7 +60,7 @@ day_54/
 ```mermaid
 graph TD
     U[Browser &#40;Client&#41;] -->|HTTP Request GET /| S[Flask Dev Server]
-    S -->|Route match<br />#40;@app.route#41;| R[View function home<br />#40;#41;]
+    S -->|Route match<br />#40;@app.route#41;| R[View function home<br />#40;func#41;]
     R -->|Return response| S
     S -->|HTTP Response| U
     S -.-> D[(Database<br />#40;future days#41;)]
