@@ -11,6 +11,9 @@
     <h1>Hello World!</h1>
     <h2>{{ 5 * 6 }}</h2>
     <h2>Random Number: {{ random_number }}</h2>
+    <button style="padding: 10px;">
+        <a href="{{ url_for('get_blog', num=3) }}"><span style="">Blog 3</span></a>
+    </button>
 </body>
 <footer>
     <p>Copyright {{ year }}. Built by Zamir</p>

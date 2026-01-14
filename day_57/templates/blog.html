@@ -8,11 +8,16 @@
     <title>Blog</title>
 </head>
 <body>
+    <nav>
+        <button style="padding: 10px;">
+            <a href="{{ url_for('home') }}">Home</a>
+        </button>
+    </nav>
     {% for blog_post in all_posts %}
-        {% if blog_post["id"] == 2 %}
-        <h1>{{ blog_post["title"] }}</h1>
-        <h2>{{ blog_post["subtitle"] }}</h2>
-        <p>{{ blog_post["body"] }}</p>
+        {% if blog_post.get("id") == post_num %}
+        <h1>{{ blog_post.get("title") }}</h1>
+        <h2>{{ blog_post.get("subtitle") }}</h2>
+        <p>{{ blog_post.get("body") }}</p>
         {% endif %}
     {% endfor %}
 </body>

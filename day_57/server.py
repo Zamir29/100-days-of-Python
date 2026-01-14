@@ -37,15 +37,15 @@ def guess(name):
                            age=age,
                            )
 
-@app.route('/blog')
-def blog():
+@app.route('/blog/<int:num>')
+def get_blog(num):
     response_blog = requests.get(url=NPOINT_URL)
     response_blog.raise_for_status()
     all_posts = response_blog.json()
-    print(all_posts)
 
     return render_template("blog.html",
                            all_posts=all_posts,
+                           post_num=num,
                            )
 
 
