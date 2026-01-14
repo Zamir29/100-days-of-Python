@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/56/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/57/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 57 - Templating with Jinja in Flask Apps**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_57/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_57.md)  
+Learn how to build more advanced Flask apps by using Jinja templating to create reusable page layouts and inject dynamic content. Render different pages (e.g. blog posts) from the same template structure.  
+**Stack used:** `Python`, `Flask`, `Jinja2` templating, `HTML`/`CSS`, dynamic routing with URLs, browser-based rendering.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 56 - Flask - Render HTML/Static files & Website Templates**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_56/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_56.md)  
 Build a Flask website that renders real HTML templates instead of plain text. Learn how to serve and link static assets (CSS + images) to style the pages properly.  
 **Stack used:** `Python`,` Flask`, `Jinja2` templates, `HTML`, `CSS`. Static assets via Flask `static/` + `url_for`, running locally with `VS Code`/`PyCharm` and a browser.
 
-<details><summary>Show all logs</summary>  
 
 - **Day 55 - HTML & URL Parsing in Flask**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_55/main.py)
