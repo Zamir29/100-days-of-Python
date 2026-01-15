@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog</title>
+</head>
+<body>
+    <nav>
+        <button style="padding: 10px;">
+            <a href="{{ url_for('home') }}">Home</a>
+        </button>
+    </nav>
+    {% for blog_post in all_posts %}
+        {% if blog_post.get("id") == post_num %}
+        <h1>{{ blog_post.get("title") }}</h1>
+        <h2>{{ blog_post.get("subtitle") }}</h2>
+        <p>{{ blog_post.get("body") }}</p>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>
