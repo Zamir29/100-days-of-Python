@@ -13,8 +13,9 @@
            </div>
         <div class="content">
             <div class="card">
-                <h2>Title</h2>
-                <p>Post Body</p>
+                <h2>{{ post_content.get('title') }}</h2>
+                <h3>{{ post_content.get('subtitle') }}</h3>
+                <p>{{ post_content.get('body') }}</p>
             </div>
 
     </div>
