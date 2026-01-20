@@ -11,34 +11,26 @@ post_repo = PostRepository()
 
 @app.route("/")
 def index():
-    """
-    Docstring for main
-    """
+    """Render the homepage with the list of blog posts."""
     all_posts = post_repo.all_posts()
     return render_template("index.html", all_posts=all_posts)
 
 
 @app.route("/about")
 def about():
-    """
-    Docstring for about
-    """
+    """Serve the About page template."""
     return render_template("about.html")
 
 
 @app.route("/contact")
 def contact():
-    """
-    Docstring for contact
-    """
+    """Serve the Contact page template."""
     return render_template("contact.html")
 
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
-    """
-    Docstring for post
-    """
+    """Serve the post detail page for the given post_id or 404 if missing."""
     post_data = post_repo.by_id(post_id)
     if post_data is None:
         abort(404)
