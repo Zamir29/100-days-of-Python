@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/58/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/59/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 59 - Bootstrap + Flask blog**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_59/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_59.md)  
+Upgrade my Flask blog using a free Bootstrap template to make it multi-page, mobile-responsive, and able to render dynamic post pages with full-screen titles.  
+**Stack used:** Python, Flask, Jinja2, Bootstrap 5, HTML/CSS, JavaScript, VS Code/PyCharm.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 58 - Bootstrap Setup**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_58/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_58.md)  
 Style my Flask blog using Bootstrap to achieve a clean, responsive layout with reusable templates (base.html) and consistent UI components.  
 **Stack used:** Python, Flask, Jinja2, HTML, CSS, Bootstrap 5 (CDN)
 
-<details><summary>Show all logs</summary>  
 
 - **Day 57 - Templating with Jinja in Flask Apps**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_57/main.py)
