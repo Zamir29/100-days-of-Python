@@ -95,32 +95,20 @@
               </div>
             </div>
             <br />
-            <!-- Submit success message-->
+            <!-- Submit success/error message-->
             <!---->
             <!-- This is what your users will see when the form-->
             <!-- has successfully submitted-->
-             {% if request.args.get('status') == 'success' %}
-            <div class="" id="submitSuccessMessage">
-              <div class="text-center mb-3">
-                <div class="fw-bolder">Form submission successful!</div>
-                To activate this form, sign up at
-                <br />
-                <a href="https://startbootstrap.com/solution/contact-forms"
-                  >https://startbootstrap.com/solution/contact-forms</a
-                >
+             {% if ui and ui.title %}
+            <div class="alert {{ ui.alert_class }} mb-4" role="alert">
+              <div class="text-center">
+                <h4 class="mb-0 fw-medium">{{ ui.title }}</h4>
+                {% if ui.message %}
+                <p class="m-2 h5 fw-lighter">{{ ui.message }}</p>
+                {% endif %}
               </div>
             </div>
-            <!-- Submit error message-->
-            <!---->
-            <!-- This is what your users will see when there is-->
-            <!-- an error submitting the form-->
-             {% elif request.args.get('status') == 'error' %}
-            <div class="" id="submitErrorMessage">
-              <div class="text-center text-danger mb-3">
-                Error sending message!
-              </div>
-            </div>
-            {% endif %}
+            {% end if %}
             <!-- Submit Button-->
             <button
               class="btn btn-primary text-uppercase"

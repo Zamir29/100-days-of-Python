@@ -1,3 +1,4 @@
+""" Config keeps all the data used in the app"""
 import os
 from dotenv import load_dotenv, find_dotenv
 
