@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+<!-- prettier-ignore -->
+{% block content %}
 <!-- Page Header-->
 <header
   class="masthead"
@@ -32,11 +34,12 @@
           <!-- To make this form functional, sign up at-->
           <!-- https://startbootstrap.com/solution/contact-forms-->
           <!-- to get an API token!-->
-          <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+          <form id="contactForm" action="{{ url_for('contact_submit')}}" method="POST">
             <div class="form-floating">
               <input
                 class="form-control"
                 id="name"
+                name="name"
                 type="text"
                 placeholder="Enter your name..."
                 data-sb-validations="required"
@@ -50,6 +53,7 @@
               <input
                 class="form-control"
                 id="email"
+                name="email"
                 type="email"
                 placeholder="Enter your email..."
                 data-sb-validations="required,email"
@@ -66,6 +70,7 @@
               <input
                 class="form-control"
                 id="phone"
+                name="phone"
                 type="tel"
                 placeholder="Enter your phone number..."
                 data-sb-validations="required"
@@ -79,6 +84,7 @@
               <textarea
                 class="form-control"
                 id="message"
+                name="message"
                 placeholder="Enter your message here..."
                 style="height: 12rem"
                 data-sb-validations="required"
@@ -93,7 +99,8 @@
             <!---->
             <!-- This is what your users will see when the form-->
             <!-- has successfully submitted-->
-            <div class="d-none" id="submitSuccessMessage">
+             {% if request.args.get('status') == 'success' %}
+            <div class="" id="submitSuccessMessage">
               <div class="text-center mb-3">
                 <div class="fw-bolder">Form submission successful!</div>
                 To activate this form, sign up at
@@ -107,14 +114,16 @@
             <!---->
             <!-- This is what your users will see when there is-->
             <!-- an error submitting the form-->
-            <div class="d-none" id="submitErrorMessage">
+             {% elif request.args.get('status') == 'error' %}
+            <div class="" id="submitErrorMessage">
               <div class="text-center text-danger mb-3">
                 Error sending message!
               </div>
             </div>
+            {% endif %}
             <!-- Submit Button-->
             <button
-              class="btn btn-primary text-uppercase disabled"
+              class="btn btn-primary text-uppercase"
               id="submitButton"
               type="submit"
             >

@@ -1,7 +1,13 @@
 """Day 59 - Flask Blog (Bootstrap upgrade): main Flask app entrypoint."""
 
-from flask import Flask, render_template, abort
+from flask import Flask, redirect, render_template, abort, request, url_for
 from posts import PostRepository
+from config import (
+    GMAIL_SMTP,
+    ZCH_MAIL,
+    MY_EMAIL,
+    MY_PASSWORD,
+)
 
 app = Flask(__name__)
 
@@ -26,6 +32,22 @@ def about():
 def contact():
     """Serve the Contact page template."""
     return render_template("contact.html")
+
+@app.route("/contact/submit", methods=["POST"])
+def contact_submit():
+    """Submit data from the Contact page template."""
+    name = (request.form.get("name") or "").strip()
+    email = (request.form.get("email") or "").strip()
+    phone = (request.form.get("phone") or "").strip()
+    message = (request.form.get("message") or "").strip()
+
+    # If any field is missing, redirect to back to contact with error status
+    if not name or not email or not message:
+        return redirect(url_for("contact", status="error"))
+    elif "@" not in email:
+        return redirect(url_for("contact", status="error"))
+    else:
+        return redirect(url_for("contact", status="success"))
 
 
 @app.route("/post/<int:post_id>")
