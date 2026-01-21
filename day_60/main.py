@@ -2,6 +2,8 @@
 
 from email.message import EmailMessage
 import smtplib
+import sqlite3
+from datetime import datetime, timezone
 from flask import Flask, redirect, render_template, abort, request, url_for
 from posts import PostRepository
 from config import (
@@ -9,7 +11,67 @@ from config import (
     ZCH_MAIL,
     MY_EMAIL,
     MY_PASSWORD,
+    DATA_DIR,
+    DB_PATH,
 )
+
+
+# SQLite helper for Day 60 Upgrade (not required by the course)
+def init_db() -> None:
+    """Create the SQLite DB folder + table if they don't exist yet."""
+    # Ensure directory /data exists
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    
+    with sqlite3.connect(DB_PATH) as conn:
+        # Execute a command idempotent in case db doesn't exists
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS contact_submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                created_at_utc TEXT NOT NULL,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT,
+                message TEXT NOT NULL,
+                ip TEXT,
+                user_agent TEXT
+            )
+        """
+        )
+        # Commit changes to db
+        conn.commit()
+
+
+# Save submission on the DB contact_submission, returns a submission_id
+def save_submission(
+    name: str,
+    email: str,
+    phone: str,
+    message: str,
+    ip: str | None,
+    user_agent: str | None,
+) -> int:
+    """Uses the request.form values to add to the database as records"""
+    init_db()
+    created_at_utc = datetime.now(timezone.utc).isoformat()
+    sql = """
+    INSERT INTO contact_submissions (
+        created_at_utc, name, email, phone, message, ip, user_agent
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    """
+
+    with sqlite3.connect(DB_PATH) as conn:
+        cur = conn.execute(
+            sql,
+            (created_at_utc, name, email, phone, message, ip, user_agent),
+        )
+        conn.commit()
+        row_id = cur.lastrowid
+        if row_id is None:
+            raise RuntimeError("Insert failed: no row id returned.")
+
+        return row_id
 
 
 # status → UI message + Bootstrap alert class
@@ -31,7 +93,13 @@ STATUS_UI = {
     },
     "error_smtp": {
         "title": "Email service error!",
-        "message": "We could not send emails right now. Please try again later.",
+        "message": "We saved your request but could not send emails right now. \
+            Please try again later.",
+        "alert_class": "alert-danger",
+    },
+    "error_db": {
+        "title": "Database error!",
+        "message": "We could not save your message right now. Please try again later.",
         "alert_class": "alert-danger",
     },
 }
@@ -43,8 +111,9 @@ def _status_payload(status: str | None) -> dict:
     #     return {}
     return STATUS_UI.get(status or "", {})
 
+
 def send_email(data):
-    """ Send email using email.message library to avoid ascii error making it safer"""
+    """Send email using email.message library to avoid ascii error making it safer"""
     if not GMAIL_SMTP or not MY_EMAIL or not MY_PASSWORD:
         raise RuntimeError("Missing SMTP env vars. Check your .env and load_dotenv()")
 
@@ -55,9 +124,7 @@ def send_email(data):
     email.set_content(data["message"])
 
     with smtplib.SMTP(
-        host=GMAIL_SMTP,
-        port=587, # adding the port numbers solves the idle
-        timeout=30
+        host=GMAIL_SMTP, port=587, timeout=30  # adding the port numbers solves the idle
     ) as connection:
         connection.starttls()
         connection.login(
@@ -65,7 +132,6 @@ def send_email(data):
             password=MY_PASSWORD,
         )
         connection.send_message(email)
-
 
 
 app = Flask(__name__)
@@ -94,6 +160,7 @@ def contact():
     ui = _status_payload(status=status)
     return render_template("contact.html", status=status, ui=ui)
 
+
 @app.route("/contact/submit", methods=["POST"])
 def contact_submit():
     """Submit data from the Contact page template."""
@@ -102,13 +169,31 @@ def contact_submit():
     phone = (request.form.get("phone") or "").strip()
     message = (request.form.get("message") or "").strip()
 
-
     # If any field is missing, redirect to back to contact with error status
     if not name or not email or not message:
         return redirect(url_for("contact", status="error"))
     elif "@" not in email:
         return redirect(url_for("contact", status="error_email"))
     else:
+        # Capture request metadata (may be None)
+        ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+        user_agent = request.headers.get("User-Agent")
+
+        # Save to DB first (truth layer)
+        try:
+            submission_id = save_submission(
+                name=name,
+                email=email,
+                phone=phone,
+                message=message,
+                ip=ip,
+                user_agent=user_agent,
+            )
+            print(f"[contact_submit] saved submission id={submission_id}")
+        except sqlite3.Error as exc:
+            print(f"[contact_submit] db error: {exc}")
+            return redirect(url_for("contact", status="error_db"))
+
         email_to_user = {
             "email_from": MY_EMAIL,
             "email_to": email,
@@ -132,6 +217,7 @@ def contact_submit():
         except smtplib.SMTPException as exc:
             print(f"[contact_submit] email error: {exc}")
             return redirect(url_for("contact", status="error_smtp"))
+
 
 @app.route("/post/<int:post_id>")
 def post(post_id: int):

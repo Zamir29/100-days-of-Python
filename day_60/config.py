@@ -1,11 +1,18 @@
 """ Config keeps all the data used in the app"""
 import os
+from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
 # --- NPOINT JSON WITH POSTS ---
 NPOINT_URL = "https://api.npoint.io/35d4767901d354fcdde6"
+# ---
+
+# --- SQLITE (Day 60 upgrade) ---
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+DB_PATH = DATA_DIR / "contact_submissions.db"
 # ---
 
 # --- GMAIL SMTP ---
