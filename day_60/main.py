@@ -21,7 +21,7 @@ def init_db() -> None:
     """Create the SQLite DB folder + table if they don't exist yet."""
     # Ensure directory /data exists
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    
+
     with sqlite3.connect(DB_PATH) as conn:
         # Execute a command idempotent in case db doesn't exists
         conn.execute(
@@ -205,8 +205,8 @@ def contact_submit():
         email_to_me = {
             "email_from": MY_EMAIL,
             "email_to": ZCH_MAIL,
-            "subject": f"Added new user: {name}!",
-            "message": f"New user added\n\
+            "subject": f"[#{submission_id}] New Contact: {name}!",
+            "message": f"New user added with id: {submission_id}\n\
                 name: '{name}'\nemail: {email}\nphone: {phone}\nmessage: {message}",
         }
 
