@@ -6,9 +6,13 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "beautifulsoup4>=4.14.3",
+    "bootstrap-flask>=2.5.0",
     "flask>=3.1.2",
+    "flask-wtf>=1.2.2",
     "python-dotenv>=1.2.1",
     "requests>=2.32.5",
     "selenium>=4.39.0",
     "spotipy>=2.25.2",
+    "werkzeug>=3.1.5",
+    "wtforms>=3.2.1",
 ]
