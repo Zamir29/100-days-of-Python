@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/60/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/61/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 61 - Flask Validation & Login Gate**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_61/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_61.md)  
+Build advanced Flask forms using Flask-WTF with validation + CSRF, and gate a “secrets” page behind login.  
+**Stack used:** `Python`, `Flask`, `Flask-WTF` (WTForms), `Jinja2`, `HTML`/`CSS`.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 60 - Bootstrap + Flask POST Form**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_60/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_60.md)  
 Reuse the Day 59 Flask + Bootstrap blog and add HTML forms with POST handling to collect user input and respond dynamically.  
 **Stack used:** Python, Flask, Jinja2, HTML forms, Bootstrap, HTTP GET/POST.
 
-<details><summary>Show all logs</summary>  
 
 - **Day 59 - Bootstrap + Flask blog**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_59/main.py)

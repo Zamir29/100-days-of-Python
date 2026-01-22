@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+<!-- Import bootstrap-flask -->
+{% from 'bootstrap5/form.html' import render_form %}
+<!-- Title of the document -->
+{% block title %}Login{% endblock %}
+<!-- prettier-ignore -->
+{% block content %}
+
+<div class="container mt-5">
+  <h1>Login</h1>
+  <!-- This is where our form will go. -->
+  {{ render_form(form) }}
+</div>
+{% endblock %}
