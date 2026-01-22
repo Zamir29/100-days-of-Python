@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+  {% include "head.html" %}
+  <!-- Here the title -->
+  <title>{% block title %}{% endblock %}</title>
+  <body>
+    <!-- prettier-ignore -->
+    {% block content %}{% endblock %}
+  </body>
+</html>
