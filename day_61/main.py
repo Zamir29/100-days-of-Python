@@ -11,8 +11,9 @@ pip3 install -r requirements.txt
 This will install the packages from requirements.txt for this project.
 '''
 
+
 from config import (
-    WTF_CSRF_SECRET_KEY,
+    FLASK_SECRET_KEY,
 )
 from flask_bootstrap import Bootstrap5
 from flask import Flask, render_template, url_for, redirect
@@ -21,9 +22,9 @@ from wtforms import EmailField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
-app.secret_key = WTF_CSRF_SECRET_KEY
+app.secret_key = FLASK_SECRET_KEY
 
-bootstrapp = Bootstrap5(app)
+bootstrap = Bootstrap5(app)
 
 EMAIL = "admin@testing.test"
 PASSWORD = "1234test"
@@ -31,7 +32,7 @@ class LoginForm(FlaskForm):
     ''' Login form '''
     email = EmailField('email', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()] )
-    submit = SubmitField(label='Log in')
+    submit = SubmitField(label='Log in', render_kw={"class": "btn btn-primary w-100"})
 
 
 
