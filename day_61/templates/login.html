@@ -1,13 +1,26 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 
 <html>
-	<head>
-		<title>Login</title>
-	</head>
-	<body>
-        <div class="container">
-		<h1>Login</h1>
-        <!-- This is where our form will go. -->
-        </div>
-	</body>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Login</h1>
+      <!-- This is where our form will go. -->
+      <form action="/login" method="POST" novalidate>
+				{{ form.hidden_tag() }}
+				{{ form.email.label }} {{ form.email(size=30) }}
+				{% for err in form.email.errors %}
+				<p style="color:red;">{{ err }}</p>
+				{% endfor %}
+				<br>
+				{{ form.password.label }} {{ form.password(size=30) }}
+				{% for err in form.password.errors %}
+				<p style="color:red;">{{ err }}</p>
+				{% endfor %}
+				<input type="submit" value="Log in" style="padding:10px;">
+			</form>
+    </div>
+  </body>
 </html>
