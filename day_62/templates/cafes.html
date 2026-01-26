@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}All Cafes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>All Cafes</h1>
+      {% set headers = cafes[0] %}
+      {% set rows = cafes[1:] %}
+      <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover align-middle">
+        <thead>
+          <tr>
+            {% for h in headers %}
+            <th scope="col">{{ h }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in rows %}
+        <tr>
+          {% for item in row %}
+          {% if item[0:4] == "http" %}
+          <td>
+            <a href="{{ item }}" target="_blank" rel="noopener noreferrer">Maps Link</a>
+          </td>
+          {% else %}
+          <td>{{ item }}</td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      <p><a href="{{ url_for('home') }}">Return to index page</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
