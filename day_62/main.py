@@ -29,9 +29,8 @@ CSV_FILE = Path(__file__).with_name("cafe-data.csv")
 
 
 class CafeForm(FlaskForm):
-    """
-    Docstring for CafeForm
-    """
+    """ WTForm used to add a new cafe. """
+
     cafe = StringField("Cafe name", validators=[DataRequired()])
     location = StringField(
         "Cafe Location on Google Maps (URL)", validators=[DataRequired(), URL()]
@@ -71,7 +70,7 @@ class CafeForm(FlaskForm):
             ("2", "🔌🔌"),
             ("3", "🔌🔌🔌"),
             ("4", "🔌🔌🔌🔌"),
-            ("5", "🔌🔌🔌🔌🔌")
+            ("5", "🔌🔌🔌🔌🔌"),
         ],
         validators=[DataRequired()],
     )
@@ -81,7 +80,7 @@ class CafeForm(FlaskForm):
 @app.route("/")
 def home():
     """
-    Docstring for home
+    Home of cafe
     """
     return render_template("index.html")
 
@@ -89,7 +88,7 @@ def home():
 @app.route("/add", methods=["GET", "POST"])
 def add_cafe():
     """
-    Docstring for add_cafe
+    Hidden route to add details for a new cafe
     """
     form = CafeForm()
     if form.validate_on_submit():
@@ -118,7 +117,7 @@ def add_cafe():
 @app.route("/cafes")
 def cafes():
     """
-    Docstring for cafes
+    List of all cafes submitted
     """
     with open(CSV_FILE, newline="", encoding="utf-8") as csv_file:
         csv_data = csv.reader(csv_file, delimiter=",")
