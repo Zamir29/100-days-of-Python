@@ -15,7 +15,7 @@ def main() -> None:
         cursor = db.cursor()
 
         cursor.execute("""
-            CREATE TABLE books (
+            CREATE TABLE IF NOT EXISTS books (
                 id INTEGER PRIMARY KEY,
                 title varchar(250) NOT NULL UNIQUE,
                 author varchar(250) NOT NULL,
@@ -23,6 +23,18 @@ def main() -> None:
             )
             """
         )
+        cursor.execute(
+            """
+            INSERT OR IGNORE INTO books (id, title, author, rating)
+            VALUES(
+                1,
+                'Harry Potter',
+                'J. K. Rowling',
+                '9.3'
+            )
+            """
+        )
+
         db.commit()
 
 if __name__ == "__main__":
