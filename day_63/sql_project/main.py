@@ -6,15 +6,24 @@ Note: This script is safe to re-run (uses IF NOT EXISTS).
 
 import sqlite3
 
-db = sqlite3.connect("books-collection.db")
+DB_PATH = "books-collection.db"
 
-cursor = db.cursor()
+def main() -> None:
+    """ Main function to run the script """
+    # `with` ensures the connection is properly closed even if an error happens
+    with sqlite3.connect(DB_PATH) as db:
+        cursor = db.cursor()
 
-cursor.execute("""
-    CREATE TABLE books (
-        id INTEGER PRIMARY KEY,
-        title varchar(250) NOT NULL UNIQUE,
-        author varchar(250) NOT NULL,
-        rating FLOAT NOT NULL
-    )
-""")
+        cursor.execute("""
+            CREATE TABLE books (
+                id INTEGER PRIMARY KEY,
+                title varchar(250) NOT NULL UNIQUE,
+                author varchar(250) NOT NULL,
+                rating FLOAT NOT NULL
+            )
+            """
+        )
+        db.commit()
+
+if __name__ == "__main__":
+    main()
