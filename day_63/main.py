@@ -1,14 +1,5 @@
 '''
-Red underlines? Install the required packages first:
-Open the Terminal in PyCharm (bottom left).
-
-On Windows type:
-python -m pip install -r requirements.txt
-
-On MacOS type:
-pip3 install -r requirements.txt
-
-This will install the packages from requirements.txt for this project.
+This app shows the list of books, allows to add a book and to edit the rating... for now.
 '''
 
 from flask import Flask, render_template, request, redirect, url_for
@@ -70,8 +61,22 @@ def add():
         return redirect(url_for("home"))
     return render_template("add.html")
 
+@app.route("/edit/<int:book_id>", methods=["GET", "POST"])
+def edit(book_id):
+    """ Edits a book's rating"""
+
+    book = db.get_or_404(Book, book_id)
+
+    if request.method == "POST":
+        rating_raw = request.form["rating"].strip()
+        book.rating = float(rating_raw)
+        db.session.commit()
+        return redirect(url_for("home"))
+
+    return render_template("edit.html", book=book)
+
 with app.app_context():
     db.create_all()
-    
+
 if __name__ == "__main__":
     app.run(debug=True)
