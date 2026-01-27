@@ -30,9 +30,9 @@ def add():
     """ Form to add a new book """
     if request.method == "POST":
         new_book = {
-            "title": request.form["title"],
-            "author": request.form["author"],
-            "rating": request.form["rating"],
+            "title": request.form["title"].strip(),
+            "author": request.form["author"].strip(),
+            "rating": request.form["rating"].strip(),
         }
         all_books.append(new_book)
         return redirect(url_for("home"))
