@@ -32,7 +32,12 @@ db.init_app(app)
 @app.route("/")
 def home():
     """ / """
-    return render_template("index.html")
+    # Build query with ORM and get the result af all the movies
+    stmt = db.select(Movie).order_by(Movie.ranking)
+    result = db.session.execute(stmt)
+    all_movies = result.scalars().all()
+
+    return render_template("index.html", movies=all_movies)
 
 
 if __name__ == '__main__':

@@ -1,15 +1,15 @@
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   box-sizing: border-box;
 }
+
 html {
   font-size: 18px;
   line-height: 1.5;
   font-weight: 300;
   color: #333;
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: "Nunito Sans", sans-serif;
 }
+
 body {
   margin: 0;
   padding: 0;
@@ -17,23 +17,28 @@ body {
   background-color: #ecf0f9;
   background-attachment: fixed;
 }
+
 .large {
   font-size: 3rem;
 }
+
 .content {
-  display: grid;
+  display: flex;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   max-width: 1500px;
 }
+
 p.overview {
-  height: 100%;
+  font-size: 12px;
+  height: 200px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .heading {
   width: 100%;
   margin-left: 1rem;
@@ -46,6 +51,7 @@ p.overview {
   margin-bottom: 1rem;
   position: relative;
 }
+
 .heading:after {
   display: block;
   content: '';
@@ -55,20 +61,39 @@ p.overview {
   background: linear-gradient(135deg, #1a9be6, #1a57e6);
   bottom: 0;
 }
+
 .description {
   width: 100%;
   margin-top: 0;
   margin-left: 1rem;
   margin-bottom: 3rem;
 }
-.movie-card {
+
+.card {
   color: inherit;
   cursor: pointer;
+  width: calc(33% - 3rem);
+  min-width: calc(33% - 3rem);
+  height: 400px;
+  min-height: 400px;
   perspective: 1000px;
+  margin: 1rem auto;
   position: relative;
 }
-.front,
-.back {
+
+@media screen and (max-width: 800px) {
+  .card {
+    width: calc(50% - 3rem);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .card {
+    width: 100%;
+  }
+}
+
+.front, .back {
   display: flex;
   border-radius: 6px;
   background-position: center;
@@ -77,7 +102,6 @@ p.overview {
   justify-content: center;
   align-items: center;
   position: absolute;
-  inset: 0;
   height: 100%;
   width: 100%;
   -webkit-backface-visibility: hidden;
@@ -85,6 +109,7 @@ p.overview {
   transform-style: preserve-3d;
   transition: ease-in-out 600ms;
 }
+
 .front {
   background-size: cover;
   padding: 2rem;
@@ -94,6 +119,7 @@ p.overview {
   overflow: hidden;
   font-family: Poppins, sans-serif;
 }
+
 .front:before {
   position: absolute;
   display: block;
@@ -106,31 +132,49 @@ p.overview {
   opacity: 0.25;
   z-index: -1;
 }
-.movie-card:hover .front {
+
+.card:hover .front {
   transform: rotateY(180deg);
 }
-.movie-card:nth-child(even):hover .front {
+
+.card:nth-child(even):hover .front {
   transform: rotateY(-180deg);
 }
+
 .back {
   background: #fff;
   transform: rotateY(-180deg);
   padding: 0 2em;
 }
-.movie-card:hover .back {
+
+.card:hover .back {
   transform: rotateY(0deg);
 }
-.movie-card:nth-child(even) .back {
+
+.card:nth-child(even) .back {
   transform: rotateY(180deg);
 }
-.movie-card:nth-child(even):hover .back {
+
+.card:nth-child(even):hover .back {
   transform: rotateY(0deg);
 }
-.button {
-  transform: translateZ(40px);
+
+.back .button {
   cursor: pointer;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  font-weight: bold;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 100px;
+  font: inherit;
+  background: linear-gradient(135deg, #1a9be6, #1a57e6);
+  border: none;
+  position: relative;
+  transition: 300ms ease;
+  box-shadow: 0 4px 15px rgba(26, 87, 230, 0.3);
+}
+
+.container.add .button {
+  cursor: pointer;
   font-weight: bold;
   color: #fff;
   padding: 0.5em 1em;
@@ -141,18 +185,10 @@ p.overview {
   position: relative;
   transform-style: preserve-3d;
   transition: 300ms ease;
+  transform: translateZ(40px);
 }
 
-.movie-card a.btn-primary {
-  background: linear-gradient(135deg, #1a9be6, #1a57e6);
-  box-shadow: 0px 5px 10px rgba(26, 87, 230, 0.25);
-}
-
-.movie-card a.btn-danger {
-  background: linear-gradient(135deg, #e61a46, #e61a1a);
-  box-shadow: 0px 5px 10px rgba(230, 87, 230, 0.25);
-}
-.button:before {
+.container.add .button:before {
   transition: 300ms ease;
   position: absolute;
   display: block;
@@ -169,64 +205,58 @@ p.overview {
   background-color: rgba(26, 87, 230, 0.25);
 }
 
-.button.delete-button {
-  background-color: rgba(230, 87, 230, 0.25);
+.back .button.delete-button {
   background: linear-gradient(135deg, #e61a46, #e61a1a);
+  box-shadow: 0 4px 15px rgba(230, 26, 26, 0.3);
 }
-.button.delete-button:before {
-  background-color: rgba(230, 87, 230, 0.25);
-  box-shadow: 0 0 10px 10px rgba(230, 87, 230, 0.25);
+
+.back .button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 87, 230, 0.4);
 }
-.button:hover {
+
+.back .button.delete-button:hover {
+  box-shadow: 0 6px 20px rgba(230, 26, 26, 0.4);
+}
+
+.container.add .button:hover {
   transform: translateZ(55px);
 }
-.button:hover:before {
+
+.container.add .button:hover:before {
   transform: translateZ(-55px);
 }
-.button:active {
+
+.container.add .button:active {
   transform: translateZ(20px);
 }
-.button:active:before {
+
+.container.add .button:active:before {
   transform: translateZ(-20px);
   top: 12px;
-  top: 12px;
 }
+
 .container.add {
   margin-top: 40px;
   margin-bottom: 20px;
 }
+
 .rating {
-  color: #e4bb23;
+  color: #E4BB23;
 }
+
 .review {
   font-style: italic;
 }
+
 .movie_gens {
   font-size: 11.5px;
 }
+
 .title {
   font-weight: bold;
 }
+
 .release_date {
   font-weight: normal;
-}
-
-/* Frosted glass badge */
-.badge-frost {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
-  padding: 0.55em 0.85em;
-  border-radius: 20%;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.movie-card,
-.add-movie-card {
-  width: min(100%, 340px);
-  aspect-ratio: 2 / 3;
-  height: auto;
 }

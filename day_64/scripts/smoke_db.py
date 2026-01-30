@@ -19,6 +19,24 @@ test_movies = [
       "review": "I liked the water",
       "img_url": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
     },
+    {
+      "title": "Interstellar",
+      "year": 2014,
+      "description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+      "rating": 9.3,
+      "ranking": 1,
+      "review": "A masterpiece — the docking scene is unreal.",
+      "img_url": "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    },
+    {
+      "title": "Inception",
+      "year": 2010,
+      "description": "A thief who steals corporate secrets through dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
+      "rating": 8.9,
+      "ranking": 3,
+      "review": "Still the cleanest mind-bender. That ending…",
+      "img_url": "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg",
+    },
 ]
 
 def get_by_title(title):
