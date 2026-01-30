@@ -1,8 +1,17 @@
-{% extends 'base.html' %} {% from 'bootstrap5/form.html' import render_form %}
-{% block title %}Edit Movies{% endblock %} {% block content %}
+{% extends 'base.html' %}
+<!-- Import the bootstrap5 form html -->
+{% from 'bootstrap5/form.html' import render_form %}
+<!-- Input the title -->
+{% block title %}Edit Movies{% endblock %}
+<!-- Start to content area -->
+{% block content %}
 <div class="content">
-  <h1 class="heading">Movie Title</h1>
-  <p class="description">Edit Movie Rating</p>
+  <h1 class="heading">{{ movie.title}}</h1>
+  <p class="description">Edit Movie fields: <br>
+    <span class="badge rounded-start-pill text-bg-dark">Rating</span><span class="badge rounded-end-pill text-bg-primary"> {{ movie.rating }} </span>
+    <br>
+    <span class="badge rounded-start-pill text-bg-dark">Review</span><span class="badge rounded-end-pill text-bg-primary">{{ movie.review }}</span>
+  </p>
   {{ render_form(form, novalidate=True) }}
 </div>
 {% endblock %}
