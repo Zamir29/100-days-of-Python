@@ -260,3 +260,7 @@ p.overview {
 .release_date {
   font-weight: normal;
 }
+
+button.button {
+  font: inherit;
+}

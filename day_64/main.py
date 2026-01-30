@@ -6,9 +6,9 @@ from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 
 from flask_wtf import FlaskForm
+from flask_wtf.csrf import CSRFProtect
 from wtforms import StringField, FloatField, SubmitField
 from wtforms.validators import DataRequired, InputRequired
-
 from extensions import db
 from models import Movie  # pylint: disable=unused-import
 from config import (
@@ -22,6 +22,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DEV_DB
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 Bootstrap5(app)
+
+CSRFProtect(app)
 
 # CREATE DB
 db.init_app(app)
@@ -69,6 +71,15 @@ def edit(movie_id):
         return redirect(url_for("home"))
     return render_template("edit.html", movie=movie, form=form)
 
+@app.route("/delete/<int:movie_id>", methods=["POST"])
+def delete_movie(movie_id):
+    """
+    Delete the movie using the ID as the Primary KEY
+    """
+    movie = db.get_or_404(Movie, movie_id)
+    db.session.delete(movie)
+    db.session.commit()
+    return redirect(url_for("home"))
 
 if __name__ == '__main__':
     with app.app_context():
