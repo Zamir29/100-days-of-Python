@@ -5,12 +5,11 @@ Top 10 movies shown in an d-flex html page using Bootstrap framework
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 
-from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
-from wtforms import StringField, FloatField, SubmitField
-from wtforms.validators import DataRequired, InputRequired
+
 from extensions import db
 from models import Movie  # pylint: disable=unused-import
+from forms import RateMovieForm, AddNewMovie
 from config import (
     SECRET_KEY,
     DEV_DB,
@@ -29,11 +28,7 @@ CSRFProtect(app)
 db.init_app(app)
 
 # CREATE TABLE
-class RateMovieForm(FlaskForm):
-    """ WTForm used to edit the movie's rating and review """
-    rating = FloatField("Your Rating out of 10 e.g. 7.5", validators=[InputRequired()])
-    review = StringField("Your Review", validators=[DataRequired()])
-    submit = SubmitField("Done")
+
 
 @app.route("/")
 def home():
@@ -80,6 +75,19 @@ def delete_movie(movie_id):
     db.session.delete(movie)
     db.session.commit()
     return redirect(url_for("home"))
+
+@app.route("/add") #, methods=["POST"])
+def add_movie():
+    """ Uses a form to retrive a title to add to the databse """
+    add_new_movie = AddNewMovie()
+
+    if add_new_movie.validate_on_submit():
+        movie_title = add_new_movie.movie_title.data.strip()
+
+        
+
+
+    return render_template("add.html", add_movie=add_new_movie)
 
 if __name__ == '__main__':
     with app.app_context():

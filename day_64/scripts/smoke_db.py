@@ -1,6 +1,7 @@
 """
 Smoke testing for the database
-Run as a module to avoid folder position issue `uv run python -m scripts.smoke_db`
+Run as a module to avoid folder position from day_64/ as:
+    uv run python -m scripts.smoke_db
 """
 
 import main

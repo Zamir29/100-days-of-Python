@@ -16,3 +16,10 @@ TEST_DB = f"sqlite:///{os.path.join(INSTANCE_DIR, 'movies_test.db')}"
 # --- FLASK WTFORM SECRET KEY ---
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-not-secret")
 # ---
+
+# --- TMDB KEY & TOKENS ---
+TMBD_READ_TOKEN = os.getenv("TMDB_READ_TOKEN")
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+TMDB_URL = "https://api.themoviedb.org/3"
+TMDB_ENDPOINT = f"{TMDB_URL}/search/movie"
+# ---
