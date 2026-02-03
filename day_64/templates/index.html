@@ -7,27 +7,27 @@ block content %}
   <div class="content">
     {% for movie in movies %}
     <div class="flip-card bg-transparent border-0">
-      <div class="front" style="background-image: url('{{ movie.img_url }}');">
-        <p class="large badge badge-frost">{{ movie.ranking }}</p>
+      <div class="front" style="background-image: url('{{ movie[1].img_url }}');">
+        <p class="large badge badge-frost">{{ movie[0] }}</p>
       </div>
       <div class="back">
         <div>
           <div class="title">
-            {{ movie.title }}
-            <span class="release_date">({{ movie.year }})</span>
+            {{ movie[1].title }}
+            <span class="release_date">({{ movie[1].year }})</span>
           </div>
           <div class="rating">
-            <label>{{ movie.rating }}</label>
+            <label>{{ movie[1].rating }}</label>
             <i class="fas fa-star star"></i>
           </div>
-          <p class="review">"{{ movie.review }}"</p>
-          <p class="overview">{{ movie.description }}</p>
-          <a href="{{ url_for('edit', movie_id=movie.id) }}" class="button"
+          <p class="review">"{{ movie[1].review }}"</p>
+          <p class="overview">{{ movie[1].description }}</p>
+          <a href="{{ url_for('edit', movie_id=movie[1].id) }}" class="button"
             >Update</a
           >
 
           <form
-            action="{{ url_for('delete_movie', movie_id=movie.id) }}"
+            action="{{ url_for('delete_movie', movie_id=movie[1].id) }}"
             method="POST"
             style="display: inline"
             onsubmit="return confirm('Delete this movie?');"

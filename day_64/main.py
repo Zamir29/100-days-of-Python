@@ -35,11 +35,12 @@ db.init_app(app)
 def home():
     """/"""
     # Build query with ORM and get the result af all the movies
-    stmt = db.select(Movie).order_by(Movie.ranking)
+    stmt = db.select(Movie).order_by(Movie.ranking.is_(None), Movie.rating.desc())
     result = db.session.execute(stmt)
     all_movies = result.scalars().all()
+    movies_ranked = [(i, movie) for i, movie in enumerate(all_movies, start=1)]
 
-    return render_template("index.html", movies=all_movies)
+    return render_template("index.html", movies=movies_ranked)
 
 
 @app.route("/edit/<int:movie_id>", methods=["GET", "POST"])
@@ -63,20 +64,6 @@ def edit(movie_id):
 
         movie.rating = float(rating) if rating is not None else 0.0
         movie.review = review
-
-        stmt = db.select(Movie)
-        all_movies = db.session.execute(stmt).scalars().all()
-
-        rated = [m for m in all_movies if m.rating is not None]
-        unrated = [m for m in all_movies if m.rating is None]
-
-        rated.sort(key=lambda m: m.rating, reverse=True)
-
-        for idx, m in enumerate(rated, start=1):
-            m.ranking = idx
-
-        for m in unrated:
-            m.ranking = 9999
 
         db.session.commit()
 
