@@ -7,7 +7,7 @@ Run as a module to avoid folder position from day_64/ as:
 """
 
 import json
-from movie_search import TMDBApi
+from movie_search import TMDBApi  # pylint: disable=import-error
 
 def main_test() -> None:
     """ Use this main to smoke test TMDB """
@@ -18,13 +18,13 @@ def main_test() -> None:
     movie_response = sm.get_response(query)
 
     # Movie response
-    print("endpoint:", sm.tmdb_endpoint)
+    print("endpoint:", sm.endpoint)
     print("status:", movie_response.status_code)
     print("final url:", movie_response.url)
     print("payload preview:", movie_response.text[:200])
 
     # Basic shape checks
-    movie_data = sm.search_movie(movie_title=query)
+    movie_data = sm.search_movie(query)
     print(f"type(data): {type(movie_data)}")
     print(f"top_level keys= {list(movie_data.keys())}")
 

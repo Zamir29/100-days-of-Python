@@ -1,32 +1,45 @@
-{% extends 'base.html' %}
-
-{% block title %}My Top 10 Movies{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}My Top 10 Movies{% endblock %} {%
+block content %}
 <div class="container">
   <h1 class="heading">My Top 10 Movies</h1>
   <p class="description">These are my all-time favourite movies.</p>
 
   <div class="content">
     {% for movie in movies %}
-    <div class="card bg-transparent border-0">
+    <div class="flip-card bg-transparent border-0">
       <div class="front" style="background-image: url('{{ movie.img_url }}');">
         <p class="large badge badge-frost">{{ movie.ranking }}</p>
       </div>
       <div class="back">
         <div>
-          <div class="title">{{ movie.title }} <span class="release_date">({{ movie.year }})</span></div>
+          <div class="title">
+            {{ movie.title }}
+            <span class="release_date">({{ movie.year }})</span>
+          </div>
           <div class="rating">
             <label>{{ movie.rating }}</label>
             <i class="fas fa-star star"></i>
           </div>
           <p class="review">"{{ movie.review }}"</p>
           <p class="overview">{{ movie.description }}</p>
-          <a href="{{ url_for('edit', movie_id=movie.id) }}" class="button">Update</a>
+          <a href="{{ url_for('edit', movie_id=movie.id) }}" class="button"
+            >Update</a
+          >
 
-          <form action="{{ url_for('delete_movie', movie_id=movie.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this movie?');">
+          <form
+            action="{{ url_for('delete_movie', movie_id=movie.id) }}"
+            method="POST"
+            style="display: inline"
+            onsubmit="return confirm('Delete this movie?');"
+          >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <button type="submit" class="button delete-button" style="border:0;">Delete</button>
+            <button
+              type="submit"
+              class="button delete-button"
+              style="border: 0"
+            >
+              Delete
+            </button>
           </form>
         </div>
       </div>

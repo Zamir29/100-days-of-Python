@@ -1,4 +1,5 @@
-""" config file for Top 10 movies webapp """
+"""config file for Top 10 movies webapp"""
+
 import os
 from dotenv import load_dotenv, find_dotenv
 
@@ -18,9 +19,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-not-secret")
 # ---
 
 # --- TMDB KEY & TOKENS ---
-TMBD_READ_TOKEN = os.getenv("TMDB_READ_TOKEN")
+TMDB_READ_TOKEN = os.getenv("TMDB_READ_TOKEN")
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 TMDB_URL = "https://api.themoviedb.org/3"
-TMDB_ENDPOINT = f"{TMDB_URL}/search/movie"
 TMDB_URL_IMAGE = "https://image.tmdb.org/t/p"
 # ---

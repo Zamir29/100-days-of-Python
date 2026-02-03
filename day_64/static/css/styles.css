@@ -1,4 +1,6 @@
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
@@ -7,7 +9,7 @@ html {
   line-height: 1.5;
   font-weight: 300;
   color: #333;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 body {
@@ -69,7 +71,7 @@ p.overview {
   margin-bottom: 3rem;
 }
 
-.card {
+.flip-card {
   color: inherit;
   cursor: pointer;
   width: calc(33% - 3rem);
@@ -82,18 +84,19 @@ p.overview {
 }
 
 @media screen and (max-width: 800px) {
-  .card {
+  .flip-card {
     width: calc(50% - 3rem);
   }
 }
 
 @media screen and (max-width: 500px) {
-  .card {
+  .flip-card {
     width: 100%;
   }
 }
 
-.front, .back {
+.front,
+.back {
   display: flex;
   border-radius: 6px;
   background-position: center;
@@ -133,11 +136,11 @@ p.overview {
   z-index: -1;
 }
 
-.card:hover .front {
+.flip-card:hover .front {
   transform: rotateY(180deg);
 }
 
-.card:nth-child(even):hover .front {
+.flip-card:nth-child(even):hover .front {
   transform: rotateY(-180deg);
 }
 
@@ -147,15 +150,15 @@ p.overview {
   padding: 0 2em;
 }
 
-.card:hover .back {
+.flip-card:hover .back {
   transform: rotateY(0deg);
 }
 
-.card:nth-child(even) .back {
+.flip-card:nth-child(even) .back {
   transform: rotateY(180deg);
 }
 
-.card:nth-child(even):hover .back {
+.flip-card:nth-child(even):hover .back {
   transform: rotateY(0deg);
 }
 
@@ -242,7 +245,7 @@ p.overview {
 }
 
 .rating {
-  color: #E4BB23;
+  color: #e4bb23;
 }
 
 .review {
@@ -263,4 +266,27 @@ p.overview {
 
 button.button {
   font: inherit;
+}
+
+.select-row {
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    border-color 140ms ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.select-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-color: rgba(13, 110, 253, 0.35);
+}
+.select-row:focus-within {
+  border-color: rgba(13, 110, 253, 0.55);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

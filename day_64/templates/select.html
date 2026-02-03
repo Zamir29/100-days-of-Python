@@ -1,13 +1,92 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %}Select Movie{% endblock %} {% block
+content %}
+<div class="container py-4">
+  <div class="row mb-3">
+    <h1 class="heading mb-1">Select Movie</h1>
+    <p class="text-muted mb-0">
+    Pick the correct match from TMDB results</a>
+    </p>
+  </div>
 
-{% block title %}Select Movie{% endblock %}
+  {% if movies and movies|length > 0 %}
+    <div class="col d-flex flex-column gap-3">
+      {% for movie in movies %}
+        {% set title = movie.get('title', 'Unknown title') %}
+        {% set release_date = movie.get('release_date', '') %}
+        {% set year = release_date[:4] if release_date else '—' %}
+        {% set language = movie.get('original_language', '')|upper %}
+        {% set poster_url = movie.get('poster_url', '') %}
+        {% set overview = movie.get('overview', '') %}
 
-{% block content %}
-<div class="container">
-    <h1 class="heading">Select Movie</h1>
-  <p>
-    <a href="#"> MOVIE TITLE - MOVIE RELEASE DATE</a>
-  </p>
+        <div class="card select-row position-relative rounded-4">
+          <div class="card-body p-0">
+            <div class="d-flex gap-3 align-items-stretch">
+              <!-- Poster -->
+              <div style="width: 92px; flex: 0 0 92px;">
+                {% if poster_url %}
+                  <img
+                    src="{{ poster_url }}"
+                    alt="Poster for {{ title }}"
+                    class="img-fluid rounded-start"
+                    style="width: 92px; height: 138px; object-fit: cover;"
+                    loading="lazy"
+                  />
+                {% else %}
+                  <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                       style="width: 92px; height: 138px;">
+                    <span class="text-muted small">No poster</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Details -->
+              <div class="flex-grow-1 py-2 d-flex flex-column" style="min-width: 0;">
+                <div class="d-flex align-items-start justify-content-between gap-3">
+                  <div style="min-width: 0;">
+                    <h5 class="mb-1 text-truncate" title="{{ title }}">{{ title }}</h5>
+
+                    <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                      <span class="badge bg-secondary">{{ year }}</span>
+                      {% if language %}
+                        <span class="badge bg-light text-dark border">{{ language }}</span>
+                      {% endif %}
+                      {% if movie.get('vote_average') is not none %}
+                        <span class="badge bg-warning text-dark">★ {{ "%.1f"|format(movie.get('vote_average', 0)) }}</span>
+                      {% endif %}
+                      {% if movie.get('vote_count') %}
+                        <span class="text-muted small">({{ movie.get('vote_count') }} votes)</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- UX affordance -->
+                  <!-- <div class="text-end text-muted small" style="flex: 0 0 auto;">
+                    <span class="d-none d-md-inline">Select</span>
+                    <span class="ms-2">›</span>
+                  </div> -->
+                </div>
+
+                {% if overview %}
+                  <p class="text-muted mb-0 lh-sm line-clamp-3 small mt-auto">{{ overview }}</p>
+                {% else %}
+                  <p class="text-muted mb-0"><em>No overview provided.</em></p>
+                {% endif %}
+
+                <!-- Whole-card click target (clean path param style) -->
+                <a class="stretched-link"
+                   href="{{ url_for('find_movie', tmdb_id=movie['id']) }}"
+                   aria-label="Select {{ title }}"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-light border shadow-sm" role="alert">
+      <strong>No results.</strong> Try a different title.
+    </div>
+  {% endif %}
 
 </div>
 {% endblock %}
