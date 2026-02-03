@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+<!-- Import the bootstrap5 form html -->
+{% from 'bootstrap5/form.html' import render_form %}
+<!-- Page title -->
+{% block title %}Add Movie{% endblock %}
+<!-- Start page content -->
+{% block content %}
+<div class="content">
+  <h1 class="heading">Add a Movie</h1>
+</div>
+<div class="container">
+  <div class="row justify-content-center my-4">
+    <div class="col-8 col-lg-6 col-xxl-4">
+        {{ render_form(add_movie, novalidate=True) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

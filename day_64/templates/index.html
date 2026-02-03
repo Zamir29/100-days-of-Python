@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block title %}My Top 10 Movies{% endblock %} {%
+block content %}
+<div class="container">
+  <h1 class="heading">My Top 10 Movies</h1>
+  <p class="description">These are my all-time favourite movies.</p>
+
+  <div class="content">
+    {% for movie in movies %}
+    <div class="flip-card bg-transparent border-0">
+      <div class="front" style="background-image: url('{{ movie[1].img_url }}');">
+        <p class="large badge badge-frost">{{ movie[0] }}</p>
+      </div>
+      <div class="back">
+        <div>
+          <div class="title">
+            {{ movie[1].title }}
+            <span class="release_date">({{ movie[1].year }})</span>
+          </div>
+          <div class="rating">
+            <label>{{ movie[1].rating }}</label>
+            <i class="fas fa-star star"></i>
+          </div>
+          <p class="review">"{{ movie[1].review }}"</p>
+          <p class="overview">{{ movie[1].description }}</p>
+          <a href="{{ url_for('edit', movie_id=movie[1].id) }}" class="button"
+            >Update</a
+          >
+
+          <form
+            action="{{ url_for('delete_movie', movie_id=movie[1].id) }}"
+            method="POST"
+            style="display: inline"
+            onsubmit="return confirm('Delete this movie?');"
+          >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button
+              type="submit"
+              class="button delete-button"
+              style="border: 0"
+            >
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container text-center add">
+  <a href="{{ url_for('add_movie') }}" class="button">Add Movie</a>
+</div>
+
+{% endblock %}
