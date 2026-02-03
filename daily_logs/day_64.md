@@ -75,10 +75,6 @@ day_64/
 ├── movie_search.py
 ├── requirements.txt
 ├── scripts
-│   ├── __pycache__
-│   │   ├── smoke_db.cpython-313.pyc
-│   │   ├── smoke_db.cpython-314.pyc
-│   │   └── smoke_tmdb.cpython-313.pyc
 │   ├── smoke_db.py
 │   └── smoke_tmdb.py
 ├── static
