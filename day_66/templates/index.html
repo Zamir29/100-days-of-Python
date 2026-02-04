@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cafe&Wifi API</title>
+    <style>
+      a {
+        display: inline-block;
+        background-color: dodgerblue;
+        padding: 10px 14px;
+        margin-right: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        font-weight: 400;
+        color: white;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        transition:
+          transform 120ms ease,
+          box-shadow 120ms ease,
+          opacity 120ms ease;
+      }
+
+      a:hover {
+        opacity: 0.95;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+      }
+
+      a:focus-visible {
+        outline: 3px solid rgba(30, 144, 255, 0.45);
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Cafe & Wifi API</h1>
+
+    <a href="{{ url_for('get_random_cafe') }}" target="_blank">Random Cafe</a>
+
+    <a href="{{ url_for('get_all_cafes') }}" target="_blank">All Cafes</a>
+
+    <a
+      href="https://documenter.getpostman.com/view/52098348/2sBXc7Mjic"
+      target="_blank"
+      >API Documentation</a
+    >
+  </body>
+</html>

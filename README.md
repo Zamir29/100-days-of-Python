@@ -1,6 +1,6 @@
 # 100 Days of Python – Angela Yu
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)  
-![](https://progress-bar.xyz/65/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
+![](https://progress-bar.xyz/66/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)  
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -33,13 +33,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 ## 📚 Daily Progress
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/) 
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 66 - Build REST API Service**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_66/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_66.md)  
+Build a REST API with Flask that exposes your own dataset through JSON endpoints and supports basic create/read/update/delete operations.  
+**Stack used:** Python, Flask, REST/JSON, HTTP methods (GET/POST/PATCH/DELETE), SQLAlchemy + SQLite, environment variables for API keys.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 65 - Web Design Principles**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_65/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_65.md)  
 Learn the core principles of web design so your websites don’t just work, but look beautiful and feel premium. Understand how design shapes first impressions and perceived value within seconds.  
 **Stack used:** Web design fundamentals, HTML/CSS (as the medium), visual design principles (color, type), UI patterns, UX thinking.
 
-<details><summary>Show all logs</summary>  
 
 - **Day 64 - Top 10 Movies**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_64/main.py)
