@@ -12,17 +12,16 @@ This will install the packages from requirements.txt for this project.
 '''
 
 import random
-from xml.dom.minidom import Attr
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Float, Integer, String, Boolean
+from sqlalchemy import Integer, String, Boolean
 
 
 app = Flask(__name__)
 
 # CREATE DB
-class Base(DeclarativeBase):
+class Base(DeclarativeBase): 
     pass
 # Connect to Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
@@ -32,6 +31,7 @@ db.init_app(app)
 
 # Cafe TABLE Configuration
 class Cafe(db.Model):
+    """ / """
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     map_url: Mapped[str] = mapped_column(String(500), nullable=False)
@@ -58,6 +58,7 @@ with app.app_context():
 
 @app.route("/")
 def home():
+    """ / """
     return render_template("index.html")
 
 
@@ -65,6 +66,7 @@ def home():
 # HTTP GET - Read Record
 @app.route("/random", methods=["GET"])
 def get_random_cafe():
+    """ / """
     cafe_db = db.select(Cafe)
     result = db.session.execute(cafe_db)
     all_cafes = result.scalars().all()
@@ -87,6 +89,7 @@ def get_random_cafe():
 
 @app.route("/all", methods=["GET"])
 def get_all_cafes():
+    """ / """
     cafe_db = db.select(Cafe)
     result = db.session.execute(cafe_db)
     all_cafes = result.scalars().all()
@@ -135,7 +138,7 @@ def get_cafe_at_location():
 # HTTP POST - Create Record
 @app.route("/add", methods=["POST"])
 def add_new_cafe():
-
+    """ / """
     # Convert common truthy/falsey strings from Postman
     def to_bool(value: str) -> bool:
         return str(value).strip().lower() in {"true", "1", "yes", "y", "on"}
@@ -196,7 +199,7 @@ def add_new_cafe():
 # HTTP PUT/PATCH - Update Record
 @app.route("/update_price/<int:cafe_id>", methods=["PATCH"])
 def update_cafe_price(cafe_id):
-
+    """ / """
 
     cafe =  db.session.get(Cafe, cafe_id)
     if cafe is None:
@@ -221,6 +224,7 @@ def update_cafe_price(cafe_id):
 # HTTP DELETE - Delete Record
 @app.route("/report-closed/<int:cafe_id>", methods=["DELETE"])
 def delete_cafe(cafe_id):
+    """ / """
 
     api_key_allowed = {
         "TopSecretAPIKey": "user001",

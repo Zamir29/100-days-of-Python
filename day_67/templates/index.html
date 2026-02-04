@@ -1,0 +1,139 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/home-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Clean Blog</h1>
+          <span class="subheading">A Blog Theme by Start Bootstrap</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Post preview-->
+      {% for post in all_posts %}
+      <div class="post-preview">
+        <a href="{{ url_for('show_post', post_id=post.id) }}">
+          <h2 class="post-title">{{ post.title }}</h2>
+          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+        </a>
+        <!-- TODO: Add code to delete posts below -->
+
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="post-meta mb-0">
+            <span>
+              Posted by
+              <a href="#">{{ post.author }}</a>
+              on {{ post.date }}
+            </span>
+          </p>
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm rounded-circle d-inline-flex justify-content-center align-items-center mt-auto"
+            style="width: 28px; height: 28px; line-height: 1"
+            aria-label="Delete post"
+            title="Delete"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteConfirmModal"
+            data-post-id="{{ post.id }}"
+            data-post-title="{{ post.title|e }}"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />
+      {% endfor %}
+
+      <!-- New Post -->
+      <div class="d-flex justify-content-end mb-4">
+        <!-- TODO: Adding new posts -->
+        <a
+          class="btn btn-primary float-right"
+          href="{{ url_for('create_post') }}"
+          >Create New Post</a
+        >
+      </div>
+
+      <!-- Pager-->
+      <div class="d-flex justify-content-end mb-4">
+        <a class="btn btn-secondary text-uppercase" href="#!">Older Posts →</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Confirmation Modal (single instance) -->
+<div
+  class="modal fade"
+  id="deleteConfirmModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete post?</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="mb-0">
+          Are you sure you want to delete
+          <strong id="deletePostTitle">this post</strong>?
+          <br />
+          <span class="text-muted">This cannot be undone.</span>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <form id="deletePostForm" method="POST" class="m-0">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Wire up the modal content/action dynamically
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('deleteConfirmModal');
+    const titleEl = document.getElementById('deletePostTitle');
+    const formEl = document.getElementById('deletePostForm');
+    const deleteUrlBase = "{{ url_for('delete_post', post_id=0) }}".replace(
+      /0$/,
+      ''
+    );
+
+    modalEl.addEventListener('show.bs.modal', (event) => {
+      const triggerBtn = event.relatedTarget;
+      const postId = triggerBtn.getAttribute('data-post-id');
+      const postTitle = triggerBtn.getAttribute('data-post-title');
+
+      titleEl.textContent = postTitle;
+      formEl.action = deleteUrlBase + postId;
+    });
+  });
+</script>
+
+{% include "footer.html" %}
