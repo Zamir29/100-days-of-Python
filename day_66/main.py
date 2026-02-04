@@ -11,7 +11,6 @@ pip3 install -r requirements.txt
 This will install the packages from requirements.txt for this project.
 '''
 
-from hmac import new
 import random
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
@@ -49,7 +48,7 @@ class Cafe(db.Model):
         Use the dict comprehension to build dynamically
         a dict of column names and their attribute
         """
-        return { column.name : getattr(self, column.name) for column in self.__table__.columns}
+        return { column.name : getattr(self, column.name) for column in self.__table__.columns} # type: ignore[reportAttributeAccessIssue]
 
 
 with app.app_context():
@@ -135,20 +134,60 @@ def get_cafe_at_location():
 # HTTP POST - Create Record
 @app.route("/add", methods=["POST"])
 def add_new_cafe():
-    new_cafe = Cafe(
-        name=request.form.get("name"), # type: ignore[reportCallIssue]
-        map_url=request.form.get("map_url"), # type: ignore[reportCallIssue]
-        img_url=request.form.get("img_url"), # type: ignore[reportCallIssue]
-        location=request.form.get("location"), # type: ignore[reportCallIssue]
-        seats=request.form.get("seats"), # type: ignore[reportCallIssue]
-        has_toilet=bool(request.form.get("has_toilet")), # type: ignore[reportCallIssue]
-        has_wifi=bool(request.form.get("has_wifi")), # type: ignore[reportCallIssue]
-        has_sockets=bool(request.form.get("has_sockets")), # type: ignore[reportCallIssue]
-        can_take_calls=bool(request.form.get("can_take_calls")), # type: ignore[reportCallIssue]
-        coffee_price=request.form.get("coffee_price"), # type: ignore[reportCallIssue]
-    )
+
+    # Convert common truthy/falsey strings from Postman
+    def to_bool(value: str) -> bool:
+        return str(value).strip().lower() in {"true", "1", "yes", "y", "on"}
+
+    # Define the two main actors of the function
+    form_input = request.form
+    new_cafe = Cafe()
+    # Build the model dynamically from incoming form fields
+    # NOTE: each 'column' is the SQLAlchemy metadata, not the row value
+    for column in new_cafe.__table__.columns: # type: ignore[reportAttributeAccessIssue]
+
+        # Let id, as the primary key, being set by SQLAlchemy
+        if column.name == "id":
+            continue
+
+        # Use the column name to retrive the related form input value
+        raw_value = form_input.get(column.name)
+
+        # If field is missing entirely
+        if raw_value is None:
+            # Check if the column can be nullable
+            if not column.nullable:
+                return jsonify({"Bad request": f"Missing required field '{column.name}'"}), 400
+
+            # Optional field here, leave it none or default
+            continue
+
+        # Convert booleans from strings
+        if isinstance(column.type, Boolean):
+            value = to_bool(raw_value)
+        else:
+            value = raw_value
+
+        # Dynamically set the attribute on the SQLAlchemy model
+        setattr(new_cafe, column.name, value)
+
     db.session.add(new_cafe)
     db.session.commit()
+
+    # new_cafe = Cafe(
+    #     name=request.form.get("name"), # type: ignore[reportCallIssue]
+    #     map_url=request.form.get("map_url"), # type: ignore[reportCallIssue]
+    #     img_url=request.form.get("img_url"), # type: ignore[reportCallIssue]
+    #     location=request.form.get("location"), # type: ignore[reportCallIssue]
+    #     seats=request.form.get("seats"), # type: ignore[reportCallIssue]
+    #     has_toilet=bool(request.form.get("has_toilet")), # type: ignore[reportCallIssue]
+    #     has_wifi=bool(request.form.get("has_wifi")), # type: ignore[reportCallIssue]
+    #     has_sockets=bool(request.form.get("has_sockets")), # type: ignore[reportCallIssue]
+    #     can_take_calls=bool(request.form.get("can_take_calls")), # type: ignore[reportCallIssue]
+    #     coffee_price=request.form.get("coffee_price"), # type: ignore[reportCallIssue]
+    # )
+    # db.session.add(new_cafe)
+    # db.session.commit()
 
     return jsonify(response={"success":"Successfully added the new cafe"})
 
