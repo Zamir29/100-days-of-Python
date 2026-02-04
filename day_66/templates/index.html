@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cafe&Wifi API</title>
+    <style>
+      button a {
+        text-decoration: none;
+        font-weight: 400;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Cafe & Wifi API</h1>
+    <button style="padding: 10px; background-color: darkcyan">
+      <a href="{{ url_for('get_random_cafe') }}">Random Cafe</a>
+    </button>
+    <button class="" style="padding: 10px; background-color: darkcyan">
+      <a href="{{ url_for('get_all_cafes') }}">All Cafes</a>
+    </button>
+  </body>
+</html>
