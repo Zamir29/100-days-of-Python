@@ -11,17 +11,16 @@ pip3 install -r requirements.txt
 This will install the packages from the requirements.txt for this project.
 '''
 
-import datetime
+from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditor, CKEditorField
-from datetime import date
 
 
 app = Flask(__name__)
@@ -41,7 +40,7 @@ db.init_app(app)
 
 # CONFIGURE POST FORM
 class PostForm(FlaskForm):
-    title = StringField("Post title", validators=[DataRequired()])
+    title = StringField("Post title", validators=[DataRequired(), ])
     subtitle = StringField("Post subtitle", validators=[DataRequired()])
     author = StringField("Author name", validators=[DataRequired()])
     img_url = StringField("Background URL", validators=[DataRequired(), URL()])
@@ -92,7 +91,7 @@ def create_post():
                 continue
 
             if column.name == "date":
-                get_time = datetime.datetime.now()
+                get_time = datetime.now()
                 new_post.date = get_time.strftime("%B %d, %Y")
             else:
                 value = form[column.name].data
@@ -110,6 +109,11 @@ def edit_post(post_id):
     post_data = db.get_or_404(BlogPost, post_id)
     form = PostForm()
 
+    if request.method == "GET":
+        for field in form:
+            if field.name not in ("submit", "csrf_token"):
+                field.data = getattr(post_data, field.name)
+
     if form.validate_on_submit():
         for column in post_data.__table__.columns:
 
@@ -123,18 +127,20 @@ def edit_post(post_id):
             value = form[column.name].data
             setattr(post_data, column.name, value)
 
-        db.session.add(post_data)
         db.session.commit()
 
         return redirect(url_for("show_post", post_id=post_id))
-    
-    for field in form:
-        if field.name not in ("submit", "csrf_token"):
-            field.data = getattr(post_data, field.name)
 
     return render_template("make-post.html", edit_mode=True, form=form)
 
 # TODO: delete_post() to remove a blog post from the database
+@app.route("/delete-post/<int:post_id>", methods=["POST"])
+def delete_post(post_id):
+    post_data = db.get_or_404(BlogPost, post_id)
+    db.session.delete(post_data)
+    db.session.commit()
+
+    return redirect(url_for("get_all_posts"))
 
 # Below is the code from previous lessons. No changes needed.
 @app.route("/about")
