@@ -221,11 +221,13 @@ def update_cafe_price(cafe_id):
 # HTTP DELETE - Delete Record
 @app.route("/report-closed/<int:cafe_id>", methods=["DELETE"])
 def delete_cafe(cafe_id):
-    
+
     api_key_allowed = {
         "TopSecretAPIKey": "user001",
         "AnotherTopSecretAPIKey": "user002",
     }
+
+    # Get API Key from param if any
     api_key = request.args.get("api_key")
 
     # API Key must be present
@@ -250,7 +252,7 @@ def delete_cafe(cafe_id):
             "Not Found": f"Sorry, a cafe with the id '{cafe_id}' was not found"
         }), 404
 
-
+    # Create session to delete and commit changes
     db.session.delete(cafe)
     db.session.commit()
 
