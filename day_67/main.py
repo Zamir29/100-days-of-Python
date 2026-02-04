@@ -11,6 +11,7 @@ pip3 install -r requirements.txt
 This will install the packages from the requirements.txt for this project.
 '''
 
+import datetime
 from flask import Flask, render_template, redirect, request, url_for
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
@@ -43,7 +44,7 @@ class PostForm(FlaskForm):
     title = StringField("Post title", validators=[DataRequired()])
     subtitle = StringField("Post subtitle", validators=[DataRequired()])
     author = StringField("Author name", validators=[DataRequired()])
-    bg_url = StringField("Background URL", validators=[DataRequired(), URL()])
+    img_url = StringField("Background URL", validators=[DataRequired(), URL()])
     body = CKEditorField("Body text", validators=[DataRequired()])
     submit = SubmitField("Publish")
 
@@ -82,9 +83,56 @@ def show_post(post_id):
 @app.route("/create_post", methods=["GET", "POST"])
 def create_post():
     form = PostForm()
+    if form.validate_on_submit():
+        new_post = BlogPost()
+
+        for column in new_post.__table__.columns:
+
+            if column.name == "id":
+                continue
+
+            if column.name == "date":
+                get_time = datetime.datetime.now()
+                new_post.date = get_time.strftime("%B %d, %Y")
+            else:
+                value = form[column.name].data
+                setattr(new_post, column.name, value)
+
+        db.session.add(new_post)
+        db.session.commit()
+
+        return redirect(url_for("get_all_posts"))
 
     return render_template("make-post.html", form=form)
 # TODO: edit_post() to change an existing blog post
+@app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
+def edit_post(post_id):
+    post_data = db.get_or_404(BlogPost, post_id)
+    form = PostForm()
+
+    if form.validate_on_submit():
+        for column in post_data.__table__.columns:
+
+            if column.name == "id":
+                continue
+
+            if column.name == "date":
+                # Date must not change based on Angela's requiremnts
+                continue
+
+            value = form[column.name].data
+            setattr(post_data, column.name, value)
+
+        db.session.add(post_data)
+        db.session.commit()
+
+        return redirect(url_for("show_post", post_id=post_id))
+    
+    for field in form:
+        if field.name not in ("submit", "csrf_token"):
+            field.data = getattr(post_data, field.name)
+
+    return render_template("make-post.html", edit_mode=True, form=form)
 
 # TODO: delete_post() to remove a blog post from the database
 
