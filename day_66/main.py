@@ -12,10 +12,11 @@ This will install the packages from requirements.txt for this project.
 '''
 
 import random
+from xml.dom.minidom import Attr
 from flask import Flask, jsonify, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Boolean
+from sqlalchemy import Float, Integer, String, Boolean
 
 
 app = Flask(__name__)
@@ -193,6 +194,29 @@ def add_new_cafe():
 
 
 # HTTP PUT/PATCH - Update Record
+@app.route("/update_price/<int:cafe_id>", methods=["PATCH"])
+def update_cafe_price(cafe_id):
+
+
+    cafe =  db.session.get(Cafe, cafe_id)
+    if cafe is None:
+        return jsonify(error={
+            "Not Found":"Sorry a cafe with that id was not found in the database"
+            }), 404
+
+    new_price = request.args.get("new_price")
+    if not new_price:
+        return jsonify(error={
+            "No Value":"new_price cannot be empty"
+        }), 400
+
+    cafe.coffee_price = new_price
+    db.session.commit()
+
+    return jsonify(success={
+        "Price updated":f"Successfully update the price [{cafe.coffee_price}] of '{cafe.name}'"
+    }), 200
+
 
 # HTTP DELETE - Delete Record
 
