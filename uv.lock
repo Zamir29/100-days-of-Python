@@ -10,6 +10,7 @@ dependencies = [
     { name = "beautifulsoup4" },
     { name = "bootstrap-flask" },
     { name = "flask" },
+    { name = "flask-ckeditor" },
     { name = "flask-sqlalchemy" },
     { name = "flask-wtf" },
     { name = "python-dotenv" },
@@ -25,6 +26,7 @@ requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.14.3" },
     { name = "bootstrap-flask", specifier = ">=2.5.0" },
     { name = "flask", specifier = ">=3.1.2" },
+    { name = "flask-ckeditor", specifier = ">=1.0.0" },
     { name = "flask-sqlalchemy", specifier = ">=3.1.1" },
     { name = "flask-wtf", specifier = ">=1.2.2" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
@@ -194,6 +196,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/dc/6d/cfe3c0fcc5e477df242b98bfe186a4c34357b4847e87ecaef04507332dab/flask-3.1.2.tar.gz", hash = "sha256:bf656c15c80190ed628ad08cdfd3aaa35beb087855e2f494910aa3774cc4fd87", size = 720160, upload-time = "2025-08-19T21:03:21.205Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/f9/7f9263c5695f4bd0023734af91bedb2ff8209e8de6ead162f35d8dc762fd/flask-3.1.2-py3-none-any.whl", hash = "sha256:ca1d8112ec8a6158cc29ea4858963350011b5c846a414cdb7a954aa9e967d03c", size = 103308, upload-time = "2025-08-19T21:03:19.499Z" },
+]
+
+[[package]]
+name = "flask-ckeditor"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a6/c9/d7559169bfc76c29054e1a4a4f1c49c034c1ba931181e48bb6af7ed87e7a/flask_ckeditor-1.0.0.tar.gz", hash = "sha256:e1737ca180ea0d46d53226f888f4786589f2e8ed810694aaff2aa68dfad15a98", size = 3387711, upload-time = "2024-07-04T15:42:45.23Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/80/961516d05ffaf17c32aa595d30cdf7287a218d2ff60f212a09de512ffb19/Flask_CKEditor-1.0.0-py2.py3-none-any.whl", hash = "sha256:1a4aa871b510100df7bb8401b71cdcddfe1fd6d860649bc3760d0d43df485d72", size = 4581046, upload-time = "2024-07-04T15:42:42.851Z" },
 ]
 
 [[package]]
