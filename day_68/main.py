@@ -8,6 +8,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
+app.config['UPLOAD_FOLDER'] = "static/files"
 
 # CREATE DATABASE
 
@@ -48,11 +49,10 @@ def register():
             password=request.form.get("password"),
         )
 
-        user_name = new_user.name
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for("secrets", name=user_name))
+        return redirect(url_for("secrets"))
 
     else:
         return render_template("register.html")
@@ -65,8 +65,7 @@ def login():
 
 @app.route('/secrets')
 def secrets():
-    user_name = request.args.get("name")
-    return render_template("secrets.html", name=user_name)
+    return render_template("secrets.html")
 
 
 @app.route('/logout')
@@ -76,7 +75,10 @@ def logout():
 
 @app.route('/download')
 def download():
-    pass
+    return send_from_directory(
+        directory=app.config['UPLOAD_FOLDER'], path="cheat_sheet.pdf",
+        as_attachment=True
+    )
 
 
 if __name__ == "__main__":
