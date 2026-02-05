@@ -1,3 +1,4 @@
+import email
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -41,17 +42,12 @@ def home():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        new_user = User()
-        form = request.form
+        new_user = User(
+            name=request.form.get("name"),
+            email=request.form.get("email"),
+            password=request.form.get("password"),
+        )
 
-        for column in new_user.__table__.columns:
-
-            if column.name == "id":
-                continue
-
-            value = form.get(column.name)
-
-            setattr(new_user, column.name, value)
         user_name = new_user.name
         db.session.add(new_user)
         db.session.commit()
