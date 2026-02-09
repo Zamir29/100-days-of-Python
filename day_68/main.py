@@ -51,7 +51,7 @@ with app.app_context():
 # CREATE LOGIN MANAGER
 login_manager = LoginManager()
 login_manager.init_app(app)
-
+login_manager.login_view = "login"
 
 @login_manager.user_loader
 def load_user(user_id: str):
@@ -69,8 +69,17 @@ def home():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        email_in = request.form.get("email")
+        user = db.session.execute(
+            db.select(User).where(User.email == email_in)
+        ).scalar_one_or_none()
+
+        if user:
+            flash("Looks like you are already registered")
+            return redirect(url_for("login", email=email_in))
         password_in = request.form.get("password")
-        if password_in is None:
+        if password_in in {"", None}:
+            flash("Password is missing")
             return redirect(url_for("register"))
 
         # Hashing and salting the password entered by the user
@@ -98,19 +107,31 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        password_in = request.form.get("password")
-        if password_in is None:
+        email_in = request.form.get("email")
+        if email_in in {"", None}:
+            flash("Looks like you forgot to input the email")
             return redirect(url_for("login"))
 
-        email_in = request.form.get("email")
+        password_in = request.form.get("password", None)
+        if password_in in {"", None}:
+            flash("Looks like you forgot to input the password")
+            return redirect(url_for("login"))
 
-        user = db.one_or_404(db.select(User).filter_by(email=email_in))
-        if check_password_hash(pwhash=user.password, password=password_in):
+        user = db.session.execute(
+            db.select(User).where(User.email == email_in)
+        ).scalar_one_or_none()
+        if user is None:
+            flash("Looks like you have some typo in the email")
+            return redirect(url_for("login"))
 
-            login_user(user)
-            flash("Logged in succesfully")
+        if not check_password_hash(pwhash=user.password, password=password_in):
+            flash("Looks like there is typo in your password")
+            return redirect(url_for("login"))
 
-            return redirect(url_for("secrets"))
+        login_user(user)
+        flash("Logged in succesfully")
+
+        return redirect(url_for("secrets"))
 
     return render_template("login.html")
 
@@ -118,6 +139,7 @@ def login():
 @app.route("/secrets")
 @login_required
 def secrets():
+
     return render_template("secrets.html")
 
 
