@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="box">
+  <h1>Register</h1>
+  <!-- Set a variable for the list of flashes messages -->
+  {% with messages = get_flashed_messages() %}
+  <!-- If the there are messages -->
+  {% if messages %}
+  <ul class="flashes" style="list-style-type: none; margin: 0; padding-left: 0">
+    {% for message in messages %}
+    <li><p>{{ message }}</p></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <!-- Close the with tag -->
+  {% endwith %}
+  <form action="{{ url_for('register') }}" method="post" novalidate=True >
+    <input type="text" name="name" placeholder="Name" required="required" />
+    <input type="email" name="email" placeholder="Email" required="required" />
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      required="required"
+    />
+    <button type="submit" class="btn btn-primary btn-block btn-large">
+      Sign me up.
+    </button>
+  </form>
+</div>
+
+{% endblock %}
