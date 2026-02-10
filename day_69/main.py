@@ -11,16 +11,25 @@ pip3 install -r requirements.txt
 This will install the packages from the requirements.txt for this project.
 """
 
+from functools import wraps
+from typing import List
 from datetime import date
 from flask import Flask, abort, render_template, redirect, request, url_for, flash
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
+
 # from flask_gravatar import Gravatar
-from flask_login import UserMixin, login_required, login_user, LoginManager, current_user, logout_user
+from flask_login import (
+    UserMixin,
+    login_required,
+    login_user,
+    LoginManager,
+    current_user,
+    logout_user,
+)
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Text
-from functools import wraps
+from sqlalchemy import ForeignKey, Integer, String, Text
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Import your forms from the forms.py
@@ -37,12 +46,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+
 @login_manager.user_loader
 def load_user(user_id: str):
     try:
         return db.session.get(User, int(user_id))
     except (TypeError, ValueError):
         return None
+
 
 # Decorator for admin only routes, no deoratory factory because id is hardcoded
 def admin_only(func):
@@ -52,7 +63,9 @@ def admin_only(func):
         if current_user.id == 1:
             return func(*args, **kwargs)
         abort(403)
+
     return wrapper
+
 
 # # Decorator admin only with configuration
 # def admin_only(admin_id):
@@ -66,12 +79,13 @@ def admin_only(func):
 #         return wrapper
 #     return decorator
 
+
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///posts.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -84,8 +98,10 @@ class BlogPost(db.Model):
     subtitle: Mapped[str] = mapped_column(String(250), nullable=False)
     date: Mapped[str] = mapped_column(String(250), nullable=False)
     body: Mapped[str] = mapped_column(Text, nullable=False)
-    author: Mapped[str] = mapped_column(String(250), nullable=False)
     img_url: Mapped[str] = mapped_column(String(250), nullable=False)
+    # author is populated by
+    author_id: Mapped[int] = mapped_column(ForeignKey("blog_users.id"))
+    author: Mapped["User"] = relationship(back_populates="posts")
 
 
 # TODO: Create a User table for all your registered users.
@@ -95,6 +111,8 @@ class User(UserMixin, db.Model):
     name: Mapped[str] = mapped_column(String(250), nullable=False)
     email: Mapped[str] = mapped_column(String(250), nullable=False)
     password: Mapped[str] = mapped_column(String(250), nullable=False)
+    # Relation ship with blogposts
+    posts: Mapped[List["BlogPost"]] = relationship(back_populates="author")
 
 
 with app.app_context():
@@ -119,7 +137,10 @@ def register():
         ).scalar_one_or_none()
 
         if user:
-            flash("Looks like you are already registered. Please log in instead", "warning")
+            flash(
+                "Looks like you are already registered. Please log in instead",
+                "warning",
+            )
             return redirect(url_for("login"))
 
         password_in = form.password.data
@@ -128,9 +149,9 @@ def register():
         )
 
         new_user = User(
-            name = form.name.data,
-            email = form.email.data,
-            password = password_hash,
+            name=form.name.data,
+            email=form.email.data,
+            password=password_hash,
         )
 
         db.session.add(new_user)
@@ -162,7 +183,9 @@ def login():
             db.select(User).where(User.email == email_in)
         ).scalar_one_or_none()
 
-        if user is None or not check_password_hash(pwhash=user.password, password=password_in):
+        if user is None or not check_password_hash(
+            pwhash=user.password, password=password_in
+        ):
             flash("Looks like you have some typo in email or password", "warning")
             return redirect(url_for("login"))
 
@@ -170,9 +193,6 @@ def login():
         flash("Logged in successfully", "success")
 
         return redirect(url_for("login", just_logged_in=1))
-
-
-
 
     return render_template("login.html", form=form)
 
