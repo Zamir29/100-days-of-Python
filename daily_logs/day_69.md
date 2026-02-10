@@ -106,13 +106,13 @@ day_69/
 ```mermaid
 graph TD;
     U[Browser] -->|GET /| H[Home Route];
-    U -->|GET /post/<id>| P[Post Route];
+    U -->|GET /post/&lt;id&gt;| P[Post Route];
 
     U -->|GET/POST /register| R[Register Route];
     U -->|GET/POST /login| L[Login Route];
     U -->|GET /logout| O[Logout Route];
 
-    R -->|create user + hash pw| DB[#40;SQLite via SQLAlchemy#41;];
+    R -->|create user + hash pw| DB[&#40;SQLite via SQLAlchemy&#41;];
     L -->|verify pw + login_user| DB;
     O -->|logout_user| H;
 
