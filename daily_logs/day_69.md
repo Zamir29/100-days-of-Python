@@ -123,7 +123,7 @@ graph TD;
     C -->|author_id + post_id| DB;
 
     U -->|admin-only create/edit| A[Protected Routes];
-    A -->|&#64;admin_only + &#64;login_required| DB;
+    A -->|#64;admin_only + #64;login_required| DB;
 ```
 
 ## 🎯 Next Steps
