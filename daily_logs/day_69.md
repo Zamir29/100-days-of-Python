@@ -112,7 +112,7 @@ graph TD;
     U -->|GET/POST /login| L[Login Route];
     U -->|GET /logout| O[Logout Route];
 
-    R -->|create user + hash pw| DB[&#40;SQLite via SQLAlchemy&#41;];
+    R -->|create user + hash pw| DB[#40;SQLite via SQLAlchemy#41;];
     L -->|verify pw + login_user| DB;
     O -->|logout_user| H;
 
