@@ -98,8 +98,8 @@ def register():
         ).scalar_one_or_none()
 
         if user:
-            flash("Looks like you are already registered", "warning")
-            return redirect(url_for("register"))
+            flash("Looks like you are already registered. Please log in instead", "warning")
+            return redirect(url_for("login"))
 
         password_in = form.password.data
         password_hash = generate_password_hash(
@@ -123,13 +123,42 @@ def register():
 
 
 # TODO: Retrieve a user from the database based on their email.
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+
+    just_logged_in = "just_logged_in" in request.args
+
+    if current_user.is_authenticated and not just_logged_in:
+        flash("You are already logged in!", "info")
+        return render_template("login.html", form=form)
+
+    if form.validate_on_submit():
+        email_in = form.email.data
+        password_in = form.password.data
+
+        user = db.session.execute(
+            db.select(User).where(User.email == email_in)
+        ).scalar_one_or_none()
+
+        if user is None or not check_password_hash(pwhash=user.password, password=password_in):
+            flash("Looks like you have some typo in email or password", "warning")
+            return redirect(url_for("login"))
+
+        login_user(user)
+        flash("Logged in successfully", "success")
+
+        return redirect(url_for("login", just_logged_in=1))
+
+
+
+
+    return render_template("login.html", form=form)
 
 
 @app.route("/logout")
 def logout():
+    logout_user()
     return redirect(url_for("get_all_posts"))
 
 

@@ -11,7 +11,7 @@ include "header.html" %}
       <div class="col-md-10 col-lg-8 col-xl-7">
         <div class="page-heading">
           <h1>Log In</h1>
-          
+
           <span class="subheading">Welcome Back!</span>
         </div>
       </div>
@@ -22,9 +22,28 @@ include "header.html" %}
 <main class="mb-4">
   <div class="container">
     <div class="row">
-      <!-- TODO: add a flash message here for users registering twice -->
       <div class="col-lg-8 col-md-10 mx-auto">
+      <!--TODO: add a flash message here for users registering twice -->
+      <!-- Set a variable for the list of flashes messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- If the there are messages -->
+        {% if messages %}
+        <ul
+          class="flashes"
+          style="list-style-type: none; margin: 0; padding-left: 0"
+        >
+          {% for category,message in messages %}
+          <li><div class="alert alert-{{ category }} text-center" role="alert">{{ message }}</div></li>
+
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <!-- Close the with tag -->
+        {% endwith %}
         <!--TODO: render login form here-->
+        {% if not current_user.is_authenticated %}
+        {{ render_form(form) }}
+        {% endif %}
       </div>
     </div>
   </div>
