@@ -13,7 +13,7 @@ README_PATH = os.path.join(REPO_ROOT, "README.md")
 def create_folder_structure(day_num):
     """
     Docstring for create_folder_structure
-    
+
     :param day_num: Description
     """
     folder_name = f"day_{day_num}"
@@ -48,7 +48,7 @@ def create_folder_structure(day_num):
 def create_log_file(day_num, title, goal, steps, stack):
     """
     Docstring for create_log_file
-    
+
     :param day_num: Description
     :param title: Description
     :param goal: Description
