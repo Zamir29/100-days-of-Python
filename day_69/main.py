@@ -33,7 +33,7 @@ from sqlalchemy import ForeignKey, Integer, String, Text
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Import your forms from the forms.py
-from forms import CreatePostForm, RegisterForm, LoginForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 
 
 app = Flask(__name__)
@@ -102,6 +102,7 @@ class BlogPost(db.Model):
     # author is populated by
     author_id: Mapped[int] = mapped_column(ForeignKey("blog_users.id"))
     author: Mapped["User"] = relationship(back_populates="posts")
+    comments: Mapped[List["Comment"]] = relationship(back_populates="post", order_by="Comment.id.desc()")
 
 
 # TODO: Create a User table for all your registered users.
@@ -113,6 +114,17 @@ class User(UserMixin, db.Model):
     password: Mapped[str] = mapped_column(String(250), nullable=False)
     # Relation ship with blogposts
     posts: Mapped[List["BlogPost"]] = relationship(back_populates="author")
+    comments: Mapped[List["Comment"]] = relationship(back_populates="author")
+
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    text: Mapped[str] = mapped_column(String, nullable=False)
+    author_id: Mapped[int] = mapped_column(ForeignKey("blog_users.id"))
+    author: Mapped["User"] = relationship(back_populates="comments")
+    post_id: Mapped[int] = mapped_column(ForeignKey("blog_posts.id"))
+    post: Mapped["BlogPost"] = relationship(back_populates="comments")
 
 
 with app.app_context():
@@ -211,10 +223,26 @@ def get_all_posts():
 
 
 # TODO: Allow logged-in users to comment on posts
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods=["GET", "POST"])
 def show_post(post_id):
     requested_post = db.get_or_404(BlogPost, post_id)
-    return render_template("post.html", post=requested_post)
+    comment_form = CommentForm()
+    if comment_form.validate_on_submit():
+        new_comment = Comment(
+            text=comment_form.comment_text.data,
+            author=current_user,
+            post=requested_post,
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(url_for("show_post", post_id=post_id))
+
+    return render_template(
+        "post.html",
+        post=requested_post,
+        current_user=current_user,
+        form=comment_form,
+    )
 
 
 # TODO: Use a decorator so only an admin user can create a new post
