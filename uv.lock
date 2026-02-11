@@ -15,6 +15,7 @@ dependencies = [
     { name = "flask-login" },
     { name = "flask-sqlalchemy" },
     { name = "flask-wtf" },
+    { name = "getname" },
     { name = "python-dotenv" },
     { name = "requests" },
     { name = "selenium" },
@@ -33,6 +34,7 @@ requires-dist = [
     { name = "flask-login", specifier = ">=0.6.3" },
     { name = "flask-sqlalchemy", specifier = ">=3.1.1" },
     { name = "flask-wtf", specifier = ">=1.2.2" },
+    { name = "getname", specifier = ">=0.1.1" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "selenium", specifier = ">=4.39.0" },
@@ -275,6 +277,15 @@ sdist = { url = "https://files.pythonhosted.org/packages/80/9b/f1cd6e41bbf874f34
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/19/354449145fbebb65e7c621235b6ad69bebcfaec2142481f044d0ddc5b5c5/flask_wtf-1.2.2-py3-none-any.whl", hash = "sha256:e93160c5c5b6b571cf99300b6e01b72f9a101027cab1579901f8b10c5daf0b70", size = 12779, upload-time = "2024-10-24T07:18:56.976Z" },
 ]
+
+[[package]]
+name = "getname"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/36/58/e316859cb16605c84c9d140612cef03db1c8e494f398670226dbe7f7ee39/getname-0.1.1.tar.gz", hash = "sha256:ceede3cf79c6f8222845af965db927f1149aba716607cb664e21d380f067a2e4", size = 18872, upload-time = "2015-08-23T02:12:48.377Z" }
 
 [[package]]
 name = "greenlet"

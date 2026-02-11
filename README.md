@@ -1,7 +1,7 @@
 # 100 Days of Python – Angela Yu
 
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)
-![](https://progress-bar.xyz/69/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)
+![](https://progress-bar.xyz/70/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -41,13 +41,20 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/)
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 70 - Git, Github and Version Control**   
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_70/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_70.md)  
+Understand Git/GitHub version control enough to work confidently with branches and merges.  
+**Stack used:** Git CLI, GitHub.
+
+<details><summary>Show all logs</summary>  
+
 - **Day 69 - Blog Authorization**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_69/main.py)
   [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_69.md)  
 Add user authentication and a comment system to the blog, with admin-only permissions for post management.  
 **Stack used:** Python, Flask, Flask-Login, Flask-WTF, SQLAlchemy, Werkzeug (password hashing), Jinja2, SQLite
 
-<details><summary>Show all logs</summary>  
 
 - **Day 68 - Authentication with Flask**   
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_68/main.py)
