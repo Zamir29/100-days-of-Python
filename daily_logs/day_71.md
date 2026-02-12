@@ -96,14 +96,14 @@ graph TD;
     Dev[Developer] -->|Commit and push| GitHub[GitHub repo];
     GitHub -->|Auto deploy on branch day_71| RenderDeploy[Render deploy];
 
-    subgraph Build on Render
+    subgraph BuildPhase["Build on Render"]
         RenderDeploy -->|Root Directory = day_71| RootDir[Use subfolder];
         RootDir -->|Build command| BuildCmd[pip install -r requirements.txt];
         BuildCmd -->|Create runtime| PyEnv[Python environment];
         PyEnv -->|Start command| StartCmd[gunicorn main:app];
     end
 
-    subgraph Runtime on Render
+    subgraph RuntimePhase["Runtime on Render"]
         StartCmd --> Gunicorn[Gunicorn WSGI server];
         Gunicorn --> FlaskApp[Flask app];
         FlaskApp --> Env[Load env vars<br/>DATABASE_URL<br/>SECRET_KEY<br/>PYTHON_VERSION];
