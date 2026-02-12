@@ -115,6 +115,24 @@ graph TD;
     Postgres -->|Query results| ORM;
     ORM --> FlaskApp;
     FlaskApp -->|HTML response| User;
+
+    %% -- Color Style --
+    classDef beige fill:#EDD3A6,stroke:#EAC78B,color:#222;
+    classDef pink fill:#EBABB5,stroke:#E88F9D,color:#222;
+    classDef mint fill:#ABE0D2,stroke:#74C1AD,color:#222;
+    classDef blue fill:#83C8E8,stroke:#59BAE6,color:#222;
+    classDef deepblue fill:#85B4D0,stroke:#007AC4,color:#222;
+    classDef red fill:#FF814B,stroke:#B6000F,color:#222;
+    classDef bluelight fill:#c4deea,stroke:#007AC4,color:#222;
+
+    class Dev,User beige;
+    class GitHub pink;
+    class RenderDeploy,RootDir,BuildCmd,PyEnv,StartCmd mint;
+    class Gunicorn,FlaskApp blue;
+    class Env deepblue;
+    class ORM red;
+    class Postgres pink;
+    class BuildPhase,RuntimePhase bluelight;
 ```
 
 ## 🎯 Next Steps
