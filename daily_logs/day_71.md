@@ -93,25 +93,25 @@ day_71/
 
 ```mermaid
 graph TD;
-    Dev[Developer] -->|Commit and push| GitHub[GitHub repo];
-    GitHub -->|Auto deploy on branch day_71| RenderDeploy[Render deploy];
+    Dev(Developer) -->|Commit and push| GitHub(GitHub repo);
+    GitHub -->|Auto deploy on branch day_71| RenderDeploy(Render deploy);
 
     subgraph BuildPhase["Build on Render"]
-        RenderDeploy -->|Root Directory = day_71| RootDir[Use subfolder];
-        RootDir -->|Build command| BuildCmd[pip install -r requirements.txt];
-        BuildCmd -->|Create runtime| PyEnv[Python environment];
-        PyEnv -->|Start command| StartCmd[gunicorn main:app];
+        RenderDeploy -->|Root Directory = day_71| RootDir(Use subfolder);
+        RootDir -->|Build command| BuildCmd(pip install -r requirements.txt);
+        BuildCmd -->|Create runtime| PyEnv(Python environment);
+        PyEnv -->|Start command| StartCmd(gunicorn main:app);
     end
 
     subgraph RuntimePhase["Runtime on Render"]
-        StartCmd --> Gunicorn[Gunicorn WSGI server];
-        Gunicorn --> FlaskApp[Flask app];
-        FlaskApp --> Env[Load env vars<br/>DATABASE_URL<br/>SECRET_KEY<br/>PYTHON_VERSION];
-        FlaskApp --> ORM[SQLAlchemy ORM];
-        ORM -->|Connect via DATABASE_URL| Postgres[Render PostgreSQL];
+        StartCmd --> Gunicorn(Gunicorn WSGI server);
+        Gunicorn --> FlaskApp(Flask app);
+        FlaskApp --> Env(Load env vars<br/>DATABASE_URL<br/>SECRET_KEY<br/>PYTHON_VERSION);
+        FlaskApp --> ORM(SQLAlchemy ORM);
+        ORM -->|Connect via DATABASE_URL| Postgres[(Render PostgreSQL)];
     end
 
-    User[Browser] -->|HTTP request| Gunicorn;
+    User(Browser) -->|HTTP request| Gunicorn;
     Postgres -->|Query results| ORM;
     ORM --> FlaskApp;
     FlaskApp -->|HTML response| User;
