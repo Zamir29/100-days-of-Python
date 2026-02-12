@@ -8,4 +8,4 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # ---
 
 # SQLALCHEMY APP
-DB_URI = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///blog.db")

@@ -15,7 +15,7 @@ from functools import wraps
 from typing import List
 from datetime import date
 from config import (
-    DB_URI,
+    DATABASE_URL,
     SECRET_KEY,
 )
 from flask import Flask, abort, render_template, redirect, request, url_for, flash
@@ -89,7 +89,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
