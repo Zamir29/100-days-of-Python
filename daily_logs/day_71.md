@@ -21,36 +21,110 @@
 
 ## 🧠 Concepts Learned
 
-(Write bullet points here)
+- Difference between development DB (SQLite) and production DB (PostgreSQL).
+- How Gunicorn runs Flask apps in production instead of `app.run()`.
+- How Render deploys from a specific Git branch.
+- Importance of environment variables (`DATABASE_URL`) in production.
+- How `db.create_all()` works (creates tables only if missing, does NOT migrate).
+- Basic `psql` usage (`\dt`, `\d`, `SELECT`, `COUNT(*)`).
+- Difference between SQLite CLI commands (`.tables`) and PostgreSQL meta-commands (`\dt`).
+- Understanding free-tier limitations (cold starts, single instance, connection caps).
+- Short-circuit behavior in Python conditionals (`user is None or ...`).
 
 ## ⚠️ Challenges
 
-(What was confusing / hard)
+- Python 3.13 incompatibility with SQLAlchemy on Render.
+- Understanding why model changes do not automatically update existing DB schema.
+- Confusion between SQLite and PostgreSQL CLI commands.
+- Setting up `psql` correctly on macOS (PATH configuration).
+- Mental friction around infrastructure vs first paying client.
+- Strategic confusion between engineering mastery and business validation.
 
 ## ✅ Solutions / Insights
 
-(How you solved it / what finally clicked)
+- Downgraded Python to 3.12 for stable deployment.
+- Installed PostgreSQL client via Homebrew and configured PATH safely.
+- Connected to Render Postgres using external DB URL.
+- Verified production tables directly with `psql`.
+- Confirmed data integrity via manual SQL queries.
+- Realized infrastructure is not the bottleneck for first revenue.
+- Identified that clarity of objective (job vs SaaS vs mastery) matters more than infra optimization.
 
 ## 📂 Project Structure
 
 ```text
 day_71/
-├── main.py
 ├── config.py
+├── forms.py
+├── instance
+│   └── blog.db
+├── main.py
+├── requirements.txt
+├── static
+│   ├── assets
+│   │   ├── favicon.ico
+│   │   └── img
+│   │       ├── about-bg.jpg
+│   │       ├── angela-profile.jpg
+│   │       ├── contact-bg.jpg
+│   │       ├── default-profile.jpg
+│   │       ├── edit-bg.jpg
+│   │       ├── home-bg.jpg
+│   │       ├── login-bg.jpg
+│   │       ├── post-bg.jpg
+│   │       └── register-bg.jpg
+│   ├── css
+│   │   └── styles.css
+│   └── js
+│       └── scripts.js
+└── templates
+    ├── about.html
+    ├── contact.html
+    ├── footer.html
+    ├── header.html
+    ├── index.html
+    ├── login.html
+    ├── make-post.html
+    ├── post.html
+    └── register.htm
 ```
 
 ## 🏗 Architecture
 
 ```mermaid
 graph TD;
-    Start([User Input]) --> Process{Check Condition};
-    Process -->|Yes| Result[Success];
-    Process -->|No| Error[Raise Exception];
+    Dev[Developer] -->|Commit and push| GitHub[GitHub repo];
+    GitHub -->|Auto deploy on branch day_71| RenderDeploy[Render deploy];
+
+    subgraph Build on Render
+        RenderDeploy -->|Root Directory = day_71| RootDir[Use subfolder];
+        RootDir -->|Build command| BuildCmd[pip install -r requirements.txt];
+        BuildCmd -->|Create runtime| PyEnv[Python environment];
+        PyEnv -->|Start command| StartCmd[gunicorn main:app];
+    end
+
+    subgraph Runtime on Render
+        StartCmd --> Gunicorn[Gunicorn WSGI server];
+        Gunicorn --> FlaskApp[Flask app];
+        FlaskApp --> Env[Load env vars<br/>DATABASE_URL<br/>SECRET_KEY<br/>PYTHON_VERSION];
+        FlaskApp --> ORM[SQLAlchemy ORM];
+        ORM -->|Connect via DATABASE_URL| Postgres[Render PostgreSQL];
+    end
+
+    User[Browser] -->|HTTP request| Gunicorn;
+    Postgres -->|Query results| ORM;
+    ORM --> FlaskApp;
+    FlaskApp -->|HTML response| User;
 ```
 
 ## 🎯 Next Steps
 
-(Refactors, extra features, things to revisit)
+- Refactor README generation to use YAML + Jinja (single source of truth).
+- Update repository payoff to reflect “start from Angela + add production habits” mindset.
+- Add role-based authorization instead of `id == 1` admin logic.
+- Introduce real schema evolution later via migrations (Flask-Migrate/Alembic).
+- Add Stripe Checkout proof-of-concept (payment link first, webhooks later).
+- Decide 6-month priority: engineering depth vs revenue vs job positioning.
 
 ---
 
