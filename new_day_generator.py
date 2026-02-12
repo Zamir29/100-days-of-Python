@@ -1,13 +1,17 @@
 import os
+
 # ---------------------------------------------------------
 # CONFIGURATION - Update these once per day
 # ---------------------------------------------------------
 
 # --- CONFIGURATION ---
-REPO_ROOT = os.path.dirname(os.path.abspath(__file__)) # Root is going to be the file's folder, no matter the folder
+REPO_ROOT = os.path.dirname(
+    os.path.abspath(__file__)
+)  # Root is going to be the file's folder, no matter the folder
 LOGS_DIR = os.path.join(REPO_ROOT, "daily_logs")
 TEMPLATE_PATH = os.path.join(LOGS_DIR, "template.md")
 README_PATH = os.path.join(REPO_ROOT, "README.md")
+
 
 # Create the folder, main.py, config.py
 def create_folder_structure(day_num):
@@ -31,7 +35,8 @@ def create_folder_structure(day_num):
     main_path = os.path.join(folder_path, "main.py")
     with open(main_path, "w", encoding="utf-8") as f:
         f.write(
-            f"# Day {day_num} - Created automatically\n\ndef main():\n    print('Hello Day {day_num}')\n\nif __name__ == '__main__':\n    main()\n")
+            f"# Day {day_num} - Created automatically\n\ndef main():\n    print('Hello Day {day_num}')\n\nif __name__ == '__main__':\n    main()\n"
+        )
     print("   └── Created main.py")
 
     # Create config.py
@@ -43,6 +48,7 @@ def create_folder_structure(day_num):
     print("   └── Created config.py")
 
     return folder_path
+
 
 # Creates and edits the template for the specific day
 def create_log_file(day_num, title, goal, steps, stack):
@@ -81,12 +87,13 @@ def create_log_file(day_num, title, goal, steps, stack):
         steps=steps,
         stack=stack,
         prev_day=prev_day,
-        next_day=next_day
+        next_day=next_day,
     )
 
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"✅ Created log: daily_logs/{filename}")
+
 
 # Recreates line by line the README.md file
 def update_readme(day_num, title, goal, stack):
@@ -108,12 +115,12 @@ def update_readme(day_num, title, goal, stack):
 
     # The entry to insert
     new_entry = [
-        f"- **Day {day_num} - {title}**   \n",
+        f"- **Day {day_num} - {title}**<br>\n",
         f"  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_{day_num}/main.py)\n",
-        f"  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_{day_num}.md)  \n",
-        f"{goal}  \n",
+        f"  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_{day_num}.md)<br>\n",
+        f"{goal}<br>\n",
         f"**Stack used:** {stack}\n\n",
-        "<details><summary>Show all logs</summary>  \n\n"
+        "<details><summary>Show all logs</summary>  \n\n",
     ]
 
     for line in lines:
