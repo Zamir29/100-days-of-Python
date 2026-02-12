@@ -14,6 +14,10 @@ This will install the packages from the requirements.txt for this project.
 from functools import wraps
 from typing import List
 from datetime import date
+from config import (
+    DB_URI,
+    SECRET_KEY,
+)
 from flask import Flask, abort, render_template, redirect, request, url_for, flash
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
@@ -37,7 +41,7 @@ from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
+app.config["SECRET_KEY"] = SECRET_KEY
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -85,7 +89,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -102,7 +106,9 @@ class BlogPost(db.Model):
     # author is populated by
     author_id: Mapped[int] = mapped_column(ForeignKey("blog_users.id"))
     author: Mapped["User"] = relationship(back_populates="posts")
-    comments: Mapped[List["Comment"]] = relationship(back_populates="post", order_by="Comment.id.desc()")
+    comments: Mapped[List["Comment"]] = relationship(
+        back_populates="post", order_by="Comment.id.desc()"
+    )
 
 
 # TODO: Create a User table for all your registered users.
@@ -309,4 +315,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False)
