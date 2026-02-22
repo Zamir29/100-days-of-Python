@@ -63,13 +63,13 @@ day_72/
 
 ```mermaid
 graph TD;
-    A[Load CSV] --> B[Inspect dataframe #40;head/shape/columns#41;]
-    B --> C[Check missing values<br>#40;isna#41;]
-    C --> D[Clean dataset #40;dropna#41;]
-    D --> E[Compute extremes<br>#40;min/max + idxmin/idxmax#41;]
-    E --> F[Spread metrics #40;P90 - P10#41;]
-    F --> G[Group comparison #40;groupby mean#41;]
-    G --> H[Conclusions]
+    A(Load CSV) --> B(Inspect dataframe #40;head/shape/columns#41;)
+    B --> C(Check missing values<br>#40;isna#41;)
+    C --> D(Clean dataset #40;dropna#41;)
+    D --> E(Compute extremes<br>#40;min/max + idxmin/idxmax#41;)
+    E --> F(Spread metrics #40;P90 - P10#41;)
+    F --> G(Group comparison #40;groupby mean#41;)
+    G --> H(Conclusions)
 ```
 
 ## 🎯 Next Steps
