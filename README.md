@@ -1,7 +1,7 @@
 # 100 Days of Python – Angela Yu
 
 [![Udemy](https://img.shields.io/badge/Udemy-Angela%20Yu's%20100%20Days%20of%20Python-A435F0?&logo=Udemy&logoColor=white)](https://www.udemy.com/course/100-days-of-code/)
-![](https://progress-bar.xyz/71/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)
+![](https://progress-bar.xyz/72/?scale=100&title=Progress&width=400&prefix=Day-&suffix=&progress_color=9CBF1F)
 
 ![Repo Size](https://img.shields.io/github/repo-size/hashorva/100-days-of-Python) ![Code Frequency](https://img.shields.io/github/commit-activity/m/hashorva/100-days-of-Python)
 
@@ -41,6 +41,14 @@ I’m building this as both a **learning archive** and a **public portfolio**.
 
 [![Logs](https://img.shields.io/badge/Previous%20Logs-orange)](daily_logs/)
 ![Last Updated](https://img.shields.io/github/last-commit/hashorva/100-days-of-Python)
+- **Day 72 - Data Exploration with Pandas**<br>
+  [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_72/main.py)
+  [![Open Log File](https://img.shields.io/badge/Open-📝%20Log-orange)](/daily_logs/day_72.md)<br>
+Analyze post-university salary data using Pandas to evaluate earning potential, risk, and category differences across college majors.<br>
+**Stack used:** Python, Jupyter Notebook, Pandas, CSV dataset (PayScale survey data).
+
+<details><summary>Show all logs</summary>
+
 
 - **Day 71 - Deploy your WebApp**<br>
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_71/main.py)
@@ -48,7 +56,6 @@ I’m building this as both a **learning archive** and a **public portfolio**.
   Deploy your Flask blog on the public internet using Git/GitHub + Heroku + Gunicorn, and start upgrading the app from a dev setup (SQLite/local) to<br>
   **Stack used:** Flask, Git/GitHub, Heroku, Gunicorn, PostgreSQL
 
-<details><summary>Show all logs</summary>
 
 - **Day 70 - Git, Github and Version Control**<br>
   [![Open Project Folder](https://img.shields.io/badge/Open-📁%20Folder-blue)](/day_70/main.py)
@@ -333,9 +340,9 @@ If you're attending the course too, feel free to explore the code and logs! 💡
 
 ---
 
-> [!NOTES]
-> The main badges come from [Shields.io](https://shields.io/badges) website.
-> The progress bar comes from [Guibranco](https://github.com/guibranco/progressbar) repo.
-> The brand badges come from [Ileriayo](https://github.com/Ileriayo/markdown-badges) repo.
-> The other badges come from [henriquesebastiao](https://github.com/henriquesebastiao/badges) repo.
+> [!NOTE]
+> The main badges come from [Shields.io](https://shields.io/badges) website.<br>
+> The progress bar comes from [Guibranco](https://github.com/guibranco/progressbar) repo.<br>
+> The brand badges come from [Ileriayo](https://github.com/Ileriayo/markdown-badges) repo.<br>
+> The other badges come from [henriquesebastiao](https://github.com/henriquesebastiao/badges) repo.<br>
 > To create diagrams in .md file go to [Diagrams in Markdown](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams)
