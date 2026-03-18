@@ -68,17 +68,17 @@ day_73/
 
 ```mermaid
 graph TD;
-A[Raw CSV Data] --> B[Load into Pandas DataFrame];
-    B --> C[Convert DATE to datetime];
-    C --> D[Group by DATE and TAG];
-    D --> E[Pivot to wide format];
-    E --> F[Handle NaN values];
-    F --> G[Visualization Layer];
-    G --> H1[Raw Time Series Plot];
-    G --> H2[Normalized Comparison];
-    G --> H3[Aggregate Trend];
-    G --> H4[Rolling Average Smoothing];
-    H1 --> I[Insights];
+A(Raw CSV Data) --> B(Load into Pandas DataFrame);
+    B --> C(Convert DATE to datetime);
+    C --> D(Group by DATE and TAG);
+    D --> E(Pivot to wide format);
+    E --> F(Handle NaN values);
+    F --> G(Visualization Layer);
+    G --> H1(Raw Time Series Plot);
+    G --> H2(Normalized Comparison);
+    G --> H3(Aggregate Trend);
+    G --> H4(Rolling Average Smoothing);
+    H1 --> I(Insights);
     H2 --> I;
     H3 --> I;
     H4 --> I;
